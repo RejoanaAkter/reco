@@ -140,7 +140,7 @@ debugger
   const addTag = () => setTags([...tags, ""]);
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md mt-10 ">
+    <div className="max-w-2xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md mt-10 bg-pink">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">Create Recipe</h2>
 
       <div className="mb-4">

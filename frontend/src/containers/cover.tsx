@@ -9,11 +9,8 @@ import ExploreCategoriesSection from "./explore-category-section";
 import NavBar from "./navbar";
 
 const HomeCoverScreen = () => {
-
   return (
     <div className="bg-gray-100">
-
-      <NavBar />
 
       <div className="w-full">
         <HeroBanner />
@@ -25,11 +22,11 @@ const HomeCoverScreen = () => {
         </div>
       </div>
 
-      <div className="border-t border-t-slate-400 mt-4 h-[700px]">
+      <div className="flex w-full justify-center items-center ">
         <ExploreCategoriesSection />
       </div>
 
-      <div className="flex w-full h-[600px] bg-[#F0D89C] justify-center items-center">
+      <div className="flex w-full h-screen justify-center items-center">
         <UserList />
       </div>
     </div>

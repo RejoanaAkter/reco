@@ -16,7 +16,7 @@ function FeaturesRecipes() {
       <div className="col-span-1"></div>
       <div className="col-span-6">
         <div className="max-w-screen-2xl mx-auto px-6 py-6">
-          <h2 className="text-xl font-semibold ">🍽️ Featured Recipes</h2>
+          <h2 className="text-xl font-semibold text-gray-700">🍽️ Featured Recipes</h2>
 
           <div
             className="grid gap-6
@@ -25,7 +25,7 @@ function FeaturesRecipes() {
                   md:grid-cols-3 
                   lg:grid-cols-4
                   xl:grid-cols-4
-                  2xl:grid-cols-4"
+                  2xl:grid-cols-4 mt-4"
           >
             {recipes?.slice(0, 4).map((recipe, index) => (
               <div key={index}>

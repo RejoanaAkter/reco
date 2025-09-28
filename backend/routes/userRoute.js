@@ -8,7 +8,7 @@ import {
   loginUser,
 } from "../controller/userController.js";
 import { upload } from "../middleware/multer.js";
-import { authenticate } from "../middleware/authMiddleware.js"; // ✅ import auth
+
 
 const route = express.Router();
 

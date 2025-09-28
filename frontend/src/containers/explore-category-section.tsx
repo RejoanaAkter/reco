@@ -1,56 +1,76 @@
 'use client';
 
 import React from 'react';
+import useRecipes from '@/components/useRecipes';
 import Image from 'next/image';
-import Link from 'next/link';
 import getImageUrl from '@/settings/utils';
-import useCategories from '@/components/useCategories';
-
-interface Category {
-  _id: string;
-  name: string;
-  imageUrl: string;
-}
+import { PiForkKnifeFill } from 'react-icons/pi';
 
 const ExploreCategoriesSection = () => {
-  const { categories, loading, error } = useCategories();
+  const { recipes, loading, error } = useRecipes();
 
-  const featuredCategory = categories[0]; // pick the first one or a specific one
+  // Group recipes by category name
+  const groupedByCategory = recipes.reduce((acc: Record<string, any[]>, recipe) => {
+    const categoryName = recipe.category?.name || 'Uncategorized';
+    if (!acc[categoryName]) acc[categoryName] = [];
+    acc[categoryName].push(recipe);
+    return acc;
+  }, {});
 
   return (
-    <section className="py-12 px-6 bg-gray-100">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        {/* Left Side: Featured Image Card */}
-        <div className="relative w-full h-96 rounded-xl overflow-hidden shadow-lg group">
-          {featuredCategory?.imageUrl && (
-            <Image
-              src={getImageUrl(featuredCategory.imageUrl)}
-              alt={featuredCategory.name}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          )}
-          <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition" />
-          <div className="absolute bottom-6 left-6 text-white">
-            <h3 className="text-3xl font-bold">{featuredCategory?.name}</h3>
-            <p className="text-sm opacity-80">Explore now →</p>
-          </div>
+    <section className="py-16 bg-[#FCF7F0] text-gray-800">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+        
+        {/* Left Text Content */}
+        <div>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight mb-6 uppercase">
+            Daily Food<br />Courses<br />With Drinks
+          </h2>
+          <p className="text-gray-600 mb-8 leading-relaxed">
+            Browse our delicious selection of meals across different categories. Perfect for every time of day!
+          </p>
+          <a
+            href="/categories"
+            className="inline-block bg-[#A28D5B] text-white px-6 py-3 font-medium rounded hover:bg-[#8e794c] transition"
+          >
+            See Full Menu
+          </a>
         </div>
 
-        {/* Right Side: Text + Explore Button */}
-        <div className="text-gray-800">
-          <h2 className="text-4xl font-bold mb-4">Our Menu</h2>
-          <p className="mb-6 text-gray-600">
-            Discover mouth-watering recipes from a variety of categories. Whether you're craving breakfast,
-            lunch, or dessert, we have something for every taste.
-          </p>
-          <Link
-            href={`/categories`}
-            className="inline-block bg-gray-800 text-white px-6 py-3 rounded hover:bg-gray-700 transition"
-          >
-            Explore {featuredCategory?.name}
-          </Link>
+        {/* Right Recipe Listing */}
+        <div className="space-y-10">
+          {Object.entries(groupedByCategory).slice(0,1).map(([categoryName, recipes]) => (
+            <div key={categoryName}>
+              <h3 className="text-xl font-serif font-semibold border-b border-gray-300 inline-block mb-4">
+                {categoryName.toUpperCase()}
+              </h3>
+
+              <div className="space-y-5">
+                {recipes.slice(0, 3).map((recipe: any) => (
+                  <div key={recipe.id} className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-2">
+                      <PiForkKnifeFill className="text-[#A28D5B]" />
+                      <span className="font-medium">{recipe.title}</span>
+                    </div>
+
+                    {/* Recipe image on the right */}
+                    {recipe.imageUrl && (
+                      <div className="w-16 h-16 relative rounded overflow-hidden shadow">
+                        <Image
+                          src={getImageUrl(recipe.imageUrl)}
+                          alt={recipe.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
+
       </div>
     </section>
   );
