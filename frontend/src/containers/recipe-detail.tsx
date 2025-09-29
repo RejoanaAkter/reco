@@ -21,7 +21,7 @@ export default function RecipeDetail() {
   }, [recipeId]);
 
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-gray-100 text-gray-700 p-8'>
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : recipe ? (

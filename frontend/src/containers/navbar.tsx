@@ -17,7 +17,6 @@ const NavBar = () => {
     { name: 'Home', path: Routes.home },
     { name: 'About', path: Routes.about },
     { name: 'Recipes', path: Routes.recipes },
-    { name: 'News', path: '/news' },
     { name: 'Categories', path: Routes.categories },
   ];
 
