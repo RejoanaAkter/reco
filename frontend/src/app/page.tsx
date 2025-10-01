@@ -10,19 +10,14 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    debugger
-    if (isAuthLoading) return; // ❗ Don't redirect until auth loading is done
-
-   if (!isAuthLoading && !user) {
-  router.replace("/login");
-}
+    if (!isAuthLoading && !user) {
+      router.replace("/login");
+    }
   }, [user, isAuthLoading, router]);
 
-  if (isAuthLoading) {
+  if (isAuthLoading || (!user && typeof window !== "undefined")) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
-
-  if (!user) return null; // avoid showing anything until redirect is complete
 
   return <HomeCoverScreen />;
 }

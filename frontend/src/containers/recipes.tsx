@@ -26,43 +26,39 @@ function RecipesScreen() {
   };
 
   return (
-    <div className="bg-gray-100 p-4 text-gray-700">
-      {/* Create Recipe Button */}
-      <div className="flex justify-end">
-        <button
-          className="hover:shadow-lg hover:text-sky-700 text-gray-600 cursor-pointer border border-gray-600 p-1 rounded text-xs"
-          onClick={() => {
-            router.push(Routes.createRecipe); // default to login form
-          }}
-        >
-         + Create Recipe
-        </button>
+ <div className="bg-gray-100 p-4 text-gray-700">
+  {/* Create Recipe Button */}
+  <div className="flex justify-end mb-4">
+    <button
+      className="hover:shadow-lg hover:text-sky-700 text-gray-600 cursor-pointer border border-gray-600 px-3 py-1 rounded text-sm"
+      onClick={() => {
+        router.push(Routes.createRecipe);
+      }}
+    >
+      + Create Recipe
+    </button>
+  </div>
+
+  {/* Recipes List */}
+  <h2 className="mb-6 text-2xl font-bold text-center">All Recipes</h2>
+
+  {error && <p className="text-red-500 text-center">{error}</p>}
+
+  {recipes.length === 0 ? (
+    <p className="text-center">No recipes found.</p>
+  ) : (
+    <div className="flex justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl">
+        {recipes?.map((recipe, index) => (
+          <div key={index} onClick={() => handleNavigate(recipe)}>
+            <ItemCard key={index} item={recipe} onSelect={null} />
+          </div>
+        ))}
       </div>
-      {/* Recipes List */}
-      <h2 className="mt-6 mb-4 text-2xl font-bold text-center">All Recipes</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {recipes.length === 0 ? (
-        <p className="text-center">No recipes found.</p>
-      ) : (
-        <div className="grid 2xl:grid-cols-6 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 md:grid-cols-3 grid-cols-1 mx-8 gap-6">
-          {recipes?.map((recipe, index) => (
-            <div key={index} onClick={() => handleNavigate(recipe)}>
-              <ItemCard key={index} item={recipe} onSelect={null} />
-            </div>
-          ))}
-        </div>
-      )}
-
-    
-
-      {/* {selectedId && (
-        <RecipeDetailsModal
-          recipeId={selectedId}
-          onClose={() => setSelectedId(null)}
-        />
-      )} */}
-
     </div>
+  )}
+</div>
+
   );
 }
 

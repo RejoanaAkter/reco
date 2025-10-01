@@ -1,4 +1,3 @@
-// src/components/AuthContext.tsx
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from "react";
@@ -7,7 +6,6 @@ interface User {
   id: string;
   email: string;
   name: string;
-  // Add more fields if needed
 }
 
 interface AuthContextType {
@@ -26,19 +24,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem("user");
-      if (storedUser) {
+      const storedToken = localStorage.getItem("token");
+      if (storedUser && storedToken) {
         setUser(JSON.parse(storedUser));
       }
     } catch (error) {
       console.error("Failed to load user from localStorage", error);
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
     }
     setIsAuthLoading(false);
   }, []);
 
-  const login = (user: User) => {
+  const login = (user: User, token: string) => {
     localStorage.setItem("user", JSON.stringify(user));
-    // localStorage.setItem("token", token);
+    localStorage.setItem("token", token);
     setUser(user);
   };
 
