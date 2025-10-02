@@ -15,11 +15,11 @@ const colorClasses = [
 
 
 
-const ItemCard = ({ item , onSelect}) => {
+const ItemCard = ({item}) => {
   debugger
 
   return (
-    <div className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300  w-52 h-62"  onClick={() => onSelect(item._id)}>
+    <div className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300  w-52 h-62">
       {/* Image */}
       {item.imageUrl && (
         <div className="w-full h-[100px] relative mb-4 overflow-hidden rounded-md">

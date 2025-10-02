@@ -17,14 +17,14 @@ export default function LoginPage() {
   const handleLogin = async () => {
     setIsLoading(true);
     setError("");
-
+debugger
     try {
       const res = await fetch("http://localhost:8000/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+debugger
       const contentType = res.headers.get("content-type");
       debugger;
       if (!res.ok) {

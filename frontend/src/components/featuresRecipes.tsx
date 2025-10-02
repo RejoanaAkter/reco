@@ -1,22 +1,27 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import ItemCard from "./item-card";
+import React from "react";
 import "swiper/css";
 import useRecipes from "./useRecipes";
-import CategoryListModal from "./view-category";
-import RecipeDetailsModal from "./recipe-details-modal";
 import FeatureItemCard from "./feature-card";
+import { useRouter } from "next/navigation";
 
 function FeaturesRecipes() {
   const { recipes } = useRecipes();
-  const [selectedId, setSelectedId] = useState(null);
+  const router = useRouter();
+
+  const handleNavigate = (recipe: string) => {
+    debugger;
+    router.push(`/recipeDetail/${recipe._id}`);
+  };
 
   return (
     <div className="grid grid-cols-8 ">
       <div className="col-span-1"></div>
       <div className="col-span-6">
         <div className="max-w-screen-2xl mx-auto px-6 py-6">
-          <h2 className="text-xl font-semibold text-gray-700">🍽️ Featured Recipes</h2>
+          <h2 className="text-xl font-semibold text-gray-700">
+            🍽️ Featured Recipes
+          </h2>
 
           <div
             className="grid gap-6
@@ -27,9 +32,9 @@ function FeaturesRecipes() {
                   xl:grid-cols-4
                   2xl:grid-cols-4 mt-4"
           >
-            {recipes?.slice(0, 4).map((recipe, index) => (
-              <div key={index}>
-                <FeatureItemCard item={recipe} onSelect={setSelectedId} />
+            {recipes?.slice(0,4).map((recipe, index) => (
+              <div key={index} onClick={() => handleNavigate(recipe)}>
+                <FeatureItemCard item={recipe} />
               </div>
             ))}
           </div>
@@ -37,12 +42,6 @@ function FeaturesRecipes() {
       </div>
       <div className="col-span-1"></div>
 
-      {selectedId && (
-        <RecipeDetailsModal
-          recipeId={selectedId}
-          onClose={() => setSelectedId(null)}
-        />
-      )}
     </div>
   );
 }

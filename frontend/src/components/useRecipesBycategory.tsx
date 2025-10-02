@@ -1,13 +1,24 @@
 import { useEffect, useState } from 'react';
 
+interface Recipe {
+  _id: string;
+  name: string;
+  description?: string;
+  image?: string;
+  category?: string;
+  user?: string;
+}
+
 const useRecipesByCategory = (selectedCategoryId: string | null) => {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (!selectedCategoryId) return;
+
+    let isMounted = true;
 
     const fetchRecipesByCategory = async () => {
       setLoading(true);
@@ -16,25 +27,41 @@ const useRecipesByCategory = (selectedCategoryId: string | null) => {
       setFadeIn(false);
 
       try {
+        const token = localStorage.getItem("token"); // 🔑 for protected route
         const res = await fetch(
-          `http://localhost:8000/recipes/category/${selectedCategoryId}`
+          `http://localhost:8000/recipes/category/${selectedCategoryId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+          }
         );
 
-        if (!res.ok) throw new Error('Failed to fetch recipes');
-
         const data = await res.json();
-        setRecipes(data);
 
-        // Add delay to trigger CSS fade-in animation
-        setTimeout(() => setFadeIn(true), 50);
+        if (!res.ok) {
+          throw new Error(data?.message || 'Failed to fetch recipes');
+        }
+
+        if (isMounted) {
+          setRecipes(data);
+          // Add delay to trigger CSS fade-in animation
+          setTimeout(() => setFadeIn(true), 50);
+        }
       } catch (err: any) {
-        setError(err.message || 'Something went wrong');
+        if (isMounted) setError(err.message || 'Something went wrong');
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchRecipesByCategory();
+
+    return () => {
+      isMounted = false; // cleanup
+    };
   }, [selectedCategoryId]);
 
   return { recipes, loading, error, fadeIn };

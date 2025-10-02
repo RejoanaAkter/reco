@@ -32,30 +32,35 @@ export default function SignInPage() {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    setError("");
-    try {
-      const data = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value) data.append(key, value as any);
-      });
+  setIsSubmitting(true);
+  setError("");
 
-      const res = await fetch("http://localhost:8000/users/user", {
-        method: "POST",
-        body: data,
-      });
+  try {
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value) data.append(key, value as any);
+    });
 
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Signup failed");
+    const res = await fetch("http://localhost:8000/users/user", {
+      method: "POST",
+      body: data, // Don't set Content-Type; browser handles it
+    });
 
-      login(result.user, result.token);
-      router.replace("/");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    const result = await res.json();
+
+    if (!res.ok) throw new Error(result.message || "Signup failed");
+
+    // Auto-login after signup
+    // Only works if backend returns user + token
+    login(result.user, result.token); 
+    router.replace("/");
+  } catch (err: any) {
+    setError(err.message || "Something went wrong");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <div
@@ -70,10 +75,10 @@ export default function SignInPage() {
 
       {/* Sign-Up Card */}
       <div className="relative w-full max-w-md bg-white/90 rounded-sm shadow-lg p-4 border border-[rgba(0,0,0,0.05)] z-10">
-        <div className="rounded border border-amber-600 p-6">
+        <div className="rounded border border-amber-600 p-6 text-gray-700">
           <div className="text-center mb-">
             {/* Fun Icon */}
-            <div className="text-6xl mb-2 animate-bounce">🍳</div>
+            <div className="text-6xl mb-2 animate-bounce">🌶️</div>
 
             <h2 className="text-xl font-baloo font-bold text-gray-800 ">
               Sign Up

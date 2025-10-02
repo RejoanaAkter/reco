@@ -20,34 +20,44 @@ const CategoryCreateModal = ({ setShowModal }) => {
         }
     };
 
-    const handleSubmit = async () => {
-        setIsSubmitting(true);
-        setFormError('');
+const handleSubmit = async () => {
+  setIsSubmitting(true);
+  setFormError("");
 
-        try {
-            const data = new FormData();
-            data.append('name', formData.name);
-            if (formData.image) {
-                data.append('image', formData.image);
-            }
+  try {
+    const data = new FormData();
+    data.append("name", formData.name);
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
 
-            const res = await fetch('http://localhost:8000/cat/category', {
-                method: 'POST',
-                body: data,
-            });
-            const result = await res.json();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("Authentication token not found");
+    }
 
-            if (!res.ok) {
-                throw new Error(result.message || 'Failed to create category');
-            }
+    const res = await fetch("http://localhost:8000/cat/category", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`, // ✅ required for protected route
+      },
+      body: data,
+    });
 
-            setShowModal(false);
-        } catch (err) {
-            setFormError(err.message);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.message || "Failed to create category");
+    }
+
+    setShowModal(false); // close modal after success
+  } catch (err) {
+    setFormError((err as Error).message || "Something went wrong");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
     return (
         <div className="fixed inset-0 bg-white/10 backdrop-blur-[1px] flex items-center justify-center z-50">

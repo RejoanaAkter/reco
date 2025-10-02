@@ -15,7 +15,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <>
       {user && <NavBar />}
-      <main className="bg-pink-100 min-h-screen">{children}</main>
+      <main className="bg-gray-100 min-h-screen">{children}</main>
     </>
   );
 }

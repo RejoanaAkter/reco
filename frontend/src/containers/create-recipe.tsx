@@ -63,55 +63,70 @@ const CreateRecipeTailwind = () => {
     }
   };
 
-  const handleSave = async () => {
-    if (!imageFile) {
-      setMessage("Please upload an image.");
-      return;
-    }
-    if (!user?.userId || !categoryId || !title) {
-      setMessage("User ID, Category ID, and Title are required.");
+const handleSave = async () => {
+  if (!imageFile) {
+    setMessage("Please upload an image.");
+    return;
+  }
+
+  if (!user?.id || !categoryId || !title) {
+    setMessage("User ID, Category ID, and Title are required.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("user", user.id);
+  formData.append("category", categoryId);
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("cuisine", cuisine);
+  formData.append("prepTime", prepTime ? String(prepTime) : "0");
+  formData.append("isPublic", String(isPublic)); // ✅ always string in FormData
+  formData.append("tags", JSON.stringify(tags));
+  formData.append("ingredients", JSON.stringify(ingredients));
+  formData.append("instructions", JSON.stringify(instructions));
+  formData.append("image", imageFile);
+
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage("Authentication token not found.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("user", user?.userId);
-    formData.append("category", categoryId);
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("cuisine", cuisine);
-    formData.append("prepTime", prepTime ? Number(prepTime) : 0);
-    formData.append("isPublic", isPublic);
-    formData.append("tags", JSON.stringify(tags));
-    formData.append("ingredients", JSON.stringify(ingredients));
-    formData.append("instructions", JSON.stringify(instructions));
-    formData.append("image", imageFile);
+    const response = await fetch("http://localhost:8000/recipes/recipe", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`, // ✅ send token
+      },
+      body: formData,
+    });
 
-    try {
-      const response = await fetch("http://localhost:8000/recipes/recipe", {
-        method: "POST",
-        body: formData,
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        setMessage(errorData.message || "Failed to create recipe.");
-        return;
-      }
-      setMessage("Recipe created successfully!");
-      setCategory("");
-      setTitle("");
-      setDescription("");
-      setCuisine("");
-      setPrepTime("");
-      setIngredients([""]);
-      setInstructions([""]);
-      setTags([""]);
-      clearImage();
-      setIsPublic(false);
-    } catch (error) {
-      setMessage("Error creating recipe.");
-      console.error(error);
+    const result = await response.json();
+
+    if (!response.ok) {
+      setMessage(result.message || "Failed to create recipe.");
+      return;
     }
-  };
+
+    // ✅ Success
+    setMessage("Recipe created successfully!");
+    setCategory("");
+    setTitle("");
+    setDescription("");
+    setCuisine("");
+    setPrepTime("");
+    setIngredients([]);
+    setInstructions([]);
+    setTags([]);
+    clearImage();
+    setIsPublic(false);
+  } catch (error) {
+    console.error(error);
+    setMessage("Error creating recipe.");
+  }
+};
+
 
   const handleTagChange = (index, value) => {
     const newTags = [...tags];

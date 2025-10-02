@@ -23,7 +23,7 @@ const ExploreCategoriesSection = () => {
         
         {/* Left Text Content */}
         <div>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold leading-tight mb-6 uppercase">
+          <h2 className="text-2xl font-serif font-bold leading-tight mb-6 uppercase">
             Daily Food<br />Courses<br />With Drinks
           </h2>
           <p className="text-gray-600 mb-8 leading-relaxed">
