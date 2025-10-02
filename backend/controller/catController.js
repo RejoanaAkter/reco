@@ -1,38 +1,48 @@
 import Category from '../model/catModel.js';
 
+// ✅ Create a new category
 export const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-    if (!name || !imageUrl) {
-      return res.status(400).json({ message: 'Both name and image are required' });
+    // Check required fields
+    if (!name) {
+      return res.status(400).json({ message: 'Category name is required' });
+    }
+    if (!req.file) {
+      return res.status(400).json({ message: 'Category image is required' });
     }
 
+    // Validate image file extension
     if (!/\.(jpg|jpeg|png)$/i.test(req.file.originalname)) {
-      return res.status(400).json({ message: 'Only JPG or PNG images allowed' });
+      return res.status(400).json({ message: 'Only JPG or PNG images are allowed' });
     }
 
+    // Check if category already exists
     const exists = await Category.findOne({ name });
     if (exists) {
       return res.status(400).json({ message: 'Category already exists' });
     }
 
-    const category = new Category({ name, imageUrl });
-    const saved = await category.save();
+    const imageUrl = `/uploads/${req.file.filename}`;
 
-    res.status(201).json(saved);
+    const category = new Category({ name, imageUrl });
+    const savedCategory = await category.save();
+
+    res.status(201).json(savedCategory);
   } catch (error) {
+    console.error('Error creating category:', error);
     res.status(500).json({ message: error.message });
   }
 };
 
-
+// ✅ Get all categories
 export const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find().sort({ name: 1 }); // alphabetically
+    const categories = await Category.find().sort({ name: 1 }); // Sort alphabetically
     res.status(200).json(categories);
   } catch (error) {
+    console.error('Error fetching categories:', error);
     res.status(500).json({ message: error.message });
   }
 };
