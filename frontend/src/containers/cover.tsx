@@ -7,6 +7,7 @@ import HeroBanner from "@/components/hero-banner";
 import UserList from "./user-section-list";
 import ExploreCategoriesSection from "./explore-category-section";
 import NavBar from "./navbar";
+import NewestRecipes from "@/components/newestRecipes";
 
 const HomeCoverScreen = () => {
   return (
@@ -16,8 +17,8 @@ const HomeCoverScreen = () => {
         <HeroBanner />
       </div>
 
-      <div className="h-[700px] bg-gray-100 ">
-        <div className="flex w-full h-[600px] justify-center items-center">
+      <div className="h-[500px] ">
+        <div className="flex w-full h-[450px] justify-center items-center">
           <FeaturesRecipes />
         </div>
       </div>
@@ -26,7 +27,10 @@ const HomeCoverScreen = () => {
         <ExploreCategoriesSection />
       </div>
 
-      <div className="flex w-full h-screen justify-center items-center">
+      <div className="flex w-full justify-center items-center h-[500px] ">
+        <NewestRecipes />
+      </div> 
+      <div className="flex w-full h-screen justify-center ">
         <UserList />
       </div>
     </div>

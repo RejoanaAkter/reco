@@ -9,6 +9,7 @@ import getImageUrl from "@/settings/utils";
 import { FaPlateWheat } from "react-icons/fa6";
 import CategoryCreateModal from "./create-category";
 import CategoryListModal from "./view-category";
+import { FeaturedRecipeCard } from "./feature-card";
 
 interface Category {
   _id: string;
@@ -71,11 +72,11 @@ const CategoryList: React.FC = () => {
                 <li
                   key={cat._id}
                   onClick={() => setSelectedCategoryId(cat._id)}
-                  className={`flex items-center gap-3 p-3 rounded-full cursor-pointer transition shadow-sm
+                  className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition shadow-sm
                   ${
                     isSelected
                       ? "bg-white text-[#E35D2B] shadow-lg"
-                      : "hover:bg-[#fbe9d5]"
+                      : "hover:bg-[#fbe9d5] bg-white"
                   }
                 `}
                 >
@@ -116,21 +117,18 @@ const CategoryList: React.FC = () => {
             <p className="text-gray-500">No recipes found for this category.</p>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recipes.map((recipe: Recipe, index: number) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {recipes.map((recipe, index) => (
               <div
-                key={recipe.id || index}
+                key={index}
                 style={{ transitionDelay: `${index * 100}ms` }}
-                className={`bg-white rounded-lg overflow-hidden transform transition-all duration-500 ease-in-out
+                className={` overflow-hidden transform transition-all duration-500 ease-in-out
                 ${
                   fadeIn
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-6"
-                }
-                hover:shadow-xl hover:-translate-y-1
-              `}
-              >
-                <ItemCard item={recipe} onSelect={null} />
+                } hover:-translate-y-1 `} >
+                <FeaturedRecipeCard item={recipe}/>
               </div>
             ))}
           </div>

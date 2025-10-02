@@ -6,7 +6,6 @@ import { useRecipeRating } from "@/hook/useRecipeRating";
 import { useRecipeFavorite } from "@/hook/useRecipeFavorite";
 import { useRecipeComments } from "@/hook/useRecipeComments";
 
-
 interface Recipe {
   _id: string;
   title: string;
@@ -30,9 +29,10 @@ const RecipeActions = ({ recipe, onUpdate }: Props) => {
   const { isFavorite, toggleFavorite } = useRecipeFavorite(localRecipe, user, token);
   const { comment, setComment, addComment } = useRecipeComments(localRecipe, user, token);
 
+  // Calculate average rating safely
   const avgRating = localRecipe.ratings?.length
-    ? (localRecipe.ratings.reduce((a, b) => a + b.value, 0) / localRecipe.ratings.length).toFixed(1)
-    : "0";
+    ? localRecipe.ratings.reduce((a, b) => a + b.value, 0) / localRecipe.ratings.length
+    : 0;
 
   // Wrap updates to keep parent in sync
   const updateRecipe = (updates: Partial<Recipe>) => {
@@ -41,15 +41,48 @@ const RecipeActions = ({ recipe, onUpdate }: Props) => {
     onUpdate && onUpdate(updated);
   };
 
+  // Render stars with half-star support
+  const renderStars = (value: number) => {
+    return [1, 2, 3, 4, 5].map(star => {
+      let symbol = "☆"; // empty star
+      if (value >= star) {
+        symbol = "★"; // full star
+      } else if (value >= star - 0.5) {
+        symbol = "⯨"; // half star (can replace with proper SVG for professional look)
+      }
+
+      return (
+        <span
+          key={star}
+          className={`text-lg ${
+            symbol === "★" ? "text-yellow-500" : symbol === "⯨" ? "text-yellow-400" : "text-gray-300"
+          }`}
+        >
+          {symbol}
+        </span>
+      );
+    });
+  };
+
   return (
-    <div className="mt-4 border-t pt-2 space-y-2 text-gray-700">
+    <div className="mt-6 border-t pt-4 space-y-4 text-gray-700">
       {/* Rating */}
-      <div className="flex items-center space-x-2">
-        <span>⭐ {avgRating}</span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <span className="text-sm font-medium text-gray-600">Average:</span>
+          <span className="text-yellow-600 font-semibold">{avgRating.toFixed(1)}</span>
+        </div>
+        <div className="flex space-x-1">{renderStars(avgRating)}</div>
+      </div>
+
+      {/* User Rating Buttons */}
+      <div className="flex space-x-1">
         {[1, 2, 3, 4, 5].map(star => (
           <button
             key={star}
-            className={`px-1 ${star <= rating ? "text-yellow-500" : "text-gray-400"}`}
+            className={`transition-colors text-lg ${
+              star <= rating ? "text-yellow-500" : "text-gray-300 hover:text-yellow-400"
+            }`}
             onClick={async () => {
               const updatedRatings = await rateRecipe(star);
               if (updatedRatings) updateRecipe({ ratings: updatedRatings });
@@ -61,42 +94,40 @@ const RecipeActions = ({ recipe, onUpdate }: Props) => {
       </div>
 
       {/* Favorite */}
-      <button
-        onClick={async () => {
-          const updatedFavorites = await toggleFavorite();
-          if (updatedFavorites) updateRecipe({ favorites: updatedFavorites });
-        }}
-        className={`px-3 py-1 rounded ${isFavorite ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700"}`}
-      >
-        {isFavorite ? "❤️ Favorited" : "🤍 Add to Favorites"}
-      </button>
+      <div>
+        <button
+          onClick={async () => {
+            const updatedFavorites = await toggleFavorite();
+            if (updatedFavorites) updateRecipe({ favorites: updatedFavorites });
+          }}
+          className={`w-full py-2 rounded-lg text-sm font-medium transition-colors ${
+            isFavorite
+              ? "bg-red-50 border border-red-500 text-red-700 hover:bg-red-100"
+              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+          }`}
+        >
+          {isFavorite ? "❤️ Favorited" : "🤍 Add to Favorites"}
+        </button>
+      </div>
 
       {/* Comments */}
-      <div className="flex space-x-2 mt-2">
+      <div className="flex items-center space-x-2">
         <input
           type="text"
           value={comment}
           onChange={e => setComment(e.target.value)}
           placeholder="Add a comment..."
-          className="flex-1 border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+          className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-300"
         />
         <button
           onClick={async () => {
             const updatedComments = await addComment();
             if (updatedComments) updateRecipe({ comments: updatedComments });
           }}
-          className="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600"
+          className="px-4 py-2 bg-orange-500 text-white text-sm rounded-lg shadow hover:bg-orange-600 transition-colors"
         >
           Send
         </button>
-      </div>
-
-      <div className="mt-2 space-y-1">
-        {localRecipe.comments?.map((c, i) => (
-          <div key={i} className="text-sm text-gray-700 border-b pb-1">
-            <span className="font-semibold">{c.user}</span>: {c.text}
-          </div>
-        ))}
       </div>
     </div>
   );

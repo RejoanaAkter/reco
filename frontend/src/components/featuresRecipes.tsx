@@ -1,49 +1,52 @@
-"use client";
-import React from "react";
-import "swiper/css";
-import useRecipes from "./useRecipes";
-import FeatureItemCard from "./feature-card";
-import { useRouter } from "next/navigation";
+'use client'
 
-function FeaturesRecipes() {
+import { useRouter } from "next/navigation";
+import useRecipes from "./useRecipes";
+import { FeaturedRecipeCard } from "./feature-card";
+
+
+const FeaturesRecipes = () => {
   const { recipes } = useRecipes();
   const router = useRouter();
 
-  const handleNavigate = (recipe: string) => {
-    debugger;
+  const handleNavigate = (recipe) => {
     router.push(`/recipeDetail/${recipe._id}`);
   };
 
+  // 3️⃣ Hybrid Score = 60% favorites + 40% average rating
+  const getHybridScore = (recipe) => {
+    const favoritesCount = recipe.favorites?.length || 0;
+    const avgRating =
+      recipe.ratings?.length
+        ? recipe.ratings.reduce((acc, r) => acc + r.value, 0) / recipe.ratings.length
+        : 0;
+    return favoritesCount * 0.6 + avgRating * 0.4;
+  };
+
+  const topFeatured = recipes
+    ?.sort((a, b) => getHybridScore(b) - getHybridScore(a))
+    .slice(0, 4);
+
   return (
-    <div className="grid grid-cols-8 ">
-      <div className="col-span-1"></div>
-      <div className="col-span-6">
-        <div className="max-w-screen-2xl mx-auto px-6 py-6">
-          <h2 className="text-xl font-semibold text-gray-700">
-            🍽️ Featured Recipes
-          </h2>
-
-          <div
-            className="grid gap-6
-                  grid-cols-1 
-                  sm:grid-cols-2 
-                  md:grid-cols-3 
-                  lg:grid-cols-4
-                  xl:grid-cols-4
-                  2xl:grid-cols-4 mt-4"
-          >
-            {recipes?.slice(0,4).map((recipe, index) => (
-              <div key={index} onClick={() => handleNavigate(recipe)}>
-                <FeatureItemCard item={recipe} />
-              </div>
-            ))}
+    <div className="max-w-screen-2xl mx-auto px-6 py-4">
+      <h2 className="text-xl font-semibold text-gray-700 ">🍽️ Featured Recipes</h2>
+      <div
+        className="mt-6 grid gap-6
+          grid-cols-1 
+          sm:grid-cols-2 
+          md:grid-cols-3 
+          lg:grid-cols-4
+          xl:grid-cols-4
+          2xl:grid-cols-4"
+      >
+        {topFeatured?.map((recipe) => (
+          <div key={recipe._id} onClick={() => handleNavigate(recipe)}>
+            <FeaturedRecipeCard item={recipe} />
           </div>
-        </div>
+        ))}
       </div>
-      <div className="col-span-1"></div>
-
     </div>
   );
-}
+};
 
 export default FeaturesRecipes;

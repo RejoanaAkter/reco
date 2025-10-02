@@ -18,12 +18,12 @@ const ExploreCategoriesSection = () => {
   }, {});
 
   return (
-    <section className="py-16 bg-[#FCF7F0] text-gray-800">
+    <section className="py-16 bg-white text-gray-800">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
         
         {/* Left Text Content */}
         <div>
-          <h2 className="text-2xl font-serif font-bold leading-tight mb-6 uppercase">
+          <h2 className="text-xl font-bold leading-tight mb-6 uppercase">
             Daily Food<br />Courses<br />With Drinks
           </h2>
           <p className="text-gray-600 mb-8 leading-relaxed">
@@ -41,7 +41,7 @@ const ExploreCategoriesSection = () => {
         <div className="space-y-10">
           {Object.entries(groupedByCategory).slice(0,1).map(([categoryName, recipes]) => (
             <div key={categoryName}>
-              <h3 className="text-xl font-serif font-semibold border-b border-gray-300 inline-block mb-4">
+              <h3 className="text-lg font-semibold border-b border-gray-300 inline-block mb-4">
                 {categoryName.toUpperCase()}
               </h3>
 

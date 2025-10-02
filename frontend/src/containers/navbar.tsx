@@ -81,6 +81,7 @@ const NavBar = () => {
       {/* Profile Dropdown */}
       {user && (
         <div className="relative" ref={dropdownRef}>
+          <p className="text-gray-700 text-xs">{user?.name}</p>
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 ml-4 transform transition-transform duration-300 hover:scale-110 hover:rotate-3"

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { useParams } from "next/navigation";
 
@@ -10,17 +10,25 @@ export default function RecipeDetail() {
   const { id: recipeId } = useParams();
   const { recipe, setRecipe, loading, error } = useRecipeDetail(recipeId);
 
-  if (loading) return <p className="text-center text-gray-500 mt-10">Loading recipe...</p>;
+  if (loading)
+    return <p className="text-center text-gray-500 mt-10">Loading recipe...</p>;
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
-  if (!recipe) return <p className="text-center text-red-500 mt-10">Recipe not found</p>;
+  if (!recipe)
+    return <p className="text-center text-red-500 mt-10">Recipe not found</p>;
 
   // Calculate average rating
   const avgRating = recipe.ratings?.length
-    ? (recipe.ratings.reduce((sum: number, r: any) => sum + r.value, 0) / recipe.ratings.length).toFixed(1)
+    ? (
+        recipe.ratings.reduce((sum: number, r: any) => sum + r.value, 0) /
+        recipe.ratings.length
+      ).toFixed(1)
     : "0";
 
   // Group comments and ratings by user
-  const usersMap = new Map<string, { user: any; comments: string[]; rating: number | null }>();
+  const usersMap = new Map<
+    string,
+    { user: any; comments: string[]; rating: number | null }
+  >();
 
   // Add ratings
   recipe.ratings?.forEach((r: any) => {
@@ -46,61 +54,110 @@ export default function RecipeDetail() {
 
   const userInteractions = Array.from(usersMap.values());
 
+  const renderStars = (rating: number) => {
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+  const stars = [];
+
+  for (let i = 0; i < fullStars; i++) {
+    stars.push("⭐");
+  }
+
+  if (hasHalfStar) {
+    stars.push("✨"); // you can also use "⭐½" or a proper half-star icon
+  }
+
+  return stars.join(" "); // space between stars
+};
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-xl">
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-lg border border-gray-100">
       {/* Recipe Image */}
-      <div className="relative w-full h-72 rounded-2xl overflow-hidden shadow-lg border border-orange-200">
+      <div className="relative w-full h-80 rounded-2xl overflow-hidden shadow-md">
         <img
           src={getImageUrl(recipe.imageUrl)}
           alt={recipe.title}
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
         />
-        <span className="absolute top-4 left-4 bg-orange-200/70 px-3 py-1 rounded-full text-sm font-semibold text-white shadow">
+        <span className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-orange-400 px-4 py-1.5 rounded-full text-sm font-medium text-white shadow">
           {recipe.cuisine || "Cuisine"}
         </span>
       </div>
 
       {/* Title & Description */}
-      <div className="mt-6">
-        <h1 className="text-lg font-semibold text-amber-800">{recipe.title}</h1>
-        <p className="mt-2 text-gray-700 text-sm">{recipe.description}</p>
+      <div className="mt-8">
+        <h1 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+          🍲 {recipe.title}
+        </h1>
+        <p className="mt-3 text-gray-600 text-base leading-relaxed">
+          {recipe.description}
+        </p>
 
-        <div className="flex flex-wrap gap-4 mt-3 text-sm text-gray-600">
-          <span className="bg-orange-100 px-2 py-1 border rounded-full">By: {recipe.user?.name || "Unknown"}</span>
-          <span className="bg-orange-100 px-2 py-1 rounded-full">Category: {recipe.category?.name || "Uncategorized"}</span>
-          <span className="bg-orange-100 px-2 py-1 rounded-full">Prep Time: {recipe.prepTime} min</span>
-          <span className="bg-orange-100 px-2 py-1 rounded-full">{recipe.isPublic ? "Public" : "Private"}</span>
-          <span className="bg-orange-100 px-2 py-1 rounded-full">Favorites: {recipe.favorites?.length || 0} ❤️</span>
+        <div className="flex flex-wrap gap-3 mt-4 text-sm text-gray-700">
+          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-full">
+            👩‍🍳 {recipe.user?.name || "Unknown"}
+          </span>
+          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-full">
+            📂 {recipe.category?.name || "Uncategorized"}
+          </span>
+          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-full">
+            ⏱ {recipe.prepTime} min
+          </span>
+          <span
+            className={`px-3 py-1 rounded-full border ${
+              recipe.isPublic
+                ? "bg-green-50 border-green-200 text-green-700"
+                : "bg-red-50 border-red-200 text-red-700"
+            }`}
+          >
+            {recipe.isPublic ? "🌍 Public" : "🔒 Private"}
+          </span>
+          <span className="bg-pink-50 px-3 py-1 border border-pink-200 rounded-full">
+            ❤️ {recipe.favorites?.length || 0} Favorites
+          </span>
         </div>
       </div>
 
       {/* Ingredients */}
-      <div className="mt-6">
-        <h2 className="text-md font-semibold text-amber-800 mb-2">Ingredients</h2>
-        <ul className="list-disc list-inside text-gray-700 space-y-1 text-sm">
-          {recipe.ingredients.map((ing: string, idx: number) => (
-            <li key={idx}>{ing}</li>
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold text-amber-800 mb-3 flex items-center gap-2">
+          🥬 Ingredients
+        </h2>
+        <ul className="list-disc list-inside text-gray-700 space-y-2 text-sm pl-1">
+          {recipe.ingredients.map((ing, idx) => (
+            <li key={idx} className="leading-relaxed">
+              {ing}
+            </li>
           ))}
         </ul>
       </div>
 
       {/* Instructions */}
-      <div className="mt-6">
-        <h2 className="text-md font-semibold text-amber-700 mb-2">Instructions</h2>
-        <ol className="list-decimal list-inside text-gray-700 space-y-1 text-sm">
-          {recipe.instructions.map((inst: string, idx: number) => (
-            <li key={idx}>{inst}</li>
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold text-orange-700 mb-3 flex items-center gap-2">
+          📖 Instructions
+        </h2>
+        <ol className="list-decimal list-inside text-gray-700 space-y-2 text-sm pl-1">
+          {recipe.instructions.map((inst, idx) => (
+            <li key={idx} className="leading-relaxed">
+              {inst}
+            </li>
           ))}
         </ol>
       </div>
 
       {/* Tags */}
       {recipe.tags?.length > 0 && (
-        <div className="mt-6">
-          <h3 className="text-md font-semibold text-sky-800 mb-2">Tags</h3>
+        <div className="mt-8">
+          <h3 className="text-md font-semibold text-teal-700 mb-3 flex items-center gap-2">
+            🏷️ Tags
+          </h3>
           <div className="flex flex-wrap gap-2">
-            {recipe.tags.filter(Boolean).map((tag: string, idx: number) => (
-              <span key={idx} className="border border-yellow-400 bg-yellow-50 text-gray-800 px-3 rounded-full text-sm font-medium">
+            {recipe.tags.filter(Boolean).map((tag, idx) => (
+              <span
+                key={idx}
+                className="border border-amber-300 bg-amber-50 text-amber-800 px-4 py-1 rounded-full text-sm font-medium"
+              >
                 {tag}
               </span>
             ))}
@@ -109,38 +166,56 @@ export default function RecipeDetail() {
       )}
 
       {/* Average Rating */}
-      <div className="mt-6">
-        <h3 className="text-md font-semibold text-amber-800 mb-2">Average Rating</h3>
-        <span className="border bg-yellow-100 text-amber-800 px-3 py-1 rounded-full font-semibold text-sm">
-          {avgRating} ⭐ ({recipe.ratings?.length || 0} ratings)
+      <div className="mt-8">
+        <h3 className="text-md font-semibold text-yellow-700 mb-3 flex items-center gap-2">
+          ⭐ Average Rating
+        </h3>
+        <span className="bg-yellow-50 text-amber-700 border border-yellow-200 px-4 py-1 rounded-full font-semibold text-sm shadow-sm">
+          {avgRating} / 5 ⭐ ({recipe.ratings?.length || 0} reviews)
         </span>
       </div>
 
       {/* Recipe Actions */}
-      <div className="mt-6">
-        <RecipeActions recipe={recipe} onUpdate={(updated) => setRecipe(updated)} />
+      <div className="mt-8">
+        <RecipeActions
+          recipe={recipe}
+          onUpdate={(updated) => setRecipe(updated)}
+        />
       </div>
 
-      {/* User Cards */}
-      {userInteractions.length > 0 && (
-        <div className="mt-10 space-y-4">
-          <h3 className="text-md font-semibold text-amber-800 mb-4">User Ratings & Comments</h3>
-          {userInteractions.map((u, idx) => (
-            <div key={idx} className="p-4 bg-white rounded-xl shadow-md border-l-4 border-amber-800">
-              <div className="flex items-center justify-between mb-2">
-                <p className="font-semibold text-gray-700">{u.user?.name || "User"}</p>
-                {u.rating !== null && <p className="text-yellow-800 font-bold">{u.rating} ⭐</p>}
+      {/* User Ratings & Comments */}
+      {userInteractions?.length > 0 && (
+        <div className="mt-10 space-y-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            💬 User Ratings & Comments
+          </h3>
+          {userInteractions?.map((u, idx) => (
+            <div
+              key={idx}
+              className="p-5 bg-gray-50 rounded-xl shadow-md border border-gray-200"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <p className="font-semibold text-gray-800">
+                  👤 {u.user?.name || "Guest"}
+                </p>
+              {u.rating !== null && (
+  <p className="text-amber-700 font-bold">
+    {renderStars(u.rating)} <span className="text-sm text-gray-500">({u.rating})</span>
+  </p>
+)}
               </div>
-              <ul className="list-disc list-inside text-gray-600 space-y-1">
-                {u.comments.map((c, i) => (
-                  <li key={i}>{c}</li>
+
+              <ul className="list-disc list-inside text-gray-600 space-y-1 pl-1">
+                {u?.comments.map((c, idx) => (
+                  <li key={idx} className="leading-relaxed">
+                    💡 {c}
+                  </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
       )}
-
     </div>
   );
 }
