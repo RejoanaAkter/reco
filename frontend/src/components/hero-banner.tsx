@@ -41,7 +41,7 @@ const HeroBanner = () => {
           style={{ fontFamily: "'Dancing Script', cursive" }}
         >
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-            crack, cook, enjoy
+            "crack, cook, enjoy"
           </h1>
           <p className="mt-4 text-lg md:text-xl font-semibold">
             Eggstraordinary flavors for any appetite
