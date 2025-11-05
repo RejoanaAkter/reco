@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuth } from "@/components/AuthContext"; // adjust path to your AuthProvider
 import getImageUrl from "@/settings/utils";
+import { FeaturedRecipeCard } from "@/components/feature-card";
+import { useRouter } from "next/navigation";
 
 interface Recipe {
   _id: string;
@@ -19,7 +21,8 @@ const MyRecipes = () => {
   const { user, isAuthLoading } = useAuth();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
-
+ const router = useRouter();
+ 
   useEffect(() => {
     if (!user) return;
 debugger
@@ -59,39 +62,35 @@ debugger
 
 
   console.log("recipes", recipes)
+  
+  const handleNavigate = (recipe) => {
+    router.push(`/recipeDetail/${recipe._id}`);
+  };
+
+  const onEdit=(recipe)=>{
+    debugger
+        router.push(`/createRecipe/${recipe._id}`);
+  }
 
   return (
-    <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {recipes.map((recipe) => (
-        <div
-          key={recipe._id}
-          className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-        >
-          <div className="relative w-full h-48">
-            <Image
-              src={getImageUrl(recipe.imageUrl) || "/placeholder.png"}
-              alt={recipe.title}
-              layout="fill"
-              objectFit="cover"
-              className="hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-          <div className="p-4">
-            <h3 className="text-lg font-semibold text-gray-900">{recipe.title}</h3>
-            <p className="text-sm text-gray-600 mt-1">
-              {recipe.description?.substring(0, 100)}...
-            </p>
-            <div className="flex justify-between items-center mt-2 text-sm text-gray-500">
-              <span>⭐ {recipe.ratings?.length
-                ? (recipe.ratings.reduce((a, b) => a + b.value, 0) / recipe.ratings.length).toFixed(1)
-                : 0}</span>
-              <span>❤️ {recipe.favorites?.length || 0}</span>
-              <span>💬 {recipe.comments?.length || 0}</span>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
+    <div className="max-w-screen-2xl mx-auto px-6 py-4">
+         <h2 className="text-xl font-semibold text-gray-700 ">🍽️ Featured Recipes</h2>
+         <div
+           className="mt-6 grid gap-6
+             grid-cols-1 
+             sm:grid-cols-2 
+             md:grid-cols-3 
+             lg:grid-cols-4
+             xl:grid-cols-4
+             2xl:grid-cols-4"
+         >
+           {recipes?.map((recipe) => (
+             <div key={recipe._id} onClick={() => handleNavigate(recipe)}>
+               <FeaturedRecipeCard showActions={true} item={recipe} onEdit={onEdit} />
+             </div>
+           ))}
+         </div>
+       </div>
   );
 };
 

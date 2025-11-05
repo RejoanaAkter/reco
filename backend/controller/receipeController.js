@@ -2,6 +2,10 @@ import Recipe from "../model/receipeModel.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
 
 // Create recipe
+import Recipe from "../model/recipeModel.js";
+import { cloudinaryUpload } from "../utils/cloudinary.js";
+
+// ✅ Create Recipe
 export const createRecipe = async (req, res) => {
   try {
     const {
@@ -19,9 +23,10 @@ export const createRecipe = async (req, res) => {
     const parsedIngredients = JSON.parse(ingredients || "[]");
     const parsedInstructions = JSON.parse(instructions || "[]");
     const parsedTags = JSON.parse(tags || "[]");
+
     const imageUrl = req.file
       ? `/uploads/${req.file.filename}`
-      : req.body.imageUrl;
+      : req.body.imageUrl || "";
 
     if (imageUrl && !/\.(jpg|jpeg|png)$/i.test(imageUrl)) {
       return res
@@ -30,7 +35,7 @@ export const createRecipe = async (req, res) => {
     }
 
     const newRecipe = new Recipe({
-      user: req.user._id, // ✅ use authenticated user
+      user: req.user._id,
       category,
       title,
       description,
@@ -55,6 +60,69 @@ export const createRecipe = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// ✅ Update Recipe
+export const updateRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body || {};
+    console.log("🟢 req.body:", body);
+    console.log("🟢 req.file:", req.file);
+
+    // ✅ Safely parse JSON strings (if empty, default to [])
+    let ingredients = [];
+    let instructions = [];
+    let tags = [];
+
+    try {
+      ingredients = body.ingredients ? JSON.parse(body.ingredients) : [];
+      instructions = body.instructions ? JSON.parse(body.instructions) : [];
+      tags = body.tags ? JSON.parse(body.tags) : [];
+    } catch (err) {
+      console.error("⚠️ Error parsing JSON fields:", err.message);
+    }
+
+    // ✅ Build updated object
+    const updatedData = {
+      title: body.title || "",
+      description: body.description || "",
+      category: body.category || null,
+      cuisine: body.cuisine || "",
+      prepTime: body.prepTime ? Number(body.prepTime) : 0,
+      isPublic:
+        body.isPublic === true ||
+        body.isPublic === "true" ||
+        body.isPublic === 1 ||
+        body.isPublic === "1",
+      ingredients,
+      instructions,
+      tags,
+    };
+
+    // ✅ Add image if uploaded
+    if (req.file) {
+      updatedData.imageUrl = `/uploads/${req.file.filename}`;
+    }
+
+    // ✅ Update recipe in DB
+    const recipe = await Recipe.findByIdAndUpdate(id, updatedData, { new: true });
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json({
+      message: "✅ Recipe updated successfully",
+      recipe,
+    });
+  } catch (err) {
+    console.error("❌ updateRecipe error:", err);
+    res.status(500).json({
+      message: err.message || "Server error while updating recipe.",
+    });
+  }
+};
+
 
 // Get all recipes
 export const getAllRecipes = async (req, res) => {
@@ -89,58 +157,7 @@ export const getRecipeById = async (req, res) => {
 
 
 // Update recipe
-export const updateRecipe = async (req, res) => {
-  try {
-    const recipe = await Recipe.findById(req.params.id);
-    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
-    if (recipe.user.toString() !== req.user._id.toString()) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized to update this recipe" });
-    }
-
-    const {
-      title,
-      description,
-      ingredients,
-      instructions,
-      cuisine,
-      prepTime,
-      isPublic,
-      imageUrl: bodyImageUrl,
-    } = req.body;
-
-    if (req.file) {
-      const result = await cloudinaryUpload(req.file.path);
-      recipe.imageUrl = result.secure_url;
-    } else if (bodyImageUrl) {
-      if (!/\.(jpg|jpeg|png)$/i.test(bodyImageUrl)) {
-        return res
-          .status(400)
-          .json({ message: "Only JPG or PNG images allowed for imageUrl" });
-      }
-      recipe.imageUrl = bodyImageUrl;
-    }
-
-    recipe.title = title || recipe.title;
-    recipe.description = description || recipe.description;
-    recipe.ingredients = ingredients
-      ? JSON.parse(ingredients)
-      : recipe.ingredients;
-    recipe.instructions = instructions
-      ? JSON.parse(instructions)
-      : recipe.instructions;
-    recipe.cuisine = cuisine || recipe.cuisine;
-    recipe.prepTime = prepTime ?? recipe.prepTime;
-    recipe.isPublic = isPublic ?? recipe.isPublic;
-
-    const updated = await recipe.save();
-    res.status(200).json(updated);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
 
 // Delete recipe
 export const deleteRecipe = async (req, res) => {
