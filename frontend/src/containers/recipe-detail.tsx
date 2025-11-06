@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import getImageUrl from "@/settings/utils";
 import RecipeActions from "@/components/recipeActions";
 import useRecipeDetail from "@/hook/useRecipeDetail";
+import { RecipeTimer } from "./recipeTimer";
 
 export default function RecipeDetail() {
   const { id: recipeId } = useParams();
@@ -55,20 +56,20 @@ export default function RecipeDetail() {
   const userInteractions = Array.from(usersMap.values());
 
   const renderStars = (rating: number) => {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
-  const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const stars = [];
 
-  for (let i = 0; i < fullStars; i++) {
-    stars.push("⭐");
-  }
+    for (let i = 0; i < fullStars; i++) {
+      stars.push("⭐");
+    }
 
-  if (hasHalfStar) {
-    stars.push("✨"); // you can also use "⭐½" or a proper half-star icon
-  }
+    if (hasHalfStar) {
+      stars.push("✨"); // you can also use "⭐½" or a proper half-star icon
+    }
 
-  return stars.join(" "); // space between stars
-};
+    return stars.join(" "); // space between stars
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-lg border border-gray-100">
@@ -145,7 +146,7 @@ export default function RecipeDetail() {
           ))}
         </ol>
       </div>
-
+      <RecipeTimer />
       {/* Tags */}
       {recipe.tags?.length > 0 && (
         <div className="mt-8">
@@ -198,11 +199,12 @@ export default function RecipeDetail() {
                 <p className="font-semibold text-gray-800">
                   👤 {u.user?.name || "Guest"}
                 </p>
-              {u.rating !== null && (
-  <p className="text-amber-700 font-bold">
-    {renderStars(u.rating)} <span className="text-sm text-gray-500">({u.rating})</span>
-  </p>
-)}
+                {u.rating !== null && (
+                  <p className="text-amber-700 font-bold">
+                    {renderStars(u.rating)}{" "}
+                    <span className="text-sm text-gray-500">({u.rating})</span>
+                  </p>
+                )}
               </div>
 
               <ul className="list-disc list-inside text-gray-600 space-y-1 pl-1">

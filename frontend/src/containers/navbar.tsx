@@ -14,7 +14,7 @@ const NavBar = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const navItems = [
-    { name: "Home", path: Routes.home },
+ { name: "Home", path: Routes.home },
     { name: "About", path: Routes.about },
     { name: "My Recipes", path: Routes.myRecipes },
     { name: "Favorites", path: Routes.favouriteRecipes },
@@ -44,84 +44,92 @@ const NavBar = () => {
   }, []);
 
   return (
-    <>
-<header className="sticky top-0 z-50 bg-white shadow-lg backdrop-blur-md">
-  <nav className="max-w-7xl mx-auto px-6 sm:px-8 py-4 flex items-center justify-between">
-    
-    {/* Logo */}
-    <div className="flex flex-col cursor-pointer group">
-      <span className="text-xl font-[cursive] text-gray-600 transition-transform duration-500 ease-out group-hover:rotate-3 group-hover:scale-105">
-        Yummy Recipes
-      </span>
-      <span className="text-sm text-gray-500 tracking-wide transition-opacity duration-300 group-hover:opacity-80">
-        Food & Drinks Blogger
-      </span>
-    </div>
-
-    {/* Navigation Links */}
-    <div className="flex gap-6 items-center text-sm tracking-wide font-medium uppercase">
-      {navItems.map((item) => {
-        const isActive = pathname === item.path;
-        return (
-          <button
-            key={item.name}
-            onClick={() => handleNavigate(item.path)}
-            className={`flex items-center gap-1 cursor-pointer relative px-2 py-1 rounded-lg transition-all duration-300 ${
-              isActive
-                ? "text-gray-600 font-semibold bg-gray-50 shadow-md scale-105"
-                : "text-gray-700 hover:text-gray-600 hover:bg-slate-50 hover:scale-105 hover:shadow-sm"
-            }`}
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+      {/* Top Bar with Cart (left), Braise (middle), User (right) */}
+      <div className="border-b border-gray-200 py-4">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          
+          {/* Left Section - Cart */}
+          <div 
+            className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity duration-200"
+            onClick={() => handleNavigate(Routes.shop)} // or your cart route
           >
-            {/* Fun emoji icons */}
-            {item.name}
-          </button>
-        );
-      })}
-
-      {/* Profile Dropdown */}
-      {user && (
-        <div className="relative" ref={dropdownRef}>
-          <p className="text-gray-700 text-xs">{user?.name}</p>
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 ml-4 transform transition-transform duration-300 hover:scale-110 hover:rotate-3"
-          >
-            <img
-              src={getImageUrl(user.image)}
-              alt="Avatar"
-              className="w-10 h-10 rounded-full object-cover border-2 border-orange-200 shadow-lg hover:shadow-xl transition-shadow duration-300"
-            />
-          </button>
-
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-xl z-50 animate-fadeIn scale-95 origin-top-right transform transition-all duration-300">
-              <button
-                onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-orange-50 transition-colors duration-300"
-              >
-                Logout
-              </button>
+            <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">C</span>
             </div>
-          )}
+          </div>
+
+          {/* Center Section - Braise Logo */}
+         <div className="flex items-center justify-between py-1">
+      {/* Braise Section */}
+      <div className="text-center flex-1">
+            <div className="text-4xl font-light text-gray-800 mb-2 font-serif italic" >
+          Braise
         </div>
-      )}
-    </div>
-  </nav>
+        <div className="text-xs font-semibold text-amber-600 tracking-[0.2em]">
+          COOKING FOR THE SOUL
+        </div>
+       </div> 
+       </div>
+          {/* Right Section - User Profile */}
+          <div className="flex items-center">
+            {user && (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200"
+                >
+                  <img
+                    src={getImageUrl(user.image)}
+                    alt="Avatar"
+                    className="w-8 h-8 rounded-full object-cover border border-gray-300"
+                  />
+                </button>
 
-  {/* Fade-in animation using Tailwind */}
-  <style jsx>{`
-    .animate-fadeIn {
-      @apply transition-opacity duration-300 opacity-0;
-    }
-    .relative:hover .animate-fadeIn {
-      @apply opacity-100;
-    }
-  `}</style>
-</header>
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                      <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
 
-
-</>
+      {/* Main Navigation - Only Menu Items */}
+      <nav className="max-w-4xl mx-auto px-6 py-4">
+        <div className="flex justify-center gap-8 items-center">
+          {navItems.map((item) => {
+            const isActive = pathname === item.path;
+            return (
+              <button
+                key={item.name}
+                onClick={() => handleNavigate(item.path)}
+                className={`text-xs font-semibold  uppercase transition-colors duration-200 
+                  tracking-[0.1em] ${
+                  isActive
+                    ? "text-gray-900 font-semibold"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {item.name}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+    </header>
   );
-};
+}2
 
 export default NavBar;

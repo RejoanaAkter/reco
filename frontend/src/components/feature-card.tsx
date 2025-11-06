@@ -171,7 +171,11 @@ export const FeaturedRecipeCard = ({
             </div>
             <span className="text-gray-700 text-sm font-medium">({avgRating.toFixed(1)})</span>
           </div>
-
+  {item.time && (
+          <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
+            <span>⏱</span> {item.time}
+          </p>
+        )}
         </div>
       </div>
     </div>
