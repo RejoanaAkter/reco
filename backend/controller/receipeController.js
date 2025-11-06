@@ -1,9 +1,6 @@
 import Recipe from "../model/receipeModel.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
 
-// Create recipe
-import Recipe from "../model/recipeModel.js";
-import { cloudinaryUpload } from "../utils/cloudinary.js";
 
 // ✅ Create Recipe
 export const createRecipe = async (req, res) => {
