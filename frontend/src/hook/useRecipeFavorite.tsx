@@ -22,6 +22,6 @@ export const useRecipeFavorite = (recipe: any, user: any, token: string | null) 
   };
 
   const isFavorite = recipe.favorites?.includes(user?.id || ""); 
-debugger
+
   return { isFavorite, loading, toggleFavorite };
 };

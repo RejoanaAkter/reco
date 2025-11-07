@@ -28,7 +28,6 @@ receipeRoute.get('/recipe/:id', getRecipeById);
 receipeRoute.get('/category/:categoryId', getRecipesByCategory);
 receipeRoute.get('/user/:userId', getRecipesByUserId);
 
-
 receipeRoute.post("/recipe", upload.single("image"), createRecipe);
 receipeRoute.put("/update/recipe/:id", upload.single("image"), updateRecipe);
 receipeRoute.delete('/delete/recipe/:id', deleteRecipe);

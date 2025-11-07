@@ -1,6 +1,21 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation";
+import {
+  Clock,
+  Users,
+  Star,
+  ChefHat,
+  Globe,
+  Lock,
+  Heart,
+  Timer,
+  Tag,
+  BookOpen,
+  Utensils,
+  Folder,
+  MapPin,
+} from "lucide-react";
 
 import getImageUrl from "@/settings/utils";
 import RecipeActions from "@/components/recipeActions";
@@ -10,12 +25,10 @@ import { RecipeTimer } from "./recipeTimer";
 export default function RecipeDetail() {
   const { id: recipeId } = useParams();
   const { recipe, setRecipe, loading, error } = useRecipeDetail(recipeId);
-
-  if (loading)
-    return <p className="text-center text-gray-500 mt-10">Loading recipe...</p>;
-  if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
-  if (!recipe)
-    return <p className="text-center text-red-500 mt-10">Recipe not found</p>;
+debugger
+  if (loading) return <RecipeDetailSkeleton />;
+  if (error) return <ErrorMessage error={error} />;
+  if (!recipe) return <NotFoundMessage />;
 
   // Calculate average rating
   const avgRating = recipe.ratings?.length
@@ -31,7 +44,6 @@ export default function RecipeDetail() {
     { user: any; comments: string[]; rating: number | null }
   >();
 
-  // Add ratings
   recipe.ratings?.forEach((r: any) => {
     if (!r.user) return;
     const userId = r.user._id || r.user;
@@ -42,7 +54,6 @@ export default function RecipeDetail() {
     }
   });
 
-  // Add comments
   recipe.comments?.forEach((c: any) => {
     if (!c.user) return;
     const userId = c.user._id || c.user;
@@ -56,168 +67,419 @@ export default function RecipeDetail() {
   const userInteractions = Array.from(usersMap.values());
 
   const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    const stars = [];
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push("⭐");
-    }
-
-    if (hasHalfStar) {
-      stars.push("✨"); // you can also use "⭐½" or a proper half-star icon
-    }
-
-    return stars.join(" "); // space between stars
+    return Array.from({ length: 5 }).map((_, index) => (
+      <Star
+        key={index}
+        size={14}
+        className={`
+          ${
+            index < Math.floor(rating)
+              ? "fill-amber-700 text-amber-700"
+              : "text-gray-300"
+          }
+        `}
+      />
+    ));
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-lg border border-gray-100">
-      {/* Recipe Image */}
-      <div className="relative w-full h-80 rounded-2xl overflow-hidden shadow-md">
+    <div className="max-w-4xl mx-auto p-4">
+      {/* Big Image on Top */}
+      <div className="relative h-80 md:h-96 rounded-xl overflow-hidden shadow-sm mb-6">
         <img
           src={getImageUrl(recipe.imageUrl)}
           alt={recipe.title}
-          className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
-        />
-        <span className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-orange-400 px-4 py-1.5 rounded-full text-sm font-medium text-white shadow">
-          {recipe.cuisine || "Cuisine"}
-        </span>
-      </div>
-
-      {/* Title & Description */}
-      <div className="mt-8">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-          🍲 {recipe.title}
-        </h1>
-        <p className="mt-3 text-gray-600 text-base leading-relaxed">
-          {recipe.description}
-        </p>
-
-        <div className="flex flex-wrap gap-3 mt-4 text-sm text-gray-700">
-          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-full">
-            👩‍🍳 {recipe.user?.name || "Unknown"}
-          </span>
-          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-full">
-            📂 {recipe.category?.name || "Uncategorized"}
-          </span>
-          <span className="bg-gray-50 px-3 py-1 border border-gray-200 rounded-full">
-            ⏱ {recipe.prepTime} min
-          </span>
-          <span
-            className={`px-3 py-1 rounded-full border ${
-              recipe.isPublic
-                ? "bg-green-50 border-green-200 text-green-700"
-                : "bg-red-50 border-red-200 text-red-700"
-            }`}
-          >
-            {recipe.isPublic ? "🌍 Public" : "🔒 Private"}
-          </span>
-          <span className="bg-pink-50 px-3 py-1 border border-pink-200 rounded-full">
-            ❤️ {recipe.favorites?.length || 0} Favorites
-          </span>
-        </div>
-      </div>
-
-      {/* Ingredients */}
-      <div className="mt-8">
-        <h2 className="text-lg font-semibold text-amber-800 mb-3 flex items-center gap-2">
-          🥬 Ingredients
-        </h2>
-        <ul className="list-disc list-inside text-gray-700 space-y-2 text-sm pl-1">
-          {recipe.ingredients.map((ing, idx) => (
-            <li key={idx} className="leading-relaxed">
-              {ing}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Instructions */}
-      <div className="mt-8">
-        <h2 className="text-lg font-semibold text-orange-700 mb-3 flex items-center gap-2">
-          📖 Instructions
-        </h2>
-        <ol className="list-decimal list-inside text-gray-700 space-y-2 text-sm pl-1">
-          {recipe.instructions.map((inst, idx) => (
-            <li key={idx} className="leading-relaxed">
-              {inst}
-            </li>
-          ))}
-        </ol>
-      </div>
-      <RecipeTimer />
-      {/* Tags */}
-      {recipe.tags?.length > 0 && (
-        <div className="mt-8">
-          <h3 className="text-md font-semibold text-teal-700 mb-3 flex items-center gap-2">
-            🏷️ Tags
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {recipe.tags.filter(Boolean).map((tag, idx) => (
-              <span
-                key={idx}
-                className="border border-amber-300 bg-amber-50 text-amber-800 px-4 py-1 rounded-full text-sm font-medium"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Average Rating */}
-      <div className="mt-8">
-        <h3 className="text-md font-semibold text-yellow-700 mb-3 flex items-center gap-2">
-          ⭐ Average Rating
-        </h3>
-        <span className="bg-yellow-50 text-amber-700 border border-yellow-200 px-4 py-1 rounded-full font-semibold text-sm shadow-sm">
-          {avgRating} / 5 ⭐ ({recipe.ratings?.length || 0} reviews)
-        </span>
-      </div>
-
-      {/* Recipe Actions */}
-      <div className="mt-8">
-        <RecipeActions
-          recipe={recipe}
-          onUpdate={(updated) => setRecipe(updated)}
+          className="w-full h-full object-cover"
         />
       </div>
 
-      {/* User Ratings & Comments */}
-      {userInteractions?.length > 0 && (
-        <div className="mt-10 space-y-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            💬 User Ratings & Comments
-          </h3>
-          {userInteractions?.map((u, idx) => (
-            <div
-              key={idx}
-              className="p-5 bg-gray-50 rounded-xl shadow-md border border-gray-200"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <p className="font-semibold text-gray-800">
-                  👤 {u.user?.name || "Guest"}
+      {/* Main Content Card */}
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        {/* Header Section */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="text-center space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">
+                {recipe.title}
+              </h1>
+              <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                {recipe.description}
+              </p>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-3 max-w-3xl mx-auto">
+              {/* Prep Time */}
+              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                  <Clock size={16} className="text-gray-600" />
+                </div>
+                <p className="text-xs text-gray-600 mb-1">Prep Time</p>
+                <p className="text-sm font-semibold text-gray-900">
+                  {recipe.prepTime} min
                 </p>
-                {u.rating !== null && (
-                  <p className="text-amber-700 font-bold">
-                    {renderStars(u.rating)}{" "}
-                    <span className="text-sm text-gray-500">({u.rating})</span>
-                  </p>
-                )}
               </div>
 
-              <ul className="list-disc list-inside text-gray-600 space-y-1 pl-1">
-                {u?.comments.map((c, idx) => (
-                  <li key={idx} className="leading-relaxed">
-                    💡 {c}
-                  </li>
-                ))}
-              </ul>
+              {/* Author */}
+              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                  <Users size={16} className="text-gray-600" />
+                </div>
+                <p className="text-xs text-gray-600 mb-1">Author</p>
+                <p className="text-sm font-semibold text-gray-900 truncate">
+                  {recipe.user?.name || "Unknown"}
+                </p>
+              </div>
+
+              {/* Cuisine */}
+              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                  <MapPin size={16} className="text-gray-600" />
+                </div>
+                <p className="text-xs text-gray-600 mb-1">Cuisine</p>
+                <p className="text-sm font-semibold text-gray-900 truncate">
+                  {recipe.cuisine?.name || "Global"}
+                </p>
+              </div>
+
+              {/* Category */}
+              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                  <Folder size={16} className="text-gray-600" />
+                </div>
+                <p className="text-xs text-gray-600 mb-1">Category</p>
+                <p className="text-sm font-semibold text-gray-900 truncate">
+                  {recipe.category?.name || "General"}
+                </p>
+              </div>
+
+              {/* Privacy Status */}
+              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                  {recipe.isPublic ? (
+                    <Globe size={16} className="text-gray-600" />
+                  ) : (
+                    <Lock size={16} className="text-gray-600" />
+                  )}
+                </div>
+                <p className="text-xs text-gray-600 mb-1">Status</p>
+                <p className="text-sm font-semibold text-gray-900">
+                  {recipe.isPublic ? "Public" : "Private"}
+                </p>
+              </div>
+
+              {/* Favorites */}
+              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                  <Heart size={16} className="text-gray-600" />
+                </div>
+                <p className="text-xs text-gray-600 mb-1">Favorites</p>
+                <p className="text-sm font-semibold text-gray-900">
+                  {recipe.favorites?.length || 0}
+                </p>
+              </div>
             </div>
+
+            {/* Category & Cuisine Highlight */}
+            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              {/* Category Highlight */}
+              {recipe.category && (
+                <div className=" p-4 rounded-lg border border-gray-200">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <Folder size={18} className="text-gray-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-1">
+                        Recipe Category
+                      </p>
+                      <p className="text-lg font-semibold text-gray-900">
+                        {recipe.category.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Cuisine Highlight */}
+              {recipe.cuisine && (
+                <div className=" p-4 rounded-lg border border-gray-200">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <MapPin size={18} className="text-gray-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-1">
+                        Cuisine Type
+                      </p>
+                      <p className="text-lg font-semibold text-gray-900">
+                        {recipe.cuisine?.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Average Rating - Amber Accent */}
+            <div className="bg-amber-50 p-4 rounded-lg border border-amber-200 max-w-sm mx-auto">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-amber-800 mb-2">
+                    Average Rating
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
+                      {renderStars(Number(avgRating))}
+                    </div>
+                    <span className="text-xl font-bold text-amber-700">
+                      {avgRating}/5
+                    </span>
+                  </div>
+                  <p className="text-xs text-amber-600 mt-1">
+                    {recipe.ratings?.length || 0} review
+                    {recipe.ratings?.length !== 1 ? "s" : ""}
+                  </p>
+                </div>
+                <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                  <Star size={18} className="text-amber-700" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recipe Actions */}
+        <div className="p-6 border-b border-gray-200">
+          <RecipeActions
+            recipe={recipe}
+            onUpdate={(updated) => setRecipe(updated)}
+          />
+        </div>
+
+        {/* Tags Section */}
+        {recipe.tags?.length > 0 && (
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                <Tag size={16} className="text-gray-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Tags</h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {recipe.tags.filter(Boolean).map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium border border-gray-200 hover:bg-gray-200 transition-colors"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Ingredients & Instructions */}
+        <div className="grid md:grid-cols-2 gap-0">
+          {/* Ingredients */}
+          <div className="p-6 border-r-0 md:border-r border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                <Utensils size={16} className="text-gray-600" />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Ingredients
+              </h2>
+            </div>
+            <ul className="space-y-2">
+              {recipe.ingredients.map((ing, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center gap-3 text-sm text-gray-700 p-2 rounded-lg hover: transition-colors"
+                >
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full flex-shrink-0" />
+                  <span>{ing}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Instructions */}
+          <div className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                <BookOpen size={16} className="text-gray-600" />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Instructions
+              </h2>
+            </div>
+            <ol className="space-y-3">
+              {recipe.instructions.map((inst, idx) => (
+                <li key={idx} className="flex gap-3 text-sm">
+                  <span className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0">
+                    {idx + 1}
+                  </span>
+                  <span className="text-gray-700 leading-relaxed pt-0.5">
+                    {inst}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        {/* Timer Section - Amber Accent */}
+        <div className="p-6 border-t border-gray-200">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+              <Timer size={16} className="text-amber-700" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Cooking Timer
+              </h2>
+              <p className="text-sm text-gray-600">
+                Set timers for perfect cooking
+              </p>
+            </div>
+          </div>
+          <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
+            <RecipeTimer />
+          </div>
+        </div>
+
+        {/* User Reviews */}
+        {userInteractions?.length > 0 && (
+          <div className="p-6 border-t border-gray-200">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                <Star size={16} className="text-gray-600" />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                User Reviews
+              </h2>
+            </div>
+            <div className="space-y-4">
+              {userInteractions?.map((u, idx) => (
+                <div
+                  key={idx}
+                  className="p-4  rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-xs font-medium text-gray-700">
+                        {u.user?.name?.charAt(0)?.toUpperCase() || "G"}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">
+                          {u.user?.name || "Guest"}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {u.comments.length} comment
+                          {u.comments.length !== 1 ? "s" : ""}
+                        </p>
+                      </div>
+                    </div>
+                    {u.rating !== null && (
+                      <div className="flex items-center gap-2 bg-amber-50 px-3 py-1 rounded border border-amber-200">
+                        <div className="flex items-center gap-1">
+                          {renderStars(u.rating)}
+                        </div>
+                        <span className="text-sm font-semibold text-amber-700">
+                          {u.rating}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {u.comments.length > 0 && (
+                    <div className="space-y-2">
+                      {u.comments.map((c, commentIdx) => (
+                        <div
+                          key={commentIdx}
+                          className="flex gap-2 text-sm p-3 bg-white rounded border border-gray-200"
+                        >
+                          <span className="text-gray-400">•</span>
+                          <p className="text-gray-700">{c}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Skeleton Loader
+function RecipeDetailSkeleton() {
+  return (
+    <div className="max-w-4xl mx-auto p-4 space-y-6">
+      <div className="h-80 md:h-96 bg-gray-200 rounded-xl animate-pulse" />
+      <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+        <div className="space-y-4 text-center">
+          <div className="h-8 bg-gray-200 rounded animate-pulse mx-auto w-3/4" />
+          <div className="h-4 bg-gray-200 rounded animate-pulse mx-auto w-1/2" />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="h-16 bg-gray-200 rounded-lg animate-pulse"
+            />
           ))}
         </div>
-      )}
+        <div className="h-16 bg-gray-200 rounded-lg animate-pulse w-80 mx-auto" />
+      </div>
+    </div>
+  );
+}
+
+// Error Message Component
+function ErrorMessage({ error }: { error: string }) {
+  return (
+    <div className="max-w-2xl mx-auto p-6 text-center">
+      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <span className="text-2xl">❌</span>
+      </div>
+      <h2 className="text-lg font-semibold text-gray-900 mb-2">
+        Something went wrong
+      </h2>
+      <p className="text-gray-600 mb-4">{error}</p>
+      <button
+        onClick={() => window.location.reload()}
+        className="bg-gray-800 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors"
+      >
+        Try Again
+      </button>
+    </div>
+  );
+}
+
+// Not Found Message Component
+function NotFoundMessage() {
+  return (
+    <div className="max-w-2xl mx-auto p-6 text-center">
+      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <span className="text-2xl">🔍</span>
+      </div>
+      <h2 className="text-lg font-semibold text-gray-900 mb-2">
+        Recipe Not Found
+      </h2>
+      <p className="text-gray-600 mb-4">
+        The recipe you're looking for doesn't exist.
+      </p>
+      <button
+        onClick={() => window.history.back()}
+        className="bg-gray-800 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors"
+      >
+        Go Back
+      </button>
     </div>
   );
 }

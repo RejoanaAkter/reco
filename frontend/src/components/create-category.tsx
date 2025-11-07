@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const CategoryCreateModal = ({ setShowModal }) => {
+const CategoryCreateModal = ({ setShowModal, onCategoryCreated }) => {
     const [formData, setFormData] = useState({
         name: '',
         image: null,
@@ -45,7 +45,8 @@ const handleSubmit = async () => {
     });
 
     const result = await res.json();
-
+    debugger
+onCategoryCreated(result)
     if (!res.ok) {
       throw new Error(result.message || "Failed to create category");
     }

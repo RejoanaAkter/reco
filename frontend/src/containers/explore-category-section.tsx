@@ -80,7 +80,7 @@ const ExploreCategoriesSection = () => {
   };
 
   return (
-    <section className="w-full py-12 md:py-20 bg-gray-50">
+    <section className="w-full py-12 md:py-20 ">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
           

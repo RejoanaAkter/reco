@@ -19,7 +19,6 @@ const NavBar = () => {
     { name: "My Recipes", path: Routes.myRecipes },
     { name: "Favorites", path: Routes.favouriteRecipes },
     { name: "Recipes", path: Routes.recipes },
-    { name: "Categories", path: Routes.categories },
   ];
 
   const handleNavigate = (path: string) => router.push(path);

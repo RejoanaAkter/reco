@@ -7,6 +7,7 @@ import userRouter from './routes/userRoute.js';
 import receipeRoute from './routes/receipeRoute.js';
 import categoryRoute from './routes/catRoute.js';
 import path from 'path'; 
+import cuisineRoute from './routes/cuisineRoute.js';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use("/users", userRouter);
 app.use("/recipes", receipeRoute);
 app.use("/cat", categoryRoute);
+app.use("/cuisines", cuisineRoute);
 
 // ✅ JSON parsing (used only for non-file routes)
 

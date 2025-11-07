@@ -10,7 +10,7 @@ const recipeSchema = new mongoose.Schema(
         ingredients: [String],
         instructions: [String], 
         tags: [String],
-        cuisine:String,
+        cuisine: { type: mongoose.Schema.Types.ObjectId, ref: 'Cuisine' },
         prepTime:Number,
         imageUrl: String,
         isPublic: Boolean,

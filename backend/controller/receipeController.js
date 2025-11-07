@@ -1,8 +1,6 @@
 import Recipe from "../model/receipeModel.js";
 import { cloudinaryUpload } from "../utils/cloudinary.js";
 
-
-// ✅ Create Recipe
 export const createRecipe = async (req, res) => {
   try {
     const {
@@ -17,20 +15,24 @@ export const createRecipe = async (req, res) => {
       isPublic,
     } = req.body;
 
-    const parsedIngredients = JSON.parse(ingredients || "[]");
-    const parsedInstructions = JSON.parse(instructions || "[]");
-    const parsedTags = JSON.parse(tags || "[]");
+    // ✅ Safely parse JSON fields (in case frontend sends them as strings)
+    const parsedIngredients = safeJSONParse(ingredients, []);
+    const parsedInstructions = safeJSONParse(instructions, []);
+    const parsedTags = safeJSONParse(tags, []);
 
+    // ✅ Handle image upload
     const imageUrl = req.file
       ? `/uploads/${req.file.filename}`
       : req.body.imageUrl || "";
 
+    // ✅ Validate image format
     if (imageUrl && !/\.(jpg|jpeg|png)$/i.test(imageUrl)) {
       return res
         .status(400)
-        .json({ message: "Only JPG or PNG images allowed" });
+        .json({ message: "Only JPG or PNG images are allowed." });
     }
 
+    // ✅ Create new recipe
     const newRecipe = new Recipe({
       user: req.user._id,
       category,
@@ -42,86 +44,105 @@ export const createRecipe = async (req, res) => {
       cuisine,
       prepTime,
       imageUrl,
-      isPublic,
+      isPublic:
+        isPublic === true ||
+        isPublic === "true" ||
+        isPublic === 1 ||
+        isPublic === "1",
     });
 
     const savedRecipe = await newRecipe.save();
 
+    // ✅ Populate related fields
     const populatedRecipe = await Recipe.findById(savedRecipe._id)
       .populate("user", "name email")
       .populate("category", "name imageUrl");
 
     res.status(201).json(populatedRecipe);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
+    console.error("❌ createRecipe error:", error);
+    res.status(500).json({ message: error.message || "Server error" });
   }
 };
 
-// ✅ Update Recipe
+
 export const updateRecipe = async (req, res) => {
   try {
     const { id } = req.params;
-    const body = req.body || {};
-    console.log("🟢 req.body:", body);
-    console.log("🟢 req.file:", req.file);
-
-    // ✅ Safely parse JSON strings (if empty, default to [])
-    let ingredients = [];
-    let instructions = [];
-    let tags = [];
-
-    try {
-      ingredients = body.ingredients ? JSON.parse(body.ingredients) : [];
-      instructions = body.instructions ? JSON.parse(body.instructions) : [];
-      tags = body.tags ? JSON.parse(body.tags) : [];
-    } catch (err) {
-      console.error("⚠️ Error parsing JSON fields:", err.message);
-    }
-
-    // ✅ Build updated object
-    const updatedData = {
-      title: body.title || "",
-      description: body.description || "",
-      category: body.category || null,
-      cuisine: body.cuisine || "",
-      prepTime: body.prepTime ? Number(body.prepTime) : 0,
-      isPublic:
-        body.isPublic === true ||
-        body.isPublic === "true" ||
-        body.isPublic === 1 ||
-        body.isPublic === "1",
+    const {
+      title,
+      description,
+      category,
+      cuisine,
+      prepTime,
+      isPublic,
       ingredients,
       instructions,
       tags,
+    } = req.body;
+
+    // ✅ Safely parse JSON fields
+    const parsedIngredients = safeJSONParse(ingredients, []);
+    const parsedInstructions = safeJSONParse(instructions, []);
+    const parsedTags = safeJSONParse(tags, []);
+
+    // ✅ Build updated data
+    const updatedData = {
+      title: title?.trim() || "",
+      description: description?.trim() || "",
+      category: category || null,
+      cuisine: cuisine?.trim() || "",
+      prepTime: prepTime ? Number(prepTime) : 0,
+      isPublic:
+        isPublic === true ||
+        isPublic === "true" ||
+        isPublic === 1 ||
+        isPublic === "1",
+      ingredients: parsedIngredients,
+      instructions: parsedInstructions,
+      tags: parsedTags,
     };
 
-    // ✅ Add image if uploaded
+    // ✅ Handle new image upload
     if (req.file) {
       updatedData.imageUrl = `/uploads/${req.file.filename}`;
     }
 
-    // ✅ Update recipe in DB
-    const recipe = await Recipe.findByIdAndUpdate(id, updatedData, { new: true });
+    // ✅ Update in DB and populate
+    const updatedRecipe = await Recipe.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    })
+      .populate("user", "name email")
+      .populate("category", "name imageUrl");
 
-    if (!recipe) {
-      return res.status(404).json({ message: "Recipe not found" });
+    if (!updatedRecipe) {
+      return res.status(404).json({ message: "Recipe not found." });
     }
 
     res.status(200).json({
-      message: "✅ Recipe updated successfully",
-      recipe,
+      message: "✅ Recipe updated successfully.",
+      recipe: updatedRecipe,
     });
-  } catch (err) {
-    console.error("❌ updateRecipe error:", err);
+  } catch (error) {
+    console.error("❌ updateRecipe error:", error);
     res.status(500).json({
-      message: err.message || "Server error while updating recipe.",
+      message: error.message || "Server error while updating recipe.",
     });
   }
 };
 
 
-// Get all recipes
+function safeJSONParse(value, fallback) {
+  try {
+    if (!value) return fallback;
+    return typeof value === "string" ? JSON.parse(value) : value;
+  } catch (err) {
+    console.warn("⚠️ JSON parse failed:", value);
+    return fallback;
+  }
+}
+
+
 export const getAllRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.find()
@@ -133,15 +154,14 @@ export const getAllRecipes = async (req, res) => {
   }
 };
 
-// Get recipe by ID
-
 export const getRecipeById = async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id)
-      .populate("user", "name email")          // recipe owner
-      .populate("category", "name imageUrl")   // category info
-      .populate("comments.user", "name email") // comment authors
-      .populate("ratings.user", "name email"); // rating authors
+      .populate("user", "name email")
+      .populate("category", "name imageUrl")
+      .populate("cuisine", "name") // ✅ populate cuisine
+      .populate("comments.user", "name email")
+      .populate("ratings.user", "name email");
 
     if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
@@ -151,10 +171,6 @@ export const getRecipeById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-// Update recipe
-
 
 // Delete recipe
 export const deleteRecipe = async (req, res) => {

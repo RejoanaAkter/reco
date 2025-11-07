@@ -25,46 +25,96 @@ function RecipesScreen() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto mb-6 bg-white p-6 rounded-xl border border-gray-200">
+  <h2 className="text-xl font-semibold mb-4">Filter Recipes</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    {/* Category Dropdown */}
+    <div>
+      <label className="block text-gray-700 font-medium mb-1">Category</label>
+      <select
+        className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-1 focus:ring-orange-400 focus:border-orange-400"
+      >
+        <option value="">All</option>
+        <option value="category1">Category 1</option>
+        <option value="category2">Category 2</option>
+      </select>
+    </div>
+
+    {/* Cuisine Dropdown */}
+    <div>
+      <label className="block text-gray-700 font-medium mb-1">Cuisine</label>
+      <select
+        className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-1 focus:ring-orange-400 focus:border-orange-400"
+      >
+        <option value="">All</option>
+        <option value="cuisine1">Chinese</option>
+        <option value="cuisine2">Italian</option>
+      </select>
+    </div>
+
+    {/* Prep Time */}
+    <div>
+      <label className="block text-gray-700 font-medium mb-1">Max Prep Time (min)</label>
+      <input
+        type="number"
+        placeholder="e.g. 60"
+        className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-1 focus:ring-orange-400 focus:border-orange-400"
+      />
+    </div>
+
+    {/* Search */}
+    <div>
+      <label className="block text-gray-700 font-medium mb-1">Search by Name</label>
+      <input
+        type="text"
+        placeholder="Search recipes..."
+        className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-1 focus:ring-orange-400 focus:border-orange-400"
+      />
+    </div>
+  </div>
+
+  <div className="mt-4 text-right">
+    <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg">
+      Apply Filters
+    </button>
+  </div>
+</div>
+
       {/* Header Section */}
-    {/* Header Section */}
-<div className="max-w-7xl mx-auto mb-8">
-  <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 lg:p-8">
-    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-      <div className="text-center lg:text-left flex-1">
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">All Recipes</h1>
-        <p className="text-gray-600 text-lg">
-          Discover and create delicious recipes
-        </p>
+<div className="max-w-7xl mx-auto mb-6">
+  <div className="bg-white rounded-xl border border-gray-200 p-6">
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div className="text-center lg:text-left">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-2 font-serif italic">All Recipes</h1>
       </div>
       
-      <div className="flex flex-col sm:flex-row gap-4 items-center">
-        <div className="relative flex-1 w-full sm:max-w-md">
+      <div className="flex flex-col sm:flex-row gap-3 items-center">
+        <div className="relative w-full sm:max-w-xs">
           <input
             type="text"
-            placeholder="Search recipes by name..."
+            placeholder="Search recipes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 pl-12 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 pl-10 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
         </div>
         
         <button
-          className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
+          className="w-full sm:w-auto bg-gray-900 hover:bg-gray-800 text-white font-medium px-4 py-2.5 rounded-lg text-sm transition-colors flex items-center gap-2 whitespace-nowrap"
           onClick={() => router.push(Routes.createRecipe)}
         >
-          <span className="text-lg">+</span>
+          <span>+</span>
           Create Recipe
         </button>
       </div>
     </div>
   </div>
 </div>
-
       {/* Results Count */}
       {searchTerm && (
         <div className="max-w-7xl mx-auto mb-6">

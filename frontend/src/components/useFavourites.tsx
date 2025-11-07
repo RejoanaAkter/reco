@@ -18,7 +18,7 @@ const useFavorites = () => {
     const fetchFavorites = async () => {
       setLoading(true);
       setError("");
-debugger
+
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
@@ -31,7 +31,6 @@ debugger
             },
           }
         );
-debugger
         if (!res.ok) {
           const text = await res.text();
           throw new Error(text || "Failed to fetch favorites");
@@ -40,7 +39,6 @@ debugger
         const data = await res.json();
         setFavorites(data);
 
-        debugger
       } catch (err: any) {
         setError(err.message || "Something went wrong");
       } finally {
