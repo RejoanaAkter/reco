@@ -54,8 +54,8 @@ const NavBar = () => {
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity duration-200"
             onClick={() => handleNavigate(Routes.shop)} // or your cart route
           >
-            <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
+            <div className="w-8 h-8 bg-amber-700 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">Y</span>
             </div>
           </div>
 
@@ -64,7 +64,7 @@ const NavBar = () => {
       {/* Braise Section */}
       <div className="text-center flex-1">
             <div className="text-4xl font-light text-gray-800 mb-2 font-serif italic" >
-          Braise
+          Yummy
         </div>
         <div className="text-xs font-semibold text-amber-600 tracking-[0.2em]">
           COOKING FOR THE SOUL

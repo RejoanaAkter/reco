@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import { FaClock, FaFire } from "react-icons/fa6";
+import { FaClock, FaFire, FaRegClock } from "react-icons/fa6";
+import { SlLike } from "react-icons/sl";
 
 const slides = ["/h.jpg", "/egg-plate.jpg", "/bread-cat.jpg"];
 
@@ -49,18 +50,18 @@ const HeroBanner = () => {
     <div className="bg-white rounded-lg p-8 w-full max-w-lg shadow-xl">
       {/* Category Badge */}
       <div className="mb-4">
-        <span className="text-sm font-semibold tracking-widest uppercase text-gray-500">
+        <span className="text-sm font-semibold tracking-widest uppercase text-amber-600">
           SEAFOOD
         </span>
       </div>
 
       {/* Recipe Title */}
-      <h1 className="text-3xl font-bold text-gray-800 leading-tight mb-4">
+      <h1 className="text-xl font-semibold text-gray-800 leading-tight mb-4">
         Spicy shrimp soup with tomatoes
       </h1>
 
       {/* Description */}
-      <p className="text-gray-600 text-sm leading-relaxed mb-8">
+      <p className="text-gray-600 text-xs leading-relaxed mb-4">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </p>
 
@@ -68,12 +69,10 @@ const HeroBanner = () => {
       <div className="flex items-center space-x-6">
         {/* Time with Clock Icon */}
         <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-full">
-            <FaClock className="w-5 h-5 text-orange-500" />
-          </div>
+            <FaRegClock className="w-4 h-4 text-gray-500" />
           <div className="flex items-center space-x-1">
-            <span className="text-lg font-bold text-gray-800">30</span>
-            <span className="text-sm text-gray-600">MINUTES</span>
+            <span className="text-sm font-bold text-gray-800">30</span>
+            <span className="text-xs text-gray-600">Minuites</span>
           </div>
         </div>
 
@@ -82,11 +81,9 @@ const HeroBanner = () => {
 
         {/* Difficulty with Fire Icon */}
         <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
-            <FaFire className="w-5 h-5 text-green-500" />
-          </div>
+            <SlLike className="w-4 h-4 text-gray-500" />
           <div className="flex items-center">
-            <span className="text-lg font-bold text-gray-800">MEDIUM</span>
+            <span className="text-xs text-gray-800">Medium</span>
           </div>
         </div>
       </div>
