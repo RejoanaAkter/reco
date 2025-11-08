@@ -1,20 +1,21 @@
-import express from 'express';
-import { 
-  createRecipe, 
+import express from "express";
+import {
+  createRecipe,
   getAllRecipes,
-  getRecipeById, 
-  updateRecipe, 
+  getRecipeById,
+  updateRecipe,
   deleteRecipe,
-  getRecipesByUserId, 
-  getRecipesByCategory, 
-  getRecipesByName, 
+  getRecipesByUserId,
+  getRecipesByCategory,
+  getRecipesByName,
   getUserFavorites,
-  rateRecipe, 
-  toggleFavorite, 
-  addComment 
-} from '../controller/receipeController.js';
-import { upload } from '../middleware/multer.js';
-import { authMiddleware } from '../middleware/auth.js';
+  rateRecipe,
+  toggleFavorite,
+  addComment,
+} from "../controller/receipeController.js";
+import { upload } from "../middleware/multer.js";
+import { authMiddleware } from "../middleware/auth.js";
+import { getRecipesByCuisine } from "../controller/cuisineController.js";
 
 const receipeRoute = express.Router();
 
@@ -22,18 +23,19 @@ const receipeRoute = express.Router();
 receipeRoute.use(authMiddleware);
 
 // Routes
-receipeRoute.get('/recipes', getAllRecipes);
-receipeRoute.get('/recipe/search', getRecipesByName);
-receipeRoute.get('/recipe/:id', getRecipeById);
-receipeRoute.get('/category/:categoryId', getRecipesByCategory);
-receipeRoute.get('/user/:userId', getRecipesByUserId);
+receipeRoute.get("/recipes", getAllRecipes);
+receipeRoute.get("/recipe/search", getRecipesByName);
+receipeRoute.get("/recipe/:id", getRecipeById);
+receipeRoute.get("/category/:categoryId", getRecipesByCategory);
+receipeRoute.get("/user/:userId", getRecipesByUserId);
+receipeRoute.get("/cuisine/:cuisine", getRecipesByCuisine);
 
 receipeRoute.post("/recipe", upload.single("image"), createRecipe);
 receipeRoute.put("/update/recipe/:id", upload.single("image"), updateRecipe);
-receipeRoute.delete('/delete/recipe/:id', deleteRecipe);
-receipeRoute.post('/recipe/:id/rate', rateRecipe);
-receipeRoute.post('/recipe/:id/favorite', toggleFavorite);
-receipeRoute.post('/recipe/:id/comment', addComment);
+receipeRoute.delete("/delete/recipe/:id", deleteRecipe);
+receipeRoute.post("/recipe/:id/rate", rateRecipe);
+receipeRoute.post("/recipe/:id/favorite", toggleFavorite);
+receipeRoute.post("/recipe/:id/comment", addComment);
 receipeRoute.get("/favorites/:userId", getUserFavorites);
 
 export default receipeRoute;

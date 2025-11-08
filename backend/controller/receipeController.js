@@ -145,14 +145,38 @@ function safeJSONParse(value, fallback) {
 
 export const getAllRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find()
+    const { category, cuisine, name, page = 1, limit = 10, sort = "desc" } = req.query;
+
+    const filter = {}; // <-- remove : any
+
+    if (category && category !== "all") filter.category = category;
+    if (cuisine && cuisine !== "all") filter.cuisine = cuisine;
+    if (name) filter.title = { $regex: name, $options: "i" };
+
+    const total = await Recipe.countDocuments(filter);
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const recipes = await Recipe.find(filter)
       .populate("user", "name email")
-      .populate("category", "name imageUrl");
-    res.status(200).json(recipes);
+      .populate("category", "name imageUrl")
+      .populate("cuisine", "name")
+      .sort({ createdAt: -1 }) // newest first
+      .skip(skip)
+      .limit(Number(limit));
+
+    res.status(200).json({
+      recipes,
+      total,
+      page: Number(page),
+      totalPages: Math.ceil(total / Number(limit)),
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+
 
 export const getRecipeById = async (req, res) => {
   try {

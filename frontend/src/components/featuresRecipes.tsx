@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import useRecipes from "./useRecipes";
+import useRecipes from "../hook/useRecipes";
 import { FeaturedRecipeCard } from "./feature-card";
 
 

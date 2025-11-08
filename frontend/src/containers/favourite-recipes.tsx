@@ -1,7 +1,7 @@
 "use client";
 
 import { FeaturedRecipeCard } from "@/components/feature-card";
-import useFavorites from "@/components/useFavourites";
+import useFavorites from "@/hook/useFavourites";
 import { useRouter } from "next/navigation";
 import React from "react";
 

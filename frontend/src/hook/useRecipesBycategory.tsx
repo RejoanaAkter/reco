@@ -46,7 +46,7 @@ const useRecipesByCategory = (selectedCategoryId: string | null) => {
         }
 
         if (isMounted) {
-          setRecipes(data);
+          setRecipes(data?.recipes);
           // Add delay to trigger CSS fade-in animation
           setTimeout(() => setFadeIn(true), 50);
         }

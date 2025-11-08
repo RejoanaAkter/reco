@@ -30,7 +30,7 @@ debugger
           throw new Error(data.message || "Failed to fetch recipes");
         }
 
-        setRecipes(data);
+        setRecipes(data?.recipes);
       } catch (err: any) {
         setError(err.message || "Something went wrong");
       } finally {

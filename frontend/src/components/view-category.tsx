@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import useCategories from './useCategories';
+import useCategories from '../hook/useCategories';
 import getImageUrl from '@/settings/utils';
 
 const CategoryListModal = ({ setShowModal }) => {

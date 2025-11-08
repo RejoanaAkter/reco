@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useCategories from "./useCategories";
+import useCategories from "../hook/useCategories";
 import getImageUrl from "@/settings/utils";
 
 

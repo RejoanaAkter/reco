@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useRecipes from '@/components/useRecipes';
+import useRecipes from '@/hook/useRecipes';
 import Image from 'next/image';
 import getImageUrl from '@/settings/utils';
 import { motion } from 'framer-motion';

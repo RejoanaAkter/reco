@@ -34,7 +34,6 @@ const MyRecipes = () => {
         });
 
         if (!res.ok) throw new Error("Failed to fetch recipes");
-
         const data = await res.json();
         setRecipes(data);
       } catch (err) {
@@ -62,7 +61,7 @@ const MyRecipes = () => {
 
   if (isAuthLoading) return <p className="text-center mt-10">Loading auth...</p>;
   if (loading) return <p className="text-center mt-10">Loading recipes...</p>;
-  if (!recipes.length) return <p className="text-center mt-10">No recipes found.</p>;
+  if (!recipes?.length) return <p className="text-center mt-10">No recipes found.</p>;
 
   return (
     <div className="max-w-screen-2xl mx-auto px-6 py-4">
