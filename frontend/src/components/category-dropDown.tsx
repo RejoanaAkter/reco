@@ -1,27 +1,70 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import useCategories from "../hook/useCategories";
 import getImageUrl from "@/settings/utils";
+import { IoIosArrowDown } from "react-icons/io";
+import { motion, AnimatePresence } from "framer-motion";
 
-
-const CategoryDropdown = ({ selectedCategory, setSelectedCategory , setSelectedCategoryId }) => {
+const CategoryDropdown = ({
+  selectedCategory,
+  setSelectedCategory,
+  setSelectedCategoryId,
+}) => {
   const { categories, loading, error } = useCategories();
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownStyle, setDropdownStyle] = useState({});
+  const buttonRef = useRef(null);
 
+  // Select handler
   const handleSelect = (category) => {
-debugger
     setSelectedCategory(category);
-    setSelectedCategoryId(category?._id)
+    setSelectedCategoryId(category?._id);
     setIsOpen(false);
   };
 
+  // Outside click handler
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  // Calculate dropdown position
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownStyle({
+        position: "absolute",
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+        zIndex: 99999,
+      });
+    }
+  }, [isOpen]);
+
+  // Return early if DOM not ready for portal
+  const portalRoot = typeof window !== "undefined" ? document.body : null;
+
   return (
     <div className="mb-4 relative">
-      <label className="block mb-1 font-medium text-gray-700">Category:</label>
-
       {/* Trigger Button */}
       <div
-        className="border border-gray-300 rounded px-3 py-2 cursor-pointer bg-white flex items-center justify-between"
-        onClick={() => setIsOpen((prev) => !prev)}
+        ref={buttonRef}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen((prev) => !prev);
+        }}
+        className="border border-gray-300 px-3 py-2 cursor-pointer bg-white flex items-center justify-between rounded select-none"
       >
         {selectedCategory ? (
           <div className="flex items-center">
@@ -35,39 +78,49 @@ debugger
         ) : (
           <span className="text-gray-500">Select Category</span>
         )}
-        <svg
-          className="w-4 h-4 text-gray-600 ml-2"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <IoIosArrowDown
+          className={`ml-2 transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
       </div>
 
       {/* Dropdown List */}
-      {isOpen && (
-        <ul className="absolute z-10 mt-1 w-full max-h-60 overflow-auto border border-gray-300 rounded bg-white shadow">
-          {loading && <li className="px-3 py-2">Loading...</li>}
-          {error && <li className="px-3 py-2 text-red-500">{error}</li>}
-          {!loading &&
-            !error &&
-            categories.map((category) => (
-              <li
-                key={category._id}
-                className="flex items-center px-3 py-2 hover:bg-blue-100 cursor-pointer"
-                onClick={() => handleSelect(category)}
+      {portalRoot &&
+        createPortal(
+          <AnimatePresence>
+            {isOpen && (
+              <motion.ul
+                initial={{ opacity: 0, scaleY: 0.8, transformOrigin: "top" }}
+                animate={{ opacity: 1, scaleY: 1 }}
+                exit={{ opacity: 0, scaleY: 0.8 }}
+                transition={{ duration: 0.2 }}
+                style={dropdownStyle}
+                className="max-h-60 overflow-auto border border-gray-300 bg-white shadow-lg rounded-md origin-top"
               >
-                <img
-                  src={getImageUrl(category.imageUrl)}
-                  alt={category.name}
-                  className="w-8 h-8 object-cover rounded mr-3"
-                />
-                <span>{category.name}</span>
-              </li>
-            ))}
-        </ul>
-      )}
+                {loading && <li className="px-3 py-2">Loading...</li>}
+                {error && <li className="px-3 py-2 text-red-500">{error}</li>}
+                {!loading &&
+                  !error &&
+                  categories.map((category) => (
+                    <li
+                      key={category._id}
+                      onClick={() => handleSelect(category)}
+                      className="flex items-center px-3 py-2 hover:bg-blue-100 cursor-pointer"
+                    >
+                      <img
+                        src={getImageUrl(category.imageUrl)}
+                        alt={category.name}
+                        className="w-8 h-8 object-cover rounded mr-3"
+                      />
+                      <span className="text-gray-800">{category.name}</span>
+                    </li>
+                  ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>,
+          portalRoot
+        )}
     </div>
   );
 };

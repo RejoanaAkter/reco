@@ -7,6 +7,8 @@ import CategoryDropdown from "@/components/category-dropDown";
 import useCuisines from "@/hook/useCuisines";
 import useRecipeDetail from "@/hook/useRecipeDetail";
 import CategoryCreateModal from "@/components/create-category";
+import { GlobalDropdown } from "./globalDropDown";
+import useCategories from "@/hook/useCategories";
 
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -17,7 +19,7 @@ const CreateOrEditRecipe = () => {
   const { user } = useAuth();
   const { recipe, loading: recipeLoading, error: recipeError } = useRecipeDetail(recipeId || null);
   const { cuisines, loading: cuisinesLoading, addCuisine } = useCuisines();
-
+  const { categories, loading: categoriesLoading } = useCategories();
   // Recipe state
   const [category, setCategory] = useState<any>(null);
   const [categoryId, setCategoryId] = useState("");
@@ -149,10 +151,16 @@ useEffect(() => {
 
           {/* Category + Add */}
           <div className="flex items-center gap-2 mb-4">
-            <CategoryDropdown
-              selectedCategory={category}
-              setSelectedCategory={setCategory}
-              setSelectedCategoryId={setCategoryId}
+             <GlobalDropdown
+              label="Category"
+              items={categories}
+              selected={category}
+              setSelectedItem={(cat:any) => {
+                setCategory(cat);
+                setCategoryId(cat?._id || "");
+              }}
+              placeholder="Select Category"
+              isCategory
             />
             <button
               type="button"
