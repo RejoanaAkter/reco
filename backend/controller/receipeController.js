@@ -12,6 +12,7 @@ export const createRecipe = async (req, res) => {
       tags,
       cuisine,
       prepTime,
+      cookingTime,
       isPublic,
     } = req.body;
 
@@ -43,6 +44,7 @@ export const createRecipe = async (req, res) => {
       tags: parsedTags,
       cuisine,
       prepTime,
+      cookingTime,
       imageUrl,
       isPublic:
         isPublic === true ||
@@ -75,6 +77,7 @@ export const updateRecipe = async (req, res) => {
       category,
       cuisine,
       prepTime,
+      cookingTime,
       isPublic,
       ingredients,
       instructions,
@@ -93,6 +96,7 @@ export const updateRecipe = async (req, res) => {
       category: category || null,
       cuisine: cuisine?.trim() || "",
       prepTime: prepTime ? Number(prepTime) : 0,
+      cookingTime: cookingTime ? Number(cookingTime) : 0,
       isPublic:
         isPublic === true ||
         isPublic === "true" ||

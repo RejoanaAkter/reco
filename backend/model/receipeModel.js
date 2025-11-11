@@ -12,6 +12,7 @@ const recipeSchema = new mongoose.Schema(
         tags: [String],
         cuisine: { type: mongoose.Schema.Types.ObjectId, ref: 'Cuisine' },
         prepTime:Number,
+        cookingTime:Number,
         imageUrl: String,
         isPublic: Boolean,
 

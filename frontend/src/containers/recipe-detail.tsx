@@ -25,7 +25,7 @@ import { RecipeTimer } from "./recipeTimer";
 export default function RecipeDetail() {
   const { id: recipeId } = useParams();
   const { recipe, setRecipe, loading, error } = useRecipeDetail(recipeId);
-debugger
+  debugger;
   if (loading) return <RecipeDetailSkeleton />;
   if (error) return <ErrorMessage error={error} />;
   if (!recipe) return <NotFoundMessage />;
@@ -108,17 +108,8 @@ debugger
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-3 max-w-3xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-3xl mx-auto">
               {/* Prep Time */}
-              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                  <Clock size={16} className="text-gray-600" />
-                </div>
-                <p className="text-xs text-gray-600 mb-1">Prep Time</p>
-                <p className="text-sm font-semibold text-gray-900">
-                  {recipe.prepTime} min
-                </p>
-              </div>
 
               {/* Author */}
               <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
@@ -181,10 +172,10 @@ debugger
             </div>
 
             {/* Category & Cuisine Highlight */}
-            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto">
               {/* Category Highlight */}
               {recipe.category && (
-                <div className=" p-4 rounded-lg border border-gray-200">
+                <div className="flex items-center p-4 rounded-lg border border-gray-200">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                       <Folder size={18} className="text-gray-600" />
@@ -203,13 +194,13 @@ debugger
 
               {/* Cuisine Highlight */}
               {recipe.cuisine && (
-                <div className=" p-4 rounded-lg border border-gray-200">
+                <div className="flex items-center p-4 rounded border border-amber-400">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <MapPin size={18} className="text-gray-600" />
+                    <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                      <MapPin size={18} className="text-amber-800" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-600 mb-1">
+                      <p className="text-sm font-medium text-amber-800 mb-1">
                         Cuisine Type
                       </p>
                       <p className="text-lg font-semibold text-gray-900">
@@ -219,6 +210,28 @@ debugger
                   </div>
                 </div>
               )}
+
+              <div className="flex items-center p-2 grid grid-cols-2 gap-6 rounded-lg border border-gray-200">
+                <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                  <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                    <Clock size={16} className="text-gray-600" />
+                  </div>
+                  <p className="text-xs text-gray-600 mb-1">Prep Time</p>
+                  <p className="text-sm font-semibold text-gray-900">
+                    {recipe.prepTime} min
+                  </p>
+                </div>
+
+                <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
+                  <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
+                    <Clock size={16} className="text-gray-600" />
+                  </div>
+                  <p className="text-xs text-gray-600 mb-1">Cooking Time</p>
+                  <p className="text-sm font-semibold text-gray-900">
+                    {recipe.cookingTime} min
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Average Rating - Amber Accent */}
@@ -249,13 +262,7 @@ debugger
           </div>
         </div>
 
-        {/* Recipe Actions */}
-        <div className="p-6 border-b border-gray-200">
-          <RecipeActions
-            recipe={recipe}
-            onUpdate={(updated) => setRecipe(updated)}
-          />
-        </div>
+
 
         {/* Tags Section */}
         {recipe.tags?.length > 0 && (
@@ -347,6 +354,14 @@ debugger
           <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
             <RecipeTimer />
           </div>
+        </div>
+        
+        {/* Recipe Actions */}
+        <div className="p-6 border-b border-gray-200">
+          <RecipeActions
+            recipe={recipe}
+            onUpdate={(updated) => setRecipe(updated)}
+          />
         </div>
 
         {/* User Reviews */}
