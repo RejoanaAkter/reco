@@ -4,6 +4,7 @@
 import React from "react";
 import { useAuth } from "@/components/AuthContext";
 import NavBar from "@/containers/navbar";
+import { Footer } from "@/containers/footer";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { user, isAuthLoading } = useAuth();
@@ -15,7 +16,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <>
       {user && <NavBar />}
-      <main className="bg-gray-100 min-h-screen">{children}</main>
+      <main className="bg-gray-50 min-h-screen">{children}</main>
+      {user && <Footer />}
     </>
   );
 }

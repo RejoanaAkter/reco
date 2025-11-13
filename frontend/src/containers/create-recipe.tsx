@@ -11,6 +11,7 @@ import { GlobalDropdown } from "./globalDropDown";
 import useCategories from "@/hook/useCategories";
 import { IoMdRestaurant } from "react-icons/io";
 import AnimatedTitle from "@/components/animatedTitle";
+import AnimatedBorder from "@/components/animatedTitle";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -189,7 +190,7 @@ const CreateOrEditRecipe = () => {
             <IoMdRestaurant className="text-amber-700" />{" "}
             {recipeId ? "Edit Recipe" : " Create a Recipe"}
           </h2>
-          <AnimatedTitle />
+          <AnimatedBorder />
 
           {/* Category + Add */}
           <div className="mt-4">

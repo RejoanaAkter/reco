@@ -1,7 +1,15 @@
 import React from "react";
-import { FaUtensils, FaLeaf, FaClock, FaFireAlt, FaStar, FaArrowRight } from "react-icons/fa";
+import {
+  FaUtensils,
+  FaLeaf,
+  FaClock,
+  FaFireAlt,
+  FaStar,
+  FaArrowRight,
+} from "react-icons/fa";
 import { RiBowlFill } from "react-icons/ri";
 import { motion } from "framer-motion";
+import AnimatedBorder from "@/components/animatedTitle";
 
 interface Tip {
   id: number;
@@ -46,16 +54,16 @@ export const CookingTips = () => {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const cardVariants = {
     hidden: {
       opacity: 0,
       y: 30,
-      scale: 0.95
+      scale: 0.95,
     },
     visible: {
       opacity: 1,
@@ -63,14 +71,14 @@ export const CookingTips = () => {
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
-    }
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
   };
 
   return (
     <section
-      className="relative bg-fixed bg-center bg-cover w-full pt-16 pb-28"
+      className="relative bg-fixed bg-center bg-cover w-full p-16 "
       style={{
         backgroundImage:
           "url('https://plus.unsplash.com/premium_photo-1705056547423-de4ef0f85bf7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm9vZCUyMHdoaXRlJTIwYmFja2tncm91bmR8ZW58MHx8MHx8')",
@@ -81,13 +89,14 @@ export const CookingTips = () => {
 
       <div className="flex justify-center">
         <div className="relative max-w-screen-2xl mx-auto w-full">
-          <div className="flex justify-center gap-4 mb-12">
-            <RiBowlFill size={32} color="#fff" />
-            <h2 className="text-3xl font-bold text-white text-center">
+          <div className=" gap-4 mb-12">
+            <h2 className="text-xl font-semibold mb-1 text-white text-start font-serif italic flex gap-2">
+              <RiBowlFill className="text-white" size={24} />
               Professional Cooking Tips
             </h2>
+            <AnimatedBorder borderColor='bg-white' />
           </div>
-          
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -95,47 +104,72 @@ export const CookingTips = () => {
             viewport={{ once: true, amount: 0.2 }}
             className="max-w-7xl mx-auto px-6"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {tips.map((tip) => (
                 <motion.div
                   key={tip.id}
                   variants={cardVariants}
-                  className="group relative bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-amber-200/30 hover:scale-105"
+                  className="group relative bg-white rounded p-8 shadow-lg hover:shadow-2xl transition-all duration-700 border border-gray-100 hover:border-amber-100 overflow-hidden"
                 >
-                  {/* Gradient Border Effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-500/10 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Icon Container */}
-                  <div className="relative flex justify-center mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <div className="text-white">
-                        {tip.icon}
+                  {/* Background Gradient Overlay */}
+                  <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  {/* Subtle Pattern Overlay */}
+                  <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.03] transition-opacity duration-500">
+                    <div className="absolute inset-0 "></div>
+                  </div>
+
+                  {/* Elegant Border Accent */}
+                  <div className="absolute inset-0 rounded border border-transparent  transition-all duration-700"></div>
+
+                  {/* Floating Icon Container */}
+                  <div className="relative flex justify-center mb-8">
+                    <div className="relative">
+                      {/* Icon Background with Gradient */}
+                      <div className="w-20 h-20 border border-amber-500 rounded flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110 relative overflow-hidden">
+                        {/* Shine Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+
+                        {/* Main Icon */}
+                        <div className="text-amber-600 relative z-10">
+                          {tip.icon}
+                        </div>
                       </div>
-                    </div>
-                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center shadow-md">
-                      <FaStar className="text-amber-500 text-xs" />
+
+                      {/* Floating Decorative Elements */}
+
+                      <div className="absolute -bottom-1 -left-1 w-4 h-4 bg-amber-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200"></div>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="text-center space-y-4 relative z-10">
-                    <h3 className="text-xl font-semibold text-gray-900 leading-tight">
+                  <div className="text-center space-y-5 relative z-10">
+                    {/* Title with Elegant Typography */}
+                    <h3 className="text-xl font-light text-gray-900 leading-tight tracking-wide">
                       {tip.title}
                     </h3>
-                    
-                    <p className="text-gray-600 text-sm leading-relaxed font-light">
+
+                    {/* Description with Better Readability */}
+                    <p className="text-gray-600 text-sm leading-relaxed font-light tracking-wide">
                       {tip.description}
                     </p>
 
-                    {/* Learn More Button */}
-                    <button className="w-full mt-4 bg-transparent border border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white py-2 rounded-xl font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                      <span>Learn More</span>
-                      <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform duration-300 text-xs" />
+                    {/* Elegant Learn More Button */}
+                    <button className="w-full mt-6 bg-transparent border border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white hover:border-amber-500 py-3 rounded font-light text-sm transition-all duration-500 flex items-center justify-center gap-3 group/btn relative overflow-hidden">
+                      {/* Button Shine Effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700"></div>
+
+                      <span className="relative tracking-wide">Learn More</span>
+                      <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform duration-300 text-xs relative" />
                     </button>
                   </div>
 
-                  {/* Corner Accent */}
-                  <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-tr-2xl rounded-bl-2xl"></div>
+                  {/* Sophisticated Corner Accents */}
+                  <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-bl from-amber-400/10 to-transparent rounded-tr-2xl rounded-bl-2xl"></div>
+                  <div className="absolute bottom-0 left-0 w-8 h-8 bg-gradient-to-tr from-orange-400/5 to-transparent rounded-br-2xl rounded-tl-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300"></div>
+
+                  {/* Subtle Glow Effect */}
+                  <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_50px_rgba(251,191,36,0.05)] group-hover:shadow-[inset_0_0_60px_rgba(251,191,36,0.08)] transition-shadow duration-500"></div>
                 </motion.div>
               ))}
             </div>
@@ -150,7 +184,8 @@ export const CookingTips = () => {
               className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 max-w-2xl mx-auto"
             >
               <p className="text-gray-200 text-lg font-light">
-                "Good cooking is an art, but great cooking is a science that anyone can master with the right techniques."
+                Good cooking is an art, but great cooking is a science that
+                anyone can master with the right techniques.
               </p>
             </motion.div>
           </div>

@@ -58,7 +58,7 @@ import { useEffect, useRef, useState } from "react";
       <div className="relative ">
         <div
           ref={buttonRef}
-          className="border border-gray-300 px-3 py-2 cursor-pointer bg-white flex items-center justify-between rounded"
+          className="border border-gray-300 px-3 py-1.5 text-sm cursor-pointer bg-white flex items-center justify-between rounded"
           onClick={(e) => {
             e.stopPropagation();
             setIsOpen((prev) => !prev);
@@ -96,7 +96,7 @@ import { useEffect, useRef, useState } from "react";
                   {items.map((item) => (
                     <li
                       key={item._id || item.value || item.label}
-                      className="px-3 py-2 hover:bg-blue-100 cursor-pointer flex items-center text-gray-800"
+                      className="px-3 py-1.5 hover:bg-blue-100 cursor-pointer flex items-center text-gray-800"
                       onClick={() => handleSelect(item)}
                     >
                       {isCategory && item.imageUrl && (

@@ -1,70 +1,50 @@
 export const Footer = () => {
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-amber-900 text-white overflow-hidden">
+    <footer className="w-full relative bg-gradient-to-br from-gray-900 to-gray-800 text-white overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }} />
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+      <div className="absolute top-0 left-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute bottom-0 right-0 w-40 h-40 bg-amber-400/5 rounded-full blur-2xl translate-x-1/3 translate-y-1/3"></div>
 
-      <div className="relative max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="relative max-w-6xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           {/* Brand Section */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">🍳</span>
+              <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center shadow-md">
+                <span className="text-white font-bold text-sm">🍳</span>
               </div>
               <div>
-                <h3 className="text-2xl font-light tracking-tight">Recipe<span className="font-serif italic">Hub</span></h3>
-                <p className="text-amber-200 text-sm font-light">Culinary Excellence</p>
+                <h3 className="text-xl font-light">Recipe<span className="font-serif italic">Hub</span></h3>
+                <p className="text-amber-200 text-xs">Culinary Excellence</p>
               </div>
             </div>
-            <p className="text-gray-300 leading-relaxed text-sm font-light max-w-xs">
-              Where passion meets flavor. Discover, create, and share extraordinary culinary experiences that bring people together.
+            <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
+              Discover, create, and share extraordinary culinary experiences.
             </p>
-            
-            {/* Social Links */}
-            <div className="flex gap-3 pt-4">
-              {['📘', '📷', '🐦', '📺'].map((icon, index) => (
-                <button 
-                  key={index}
-                  className="w-10 h-10 bg-white/10 hover:bg-amber-500/20 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg backdrop-blur-sm border border-white/10"
-                >
-                  <span className="text-sm">{icon}</span>
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Quick Links */}
-          <div className="lg:col-span-1">
-            <h4 className="text-lg font-semibold mb-6 text-amber-100 relative inline-block">
+          <div className="space-y-4">
+            <h4 className="font-medium text-amber-100 text-sm uppercase tracking-wider">
               Explore
-              <div className="absolute -bottom-2 left-0 w-8 h-0.5 bg-amber-500"></div>
             </h4>
-            <ul className="space-y-3">
-              {[
-                { name: 'Newest Recipes', emoji: '🆕' },
-                { name: 'Categories', emoji: '📁' },
-                { name: 'Featured Chefs', emoji: '👨‍🍳' },
-                { name: 'Cooking Tips', emoji: '💡' },
-                { name: 'Seasonal Specials', emoji: '🍂' }
-              ].map((link, index) => (
+            <ul className="space-y-2">
+              {['Recipes', 'Categories', 'Chefs', 'Tips', 'Specials'].map((link, index) => (
                 <li key={index}>
                   <a 
-                    href={`/${link.name.toLowerCase().replace(' ', '')}`}
-                    className="flex items-center gap-3 text-gray-300 hover:text-amber-300 transition-all duration-300 group py-1"
+                    href={`/${link.toLowerCase()}`}
+                    className="text-gray-300 hover:text-amber-300 transition-colors duration-300 text-sm flex items-center gap-2 group"
                   >
-                    <span className="text-sm opacity-70 group-hover:opacity-100">{link.emoji}</span>
-                    <span className="font-light group-hover:translate-x-1 transition-transform duration-300">
-                      {link.name}
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">
+                      {link}
                     </span>
                   </a>
                 </li>
@@ -73,27 +53,19 @@ export const Footer = () => {
           </div>
 
           {/* Resources */}
-          <div className="lg:col-span-1">
-            <h4 className="text-lg font-semibold mb-6 text-amber-100 relative inline-block">
+          <div className="space-y-4">
+            <h4 className="font-medium text-amber-100 text-sm uppercase tracking-wider">
               Resources
-              <div className="absolute -bottom-2 left-0 w-8 h-0.5 bg-amber-500"></div>
             </h4>
-            <ul className="space-y-3">
-              {[
-                { name: 'Cooking Guides', emoji: '📚' },
-                { name: 'Video Tutorials', emoji: '🎥' },
-                { name: 'Ingredient Wiki', emoji: '🥬' },
-                { name: 'Kitchen Tools', emoji: '🔪' },
-                { name: 'Recipe Converter', emoji: '⚖️' }
-              ].map((link, index) => (
+            <ul className="space-y-2">
+              {['Guides', 'Tutorials', 'Ingredients', 'Tools', 'Converter'].map((link, index) => (
                 <li key={index}>
                   <a 
-                    href={`/${link.name.toLowerCase().replace(' ', '')}`}
-                    className="flex items-center gap-3 text-gray-300 hover:text-amber-300 transition-all duration-300 group py-1"
+                    href={`/${link.toLowerCase()}`}
+                    className="text-gray-300 hover:text-amber-300 transition-colors duration-300 text-sm flex items-center gap-2 group"
                   >
-                    <span className="text-sm opacity-70 group-hover:opacity-100">{link.emoji}</span>
-                    <span className="font-light group-hover:translate-x-1 transition-transform duration-300">
-                      {link.name}
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">
+                      {link}
                     </span>
                   </a>
                 </li>
@@ -102,66 +74,61 @@ export const Footer = () => {
           </div>
 
           {/* Newsletter */}
-          <div className="lg:col-span-1">
-            <h4 className="text-lg font-semibold mb-6 text-amber-100 relative inline-block">
-              Stay Updated
-              <div className="absolute -bottom-2 left-0 w-8 h-0.5 bg-amber-500"></div>
+          <div className="space-y-4">
+            <h4 className="font-medium text-amber-100 text-sm uppercase tracking-wider">
+              Newsletter
             </h4>
-            <p className="text-gray-300 text-sm font-light mb-6 leading-relaxed">
-              Join our culinary community! Get weekly recipes, cooking tips, and exclusive content delivered to your inbox.
+            <p className="text-gray-300 text-xs leading-relaxed">
+              Get weekly recipes and cooking tips.
             </p>
             
-            <form className="space-y-4">
+            <form className="space-y-3">
               <div className="relative">
                 <input
                   type="email"
-                  placeholder="Your email address"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm transition-all duration-300"
+                  placeholder="Your email"
+                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-500 text-sm backdrop-blur-sm"
                 />
-                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
-                  ✉️
-                </div>
               </div>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2 group"
+                className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center gap-1 group"
               >
-                <span>Subscribe Now</span>
+                <span>Subscribe</span>
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
               </button>
             </form>
-
-            {/* Trust Badge */}
-            <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm">✓</span>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-amber-200">Trusted by 10K+ Home Chefs</p>
-                  <p className="text-xs text-gray-400">Join our growing community</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Bottom Footer */}
-        <div className="border-t border-white/10 mt-16 pt-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-            <div className="text-gray-400 text-sm font-light">
-              © {new Date().getFullYear()} RecipeHub. Crafted with ❤️ for food lovers worldwide.
+        <div className="border-t border-white/10 mt-8 pt-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-center">
+            <div className="text-gray-400 text-xs">
+              © {new Date().getFullYear()} RecipeHub. Made with ❤️
             </div>
             
-            <div className="flex items-center gap-6 text-sm">
-              {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item, index) => (
+            <div className="flex items-center gap-4 text-xs">
+              {['Privacy', 'Terms', 'Cookies'].map((item, index) => (
                 <a 
                   key={index}
-                  href={`/${item.toLowerCase().replace(' ', '-')}`}
-                  className="text-gray-400 hover:text-amber-300 transition-colors duration-300 font-light"
+                  href={`/${item.toLowerCase()}`}
+                  className="text-gray-400 hover:text-amber-300 transition-colors duration-300"
                 >
                   {item}
                 </a>
+              ))}
+            </div>
+
+            {/* Social Links */}
+            <div className="flex gap-2">
+              {['📘', '📷', '🐦'].map((icon, index) => (
+                <button 
+                  key={index}
+                  className="w-8 h-8 bg-white/10 hover:bg-amber-500/20 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 text-xs"
+                >
+                  {icon}
+                </button>
               ))}
             </div>
           </div>
@@ -169,8 +136,8 @@ export const Footer = () => {
       </div>
 
       {/* Floating Decorative Elements */}
-      <div className="absolute bottom-10 left-10 text-amber-500/20 text-4xl animate-bounce">🍃</div>
-      <div className="absolute top-10 right-10 text-amber-500/20 text-4xl animate-pulse">✨</div>
+      <div className="absolute bottom-4 left-4 text-amber-500/10 text-2xl">•</div>
+      <div className="absolute top-4 right-4 text-amber-500/10 text-2xl">•</div>
     </footer>
   );
 };

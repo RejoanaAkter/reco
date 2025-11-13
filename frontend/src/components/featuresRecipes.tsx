@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import useRecipes from "../hook/useRecipes";
 import { FeaturedRecipeCard } from "./feature-card";
+import AnimatedBorder from "./animatedTitle";
+import { IoMdRestaurant } from "react-icons/io";
 
 
 const FeaturesRecipes = () => {
@@ -28,8 +30,11 @@ const FeaturesRecipes = () => {
     .slice(0, 4);
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-6 py-4">
-      <h2 className="text-xl font-semibold text-gray-700 ">🍽️ Featured Recipes</h2>
+    <div className="max-w-screen-2xl mx-auto  py-4 ">
+            <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
+              <IoMdRestaurant className="text-amber-700" /> Featured Recipes
+            </h2>
+            <AnimatedBorder />
       <div
         className="mt-6 grid gap-6
           grid-cols-1 

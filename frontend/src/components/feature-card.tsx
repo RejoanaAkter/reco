@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { FaHeart, FaRegHeart, FaEdit, FaTrash, FaArrowRight } from "react-icons/fa";
+import {
+  FaHeart,
+  FaRegHeart,
+  FaEdit,
+  FaTrash,
+  FaArrowRight,
+} from "react-icons/fa";
 import getImageUrl from "@/settings/utils";
 import { useState } from "react";
 import { useRecipeFavorite } from "@/hook/useRecipeFavorite";
@@ -14,14 +20,15 @@ interface FeaturedRecipeCardProps {
   onDelete?: (item: any) => void;
 }
 
-export const FeaturedRecipeCard = ({ 
-  item, 
-  showActions = false, 
-  onEdit, 
-  onDelete 
+export const FeaturedRecipeCard = ({
+  item,
+  showActions = false,
+  onEdit,
+  onDelete,
 }: FeaturedRecipeCardProps) => {
   const { user } = useAuth();
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const [localFavorites, setLocalFavorites] = useState(item.favorites || []);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -54,17 +61,19 @@ export const FeaturedRecipeCard = ({
   };
 
   const avgRating = item.ratings?.length
-    ? item.ratings.reduce((a: number, b: any) => a + b.value, 0) / item.ratings.length
+    ? item.ratings.reduce((a: number, b: any) => a + b.value, 0) /
+      item.ratings.length
     : 0;
 
   return (
-    <div 
-      className="relative w-64 h-80 rounded bg-white shadow-lg border border-gray-200 overflow-hidden cursor-pointer group"
+    <div
+      className="relative w-70 h-86 rounded bg-white shadow-lg 
+      border border-gray-200 overflow-hidden cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container - Takes upper portion */}
-      <div className="relative w-full h-4/7">
+      <div className="relative w-full h-4/6">
         <Image
           src={getImageUrl(item.imageUrl)}
           alt={item.title}
@@ -75,13 +84,16 @@ export const FeaturedRecipeCard = ({
         />
 
         {/* Bottom to Top Fade Overlay on Hover */}
-        <div 
-          className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/70 to-transparent transition-all duration-500 ease-out z-10 ${
-            isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-          style={{ 
-            transformOrigin: 'bottom',
-            transform: isHovered ? 'translateY(0)' : 'translateY(20px)'
+        <div
+          className={`absolute inset-0 bg-gradient-to-t 
+            from-black/60 via-black/70 to-transparent transition-all duration-500 ease-out z-10 ${
+              isHovered
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          style={{
+            transformOrigin: "bottom",
+            transform: isHovered ? "translateY(0)" : "translateY(20px)",
           }}
         />
 
@@ -89,14 +101,14 @@ export const FeaturedRecipeCard = ({
         {isHovered && (
           <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
             <div className="flex justify-center gap-3">
-              <button 
+              <button
                 onClick={handleDetails}
                 className=" flex items-center gap-2 text-sm"
               >
                 View Details
                 <FaArrowRight className="w-3 h-3" />
               </button>
-              
+
               {/* Favorite Button in Overlay */}
               <button
                 onClick={handleFavorite}
@@ -133,10 +145,10 @@ export const FeaturedRecipeCard = ({
       </div>
 
       {/* Content Section - Bottom portion */}
-      <div className="h-3/7 p-4 flex flex-col justify-between">
+      <div className="h-2/6 flex flex-col justify-between px-4">
         {/* Title and Description */}
         <div>
-          <h3 className="text-gray-900 font-semibold text-md mb-1 ">
+          <h3 className="text-gray-900 font-semibold text-md mt-2">
             {item.title}
           </h3>
           <p className="text-gray-700 text-xs line-clamp-2">
@@ -145,10 +157,10 @@ export const FeaturedRecipeCard = ({
         </div>
 
         {/* Bottom Section with Rating and Favorites */}
-        <div className="flex justify-between items-center pb-3 mt-1">
+        <div className="flex justify-between items-center pb-3">
           {/* Rating Stars */}
           <div className="flex items-center gap-2">
-            <div className="flex space-x-1">
+            <div className="flex space-x-1 ">
               {[1, 2, 3, 4, 5].map((star) => {
                 let symbol = "☆";
                 if (avgRating >= star) symbol = "★";
@@ -169,13 +181,15 @@ export const FeaturedRecipeCard = ({
                 );
               })}
             </div>
-            <span className="text-gray-700 text-sm font-medium">({avgRating.toFixed(1)})</span>
+            <span className="text-gray-700 text-sm font-medium">
+              ({avgRating.toFixed(1)})
+            </span>
           </div>
-  {item.time && (
-          <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
-            <span>⏱</span> {item.time}
-          </p>
-        )}
+          {item.time && (
+            <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
+              <span>⏱</span> {item.time}
+            </p>
+          )}
         </div>
       </div>
     </div>

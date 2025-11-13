@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthContext";
 import { FeaturedRecipeCard } from "@/components/feature-card";
 import { useDeleteRecipe } from "@/hook/useDeleteRecipe";
-
+import { IoMdRestaurant } from "react-icons/io";
+import AnimatedBorder from "@/components/animatedTitle";
 
 interface Recipe {
   _id: string;
@@ -27,11 +28,14 @@ const MyRecipes = () => {
     const fetchRecipes = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8000/recipes/user/${user.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `http://localhost:8000/recipes/user/${user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!res.ok) throw new Error("Failed to fetch recipes");
         const data = await res.json();
@@ -59,13 +63,16 @@ const MyRecipes = () => {
     }
   };
 
-  if (isAuthLoading) return <p className="text-center mt-10">Loading auth...</p>;
-  if (loading) return <p className="text-center mt-10">Loading recipes...</p>;
-  if (!recipes?.length) return <p className="text-center mt-10">No recipes found.</p>;
+  if (isAuthLoading) return <p className="text-center ">Loading auth...</p>;
+  if (loading) return <p className="text-center ">Loading recipes...</p>;
+  if (!recipes?.length) return <p className="text-center">No recipes found.</p>;
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-6 py-4">
-      <h2 className="text-xl font-semibold text-gray-700">🍽️ Featured Recipes</h2>
+    <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8 text-gray-800">
+      <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
+        <IoMdRestaurant className="text-amber-700" /> My Recipes
+      </h2>
+      <AnimatedBorder />
       <div
         className="mt-6 grid gap-6
           grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4"
@@ -82,7 +89,9 @@ const MyRecipes = () => {
         ))}
       </div>
 
-      {deleteLoading && <p className="text-center mt-4 text-gray-500">Deleting recipe...</p>}
+      {deleteLoading && (
+        <p className="text-center mt-4 text-gray-500">Deleting recipe...</p>
+      )}
     </div>
   );
 };

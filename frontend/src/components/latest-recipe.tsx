@@ -82,9 +82,9 @@ const LatestRecipesSidebar = () => {
       className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 h-full"
     >
       {/* Header */}
-      <div className="flex items-center gap-2 mb-6">
+      <div className="flex items-center gap-2 mb-4">
         <Clock size={20} className="text-amber-800" />
-        <h3 className="text-xl font-light text-gray-900 tracking-wide">Latest Recipes</h3>
+        <h3 className="text-md font-light text-gray-900 tracking-wide">Latest Recipes</h3>
       </div>
 
       {/* Recipes List - Taller with more items */}
@@ -93,10 +93,10 @@ const LatestRecipesSidebar = () => {
           <motion.div
             key={recipe._id || recipe.id || index}
             variants={itemVariants}
-            className="group flex items-center gap-3 p-3 rounded-lg hover:bg-amber-50/50 transition-all duration-300 cursor-pointer border border-transparent hover:border-amber-800/10"
+            className="group flex items-center gap-8 p-1 rounded-lg hover:bg-amber-50/50 transition-all duration-300 cursor-pointer border border-transparent hover:border-amber-800/10"
           >
             {/* Recipe Image */}
-            <div className="w-12 h-12 relative rounded-lg overflow-hidden flex-shrink-0">
+            <div className="w-1/3 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
               <Image
                 src={getImageUrl(recipe.imageUrl)}
                 alt={recipe.title}
@@ -107,7 +107,7 @@ const LatestRecipesSidebar = () => {
             </div>
 
             {/* Recipe Info */}
-            <div className="flex-1 min-w-0">
+            <div className="w-2/3 flex-1 min-w-0">
               <h4 className="font-normal text-sm text-gray-900 truncate mb-1 group-hover:text-amber-800 transition-colors duration-300">
                 {recipe.title}
               </h4>

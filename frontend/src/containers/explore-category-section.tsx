@@ -7,6 +7,8 @@ import getImageUrl from '@/settings/utils';
 import { PiForkKnifeFill } from 'react-icons/pi';
 import { motion } from 'framer-motion';
 import LatestRecipesSidebar from '@/components/latest-recipe';
+import { IoMdRestaurant } from 'react-icons/io';
+import AnimatedBorder from '@/components/animatedTitle';
 
 const ExploreCategoriesSection = () => {
   const { recipes } = useRecipes();
@@ -85,7 +87,7 @@ const ExploreCategoriesSection = () => {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
           
           {/* Left Side - Main Content (More Space) */}
-          <div className="w-full lg:w-3/4">
+          <div className="w-full lg:w-3/5">
             {/* Title Section */}
             <motion.div
               variants={titleVariants}
@@ -94,10 +96,10 @@ const ExploreCategoriesSection = () => {
               viewport={{ once: true, amount: 0.3 }}
               className="text-center lg:text-left mb-8"
             >
-              <h2 className="text-2xl font-light tracking-tight text-gray-900 leading-tight mb-3">
-                <span className="font-serif italic">Experiences</span>
-              </h2>
-              <div className="w-12 h-0.5 bg-amber-800 mx-auto lg:mx-0"></div>
+                 <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
+                    <PiForkKnifeFill className="text-amber-700" /> Explore Categories
+                  </h2>
+                  <AnimatedBorder />
             </motion.div>
 
             {/* Categories Cards - More Compact */}
@@ -117,12 +119,9 @@ const ExploreCategoriesSection = () => {
                   >
                     {/* Category Header - Compact */}
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-base font-medium text-gray-900 tracking-wide truncate pr-2">
+                      <h3 className="text-sm font-semibold text-gray-700 tracking-wide truncate pl-2 border-l-2 border-amber-700">
                         {categoryName}
                       </h3>
-                      <div className="text-amber-800/50 group-hover:text-amber-700 transition-colors duration-300 flex-shrink-0">
-                        <PiForkKnifeFill className="text-lg" />
-                      </div>
                     </div>
 
                     {/* Recipe List - More Compact */}
@@ -135,7 +134,7 @@ const ExploreCategoriesSection = () => {
                         >
                           <div className="flex items-center gap-2 min-w-0 flex-1">
                             <div className="w-1.5 h-1.5 rounded-full bg-amber-800/30 group-hover/item:bg-amber-700 transition-colors duration-300 flex-shrink-0"></div>
-                            <span className="text-xs text-gray-600 truncate tracking-wide font-light">
+                            <span className="text-sm text-gray-700 truncate tracking-wide font-light">
                               {recipe.title}
                             </span>
                           </div>
@@ -182,13 +181,13 @@ const ExploreCategoriesSection = () => {
               className="text-center"
             >
               <motion.a
-                href="/categories"
+                href="/recipes"
                 whileHover={{ 
                   scale: 1.02,
                   backgroundColor: "rgb(120 53 15)",
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 bg-gray-800 text-white px-6 py-3 text-sm font-medium tracking-wide rounded-lg transition-all duration-300 hover:shadow-md group"
+                className="inline-flex items-center gap-2 border border-amber-600 text-amber-700 hover:bg-gray-800 hover:text-white px-6 py-1 text-sm font-medium tracking-wide rounded transition-all duration-300 hover:shadow-md group"
               >
                 <span>Explore more</span>
                 <motion.span
@@ -207,7 +206,7 @@ const ExploreCategoriesSection = () => {
           </div>
 
           {/* Right Side - Latest Recipes (Taller to match categories height) */}
-          <div className="w-full lg:w-1/4 lg:mt-20"> {/* Added margin-top to align with categories */}
+          <div className="w-full lg:w-2/5 lg:mt-16"> {/* Added margin-top to align with categories */}
             <LatestRecipesSidebar />
           </div>
 
