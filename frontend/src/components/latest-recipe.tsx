@@ -117,15 +117,6 @@ const LatestRecipesSidebar = () => {
                 <Calendar size={12} />
                 <span>{formatDate(recipe.createdAt || recipe.date || new Date().toISOString())}</span>
               </div>
-
-              {/* Category */}
-              {recipe.category?.name && (
-                <div className="mt-1">
-                  <span className="inline-block px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
-                    {recipe.category.name}
-                  </span>
-                </div>
-              )}
             </div>
 
             {/* Hover Indicator */}

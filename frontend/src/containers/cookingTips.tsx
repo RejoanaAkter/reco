@@ -153,15 +153,6 @@ export const CookingTips = () => {
                     <p className="text-gray-600 text-sm leading-relaxed font-light tracking-wide">
                       {tip.description}
                     </p>
-
-                    {/* Elegant Learn More Button */}
-                    <button className="w-full mt-6 bg-transparent border border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white hover:border-amber-500 py-3 rounded font-light text-sm transition-all duration-500 flex items-center justify-center gap-3 group/btn relative overflow-hidden">
-                      {/* Button Shine Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700"></div>
-
-                      <span className="relative tracking-wide">Learn More</span>
-                      <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform duration-300 text-xs relative" />
-                    </button>
                   </div>
 
                   {/* Sophisticated Corner Accents */}

@@ -22,6 +22,7 @@ import RecipeActions from "@/components/recipeActions";
 import useRecipeDetail from "@/hook/useRecipeDetail";
 import { RecipeTimer } from "./recipeTimer";
 import { RiAccountBoxFill } from "react-icons/ri";
+import SmallTitle from "@/utils/smallTitle";
 
 export default function RecipeDetail() {
   const { id: recipeId } = useParams();
@@ -109,16 +110,15 @@ export default function RecipeDetail() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mx-auto">
+            <div className="grid grid-cols-3 gap-4 mx-auto">
               {/* Author */}
 
               <div className="h-16 p-2 rounded shadow border-l-2 border-amber-600 group hover:border-gray-300 transition-colors">
                 <div className="flex items-center gap-6 py-1 rounded-lg mx-auto">
                   {/* Image instead of Icon */}
-                 <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
-                    <RiAccountBoxFill size={18} className="text-amber-600" />
+                  <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
+                    <RiAccountBoxFill size={18} className="text-amber-700" />
                   </div>
-
                   <div className="text-start">
                     <p className="text-xs text-gray-800">Author</p>
                     <p className="text-sm font-semibold text-gray-700 truncate">
@@ -146,14 +146,10 @@ export default function RecipeDetail() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto">
-              {/* Cuisine */}
-              <div className="h-20 p-3 rounded shadow border-l-2 border-amber-500 hover:border-gray-300 transition-colors">
+              <div className="h-20 p-3 rounded shadow border-l-2 border-amber-600 hover:border-gray-300 transition-colors">
                 <div className="flex items-center gap-3 h-full">
                   <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
-                    <MapPin size={18} className="text-amber-600" />
+                    <MapPin size={18} className="text-amber-700" />
                   </div>
                   <div className="text-start">
                     <p className="text-xs text-gray-800">Cuisine</p>
@@ -163,12 +159,13 @@ export default function RecipeDetail() {
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Favorites */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
               <div className="h-20 p-3 rounded shadow border-l-2 border-amber-600 hover:border-gray-300 transition-colors">
                 <div className="flex items-center gap-3 h-full">
                   <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
-                    <Heart size={18} className="text-amber-600" />
+                    <Heart size={18} className="text-amber-700" />
                   </div>
                   <div className="text-start">
                     <p className="text-xs text-gray-800">Favorites</p>
@@ -184,9 +181,9 @@ export default function RecipeDetail() {
                 <div className="flex items-center gap-3 h-full">
                   <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
                     {recipe.isPublic ? (
-                      <Globe size={18} className="text-amber-600" />
+                      <Globe size={18} className="text-amber-700" />
                     ) : (
-                      <Lock size={18} className="text-amber-600" />
+                      <Lock size={18} className="text-amber-700" />
                     )}
                   </div>
                   <div className="text-start">
@@ -204,7 +201,7 @@ export default function RecipeDetail() {
                   {/* Prep Time */}
                   <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
-                      <Clock size={18} className="text-amber-600" />
+                      <Clock size={18} className="text-amber-700" />
                     </div>
                     <div className="text-start">
                       <p className="text-xs text-gray-800">Prep</p>
@@ -217,7 +214,7 @@ export default function RecipeDetail() {
                   {/* Cooking Time */}
                   <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
-                      <Clock size={18} className="text-amber-600" />
+                      <Clock size={18} className="text-amber-700" />
                     </div>
                     <div className="text-start">
                       <p className="text-xs text-gray-800">Cook</p>
@@ -229,8 +226,6 @@ export default function RecipeDetail() {
                 </div>
               </div>
             </div>
-
-            {/* Average Rating - Amber Accent */}
           </div>
         </div>
 
@@ -239,7 +234,7 @@ export default function RecipeDetail() {
           {recipe.tags?.length > 0 && (
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-gray-50 border rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gray-50 border rounded flex items-center justify-center">
                   <Tag size={16} className="text-amber-800" />
                 </div>
                 <h3 className="text-md font-semibold text-gray-900">Tags</h3>
@@ -288,8 +283,8 @@ export default function RecipeDetail() {
           {/* Ingredients */}
           <div className="p-6 border-r-0 md:border-r border-gray-200">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 border bg-gray-50 rounded-lg flex items-center justify-center">
-                <Utensils size={16} className="text-amber-800" />
+              <div className="w-8 h-8 border bg-gray-50 rounded flex items-center justify-center">
+                <Utensils size={16} className="text-amber-700" />
               </div>
               <h2 className="text-lg font-semibold text-gray-900">
                 Ingredients
@@ -301,7 +296,7 @@ export default function RecipeDetail() {
                   key={idx}
                   className="flex items-center gap-3 text-sm text-gray-700 p-2 rounded-lg hover: transition-colors"
                 >
-                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 bg-amber-700 rounded-full flex-shrink-0" />
                   <span>{ing}</span>
                 </li>
               ))}
@@ -311,8 +306,8 @@ export default function RecipeDetail() {
           {/* Instructions */}
           <div className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gray-50 border rounded-lg flex items-center justify-center">
-                <BookOpen size={16} className="text-amber-800" />
+              <div className="w-8 h-8 bg-amber-50 border rounded flex items-center justify-center">
+                <BookOpen size={16} className="text-amber-700" />
               </div>
               <h2 className="text-lg font-semibold text-gray-900">
                 Instructions
@@ -321,7 +316,7 @@ export default function RecipeDetail() {
             <ol className="space-y-3">
               {recipe.instructions.map((inst, idx) => (
                 <li key={idx} className="flex gap-3 text-sm">
-                  <span className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0">
+                  <span className="w-5 h-5 bg-gray-50 border text-amber-600 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0">
                     {idx + 1}
                   </span>
                   <span className="text-gray-700 leading-relaxed pt-0.5">
@@ -334,21 +329,8 @@ export default function RecipeDetail() {
         </div>
 
         {/* Timer Section - Amber Accent */}
-        <div className="p-6 border-t border-gray-200">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-amber-50 border rounded-lg flex items-center justify-center">
-              <Timer size={16} className="text-amber-700" />
-            </div>
-            <div>
-              <h2 className="text-lg font-semibold text-gray-800">
-                Cooking Timer
-              </h2>
-              <p className="text-sm text-amber-600 tracking-[0.1em]">
-                Set timers for perfect cooking
-              </p>
-            </div>
-          </div>
-          <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
+        <div className="flex justify-center ">
+          <div className="bg-emerald-50 rounded p-4 border border-amber-200 w-4/5">
             <RecipeTimer />
           </div>
         </div>
@@ -364,15 +346,13 @@ export default function RecipeDetail() {
         {/* User Reviews */}
         {userInteractions?.length > 0 && (
           <div className="p-6 border-t border-gray-200">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                <Star size={16} className="text-gray-600" />
-              </div>
-              <h2 className="text-lg font-semibold text-gray-900">
-                User Reviews
-              </h2>
-            </div>
-            <div className="space-y-4">
+            <SmallTitle
+              title="User Reviews"
+              titleSize="text-md"
+              icon={<Star size={16} className="text-amber-700" />}
+            />
+
+            <div className="space-y-4 mt-4">
               {userInteractions?.map((u, idx) => (
                 <div
                   key={idx}
@@ -380,11 +360,11 @@ export default function RecipeDetail() {
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-xs font-medium text-gray-700">
+                      <div className="w-8 h-8 bg-gray-100 border rounded-full flex items-center justify-center text-xs font-medium text-gray-700">
                         {u.user?.name?.charAt(0)?.toUpperCase() || "G"}
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900">
+                        <p className="text-md font-semibold text-gray-800">
                           {u.user?.name || "Guest"}
                         </p>
                         <p className="text-sm text-gray-600">
@@ -412,7 +392,7 @@ export default function RecipeDetail() {
                           key={commentIdx}
                           className="flex gap-2 text-sm p-3 bg-white rounded border border-gray-200"
                         >
-                          <span className="text-gray-400">•</span>
+                          <span className="text-amber-600">•</span>
                           <p className="text-gray-700">{c}</p>
                         </div>
                       ))}
