@@ -21,6 +21,7 @@ import getImageUrl from "@/settings/utils";
 import RecipeActions from "@/components/recipeActions";
 import useRecipeDetail from "@/hook/useRecipeDetail";
 import { RecipeTimer } from "./recipeTimer";
+import { RiAccountBoxFill } from "react-icons/ri";
 
 export default function RecipeDetail() {
   const { id: recipeId } = useParams();
@@ -97,202 +98,198 @@ export default function RecipeDetail() {
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         {/* Header Section */}
         <div className="p-6 border-b border-gray-200">
-          <div className="text-center space-y-6">
+          <div className="text-start space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">
+              <h1 className="text-xl font-semibold text-amber-800 text-center font-serif italic">
                 {recipe.title}
               </h1>
-              <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto">
+              <p className="text-gray-800 leading-relaxed max-w-2xl mx-auto text-sm mt-2">
                 {recipe.description}
               </p>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-3xl mx-auto">
-              {/* Prep Time */}
-
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mx-auto">
               {/* Author */}
-              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                  <Users size={16} className="text-gray-600" />
-                </div>
-                <p className="text-xs text-gray-600 mb-1">Author</p>
-                <p className="text-sm font-semibold text-gray-900 truncate">
-                  {recipe.user?.name || "Unknown"}
-                </p>
-              </div>
 
-              {/* Cuisine */}
-              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                  <MapPin size={16} className="text-gray-600" />
-                </div>
-                <p className="text-xs text-gray-600 mb-1">Cuisine</p>
-                <p className="text-sm font-semibold text-gray-900 truncate">
-                  {recipe.cuisine?.name || "Global"}
-                </p>
-              </div>
+              <div className="h-16 p-2 rounded shadow border-l-2 border-amber-600 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center gap-6 py-1 rounded-lg mx-auto">
+                  {/* Image instead of Icon */}
+                 <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
+                    <RiAccountBoxFill size={18} className="text-amber-600" />
+                  </div>
 
-              {/* Category */}
-              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                  <Folder size={16} className="text-gray-600" />
+                  <div className="text-start">
+                    <p className="text-xs text-gray-800">Author</p>
+                    <p className="text-sm font-semibold text-gray-700 truncate">
+                      {recipe.user?.name || "Unknown"}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-600 mb-1">Category</p>
-                <p className="text-sm font-semibold text-gray-900 truncate">
-                  {recipe.category?.name || "General"}
-                </p>
               </div>
+              <div className="h-16 p-2 rounded shadow border-l-2 border-amber-600 group hover:border-gray-300 transition-colors">
+                <div className="flex items-center gap-6 py-1 rounded-lg mx-auto">
+                  {/* Image instead of Icon */}
+                  <div className="flex items-center justify-center w-16 h-10 bg-gray-50 rounded border overflow-hidden">
+                    <img
+                      src={getImageUrl(recipe.imageUrl) || "/placeholder.png"}
+                      alt="Category"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
 
-              {/* Privacy Status */}
-              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                  {recipe.isPublic ? (
-                    <Globe size={16} className="text-gray-600" />
-                  ) : (
-                    <Lock size={16} className="text-gray-600" />
-                  )}
+                  <div className="text-start">
+                    <p className="text-xs text-gray-800">Category</p>
+                    <p className="text-sm font-semibold text-gray-700 truncate">
+                      {recipe.category?.name || "General"}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-600 mb-1">Status</p>
-                <p className="text-sm font-semibold text-gray-900">
-                  {recipe.isPublic ? "Public" : "Private"}
-                </p>
-              </div>
-
-              {/* Favorites */}
-              <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                  <Heart size={16} className="text-gray-600" />
-                </div>
-                <p className="text-xs text-gray-600 mb-1">Favorites</p>
-                <p className="text-sm font-semibold text-gray-900">
-                  {recipe.favorites?.length || 0}
-                </p>
               </div>
             </div>
 
-            {/* Category & Cuisine Highlight */}
-            <div className="grid md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-              {/* Category Highlight */}
-              {recipe.category && (
-                <div className="flex items-center p-4 rounded-lg border border-gray-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto">
+              {/* Cuisine */}
+              <div className="h-20 p-3 rounded shadow border-l-2 border-amber-500 hover:border-gray-300 transition-colors">
+                <div className="flex items-center gap-3 h-full">
+                  <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
+                    <MapPin size={18} className="text-amber-600" />
+                  </div>
+                  <div className="text-start">
+                    <p className="text-xs text-gray-800">Cuisine</p>
+                    <p className="text-sm font-semibold text-gray-700 truncate">
+                      {recipe.cuisine?.name || "Global"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Favorites */}
+              <div className="h-20 p-3 rounded shadow border-l-2 border-amber-600 hover:border-gray-300 transition-colors">
+                <div className="flex items-center gap-3 h-full">
+                  <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
+                    <Heart size={18} className="text-amber-600" />
+                  </div>
+                  <div className="text-start">
+                    <p className="text-xs text-gray-800">Favorites</p>
+                    <p className="text-sm font-semibold text-gray-700 truncate">
+                      {recipe.favorites?.length || 0}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Status */}
+              <div className="h-20 p-3 rounded shadow border-l-2 border-amber-600 hover:border-gray-300 transition-colors">
+                <div className="flex items-center gap-3 h-full">
+                  <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
+                    {recipe.isPublic ? (
+                      <Globe size={18} className="text-amber-600" />
+                    ) : (
+                      <Lock size={18} className="text-amber-600" />
+                    )}
+                  </div>
+                  <div className="text-start">
+                    <p className="text-xs text-gray-800">Status</p>
+                    <p className="text-sm font-semibold text-gray-700 truncate">
+                      {recipe.isPublic ? "Public" : "Private"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Prep & Cooking Time */}
+              <div className="h-20 p-3 rounded shadow border-l-2 border-amber-600 hover:border-gray-300 transition-colors">
+                <div className="grid grid-cols-2 h-full gap-3">
+                  {/* Prep Time */}
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <Folder size={18} className="text-gray-600" />
+                    <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
+                      <Clock size={18} className="text-amber-600" />
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-600 mb-1">
-                        Recipe Category
-                      </p>
-                      <p className="text-lg font-semibold text-gray-900">
-                        {recipe.category.name}
+                    <div className="text-start">
+                      <p className="text-xs text-gray-800">Prep</p>
+                      <p className="text-sm font-semibold text-gray-700 truncate">
+                        {recipe.prepTime} min
                       </p>
                     </div>
                   </div>
-                </div>
-              )}
 
-              {/* Cuisine Highlight */}
-              {recipe.cuisine && (
-                <div className="flex items-center p-4 rounded border border-amber-400">
+                  {/* Cooking Time */}
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                      <MapPin size={18} className="text-amber-800" />
+                    <div className="flex items-center justify-center w-8 h-8 bg-gray-50 rounded border">
+                      <Clock size={18} className="text-amber-600" />
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-amber-800 mb-1">
-                        Cuisine Type
-                      </p>
-                      <p className="text-lg font-semibold text-gray-900">
-                        {recipe.cuisine?.name}
+                    <div className="text-start">
+                      <p className="text-xs text-gray-800">Cook</p>
+                      <p className="text-sm font-semibold text-gray-700 truncate">
+                        {recipe.cookingTime} min
                       </p>
                     </div>
                   </div>
-                </div>
-              )}
-
-              <div className="flex items-center p-2 grid grid-cols-2 gap-6 rounded-lg border border-gray-200">
-                <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                  <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                    <Clock size={16} className="text-gray-600" />
-                  </div>
-                  <p className="text-xs text-gray-600 mb-1">Prep Time</p>
-                  <p className="text-sm font-semibold text-gray-900">
-                    {recipe.prepTime} min
-                  </p>
-                </div>
-
-                <div className=" p-3 rounded-lg border border-gray-200 group hover:border-gray-300 transition-colors">
-                  <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-lg mb-2 mx-auto">
-                    <Clock size={16} className="text-gray-600" />
-                  </div>
-                  <p className="text-xs text-gray-600 mb-1">Cooking Time</p>
-                  <p className="text-sm font-semibold text-gray-900">
-                    {recipe.cookingTime} min
-                  </p>
                 </div>
               </div>
             </div>
 
             {/* Average Rating - Amber Accent */}
-            <div className="bg-amber-50 p-4 rounded-lg border border-amber-200 max-w-sm mx-auto">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-amber-800 mb-2">
-                    Average Rating
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1">
-                      {renderStars(Number(avgRating))}
-                    </div>
-                    <span className="text-xl font-bold text-amber-700">
-                      {avgRating}/5
-                    </span>
+          </div>
+        </div>
+
+        {/* Tags Section */}
+        <div className="grid md:grid-cols-2 gap-4 mx-auto">
+          {recipe.tags?.length > 0 && (
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 bg-gray-50 border rounded-lg flex items-center justify-center">
+                  <Tag size={16} className="text-amber-800" />
+                </div>
+                <h3 className="text-md font-semibold text-gray-900">Tags</h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {recipe.tags.filter(Boolean).map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="bg-gray-50 text-gray-800 px-3 py-1 rounded text-xs font-medium border border-gray-200 hover:bg-gray-200 transition-colors"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="border-l-2 border-amber-600 p-4 rounded shadow w-full">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-800 mb-2">
+                  Average Rating
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
+                    {renderStars(Number(avgRating))}
                   </div>
-                  <p className="text-xs text-amber-600 mt-1">
-                    {recipe.ratings?.length || 0} review
-                    {recipe.ratings?.length !== 1 ? "s" : ""}
-                  </p>
+                  <span className="text-xl font-semibold text-amber-700">
+                    {avgRating}/5
+                  </span>
                 </div>
-                <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
-                  <Star size={18} className="text-amber-700" />
-                </div>
+                <p className="text-xs text-amber-700 mt-1">
+                  {recipe.ratings?.length || 0} review
+                  {recipe.ratings?.length !== 1 ? "s" : ""}
+                </p>
+              </div>
+              <div className="w-10 h-10 border bg-amber-50 rounded-full flex items-center justify-center">
+                <Star size={18} className="text-amber-700" />
               </div>
             </div>
           </div>
         </div>
-
-
-
-        {/* Tags Section */}
-        {recipe.tags?.length > 0 && (
-          <div className="p-6 border-b border-gray-200">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                <Tag size={16} className="text-gray-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900">Tags</h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {recipe.tags.filter(Boolean).map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium border border-gray-200 hover:bg-gray-200 transition-colors"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Ingredients & Instructions */}
         <div className="grid md:grid-cols-2 gap-0">
           {/* Ingredients */}
           <div className="p-6 border-r-0 md:border-r border-gray-200">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                <Utensils size={16} className="text-gray-600" />
+              <div className="w-8 h-8 border bg-gray-50 rounded-lg flex items-center justify-center">
+                <Utensils size={16} className="text-amber-800" />
               </div>
               <h2 className="text-lg font-semibold text-gray-900">
                 Ingredients
@@ -314,8 +311,8 @@ export default function RecipeDetail() {
           {/* Instructions */}
           <div className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                <BookOpen size={16} className="text-gray-600" />
+              <div className="w-8 h-8 bg-gray-50 border rounded-lg flex items-center justify-center">
+                <BookOpen size={16} className="text-amber-800" />
               </div>
               <h2 className="text-lg font-semibold text-gray-900">
                 Instructions
@@ -339,14 +336,14 @@ export default function RecipeDetail() {
         {/* Timer Section - Amber Accent */}
         <div className="p-6 border-t border-gray-200">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-amber-50 border rounded-lg flex items-center justify-center">
               <Timer size={16} className="text-amber-700" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-gray-800">
                 Cooking Timer
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-amber-600 tracking-[0.1em]">
                 Set timers for perfect cooking
               </p>
             </div>
@@ -355,7 +352,7 @@ export default function RecipeDetail() {
             <RecipeTimer />
           </div>
         </div>
-        
+
         {/* Recipe Actions */}
         <div className="p-6 border-b border-gray-200">
           <RecipeActions

@@ -17,9 +17,9 @@ const NavBar = () => {
   const navItems = [
     { name: "Home", path: Routes.home },
     { name: "About", path: Routes.about },
-    { name: "My Recipes", path: Routes.myRecipes },
+    { name: "All Recipes", path: Routes.recipes },
+    { name: "Made by Me", path: Routes.myRecipes },
     { name: "Favorites", path: Routes.favouriteRecipes },
-    { name: "Recipes", path: Routes.recipes },
   ];
 
   const handleNavigate = (path: string) => router.push(path);
@@ -123,7 +123,9 @@ const NavBar = () => {
                 }`}
               >
                 {/* 👇 Icon shows only for active menu */}
-                {isActive && <ChevronRight size={14} className="text-amber-600" />}
+                {isActive && (
+                  <ChevronRight size={14} className="text-amber-600" />
+                )}
                 {item.name}
               </button>
             );
