@@ -1,3 +1,6 @@
+"use client";
+
+import AnimatedBorder from "@/components/animatedTitle";
 import getImageUrl from "@/settings/utils";
 import Image from "next/image";
 import React from "react";
@@ -119,30 +122,20 @@ const AboutPageVariation3 = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Hero Header */}
-        <div className="text-center mb-20">
-          <h1 className="text-3xl font-serif italic text-gray-900 mb-6">
-            Recipe Book
-          </h1>
-          <p className="text-xs font-semibold text-amber-600 tracking-[0.2em]">
-            A digital sanctuary for your culinary creations, preserving
-            traditions and building community through shared recipes.
-          </p>
-        </div>
-
         {/* Core Purpose Sections */}
-        <div className="mb-24">
-          <h2 className="text-3xl font-light text-gray-900 mb-12 text-center">
+        <div className="my-2">
+          <h2 className="text-xl text-gray-900 text-start font-serif italic ">
             Our Purpose & Vision
           </h2>
+          <AnimatedBorder />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-4">
             {/* Left Side - Image */}
-            <div className="order-2 lg:order-1">
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div className="aspect-[4/3] bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex justify-center relative overflow-hidden">
+            <div className="col-span-1 lg:col-span-1">
+              <div className="w-full bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="aspect-[4/3] w-full bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex justify-center relative overflow-hidden">
                   <Image
                     src={"/h.jpg"}
                     alt={"Our Purpose Visual"}
@@ -154,17 +147,17 @@ const AboutPageVariation3 = () => {
             </div>
 
             {/* Right Side - Content */}
-            <div className="order-1 lg:order-2">
-              <div className="space-y-8">
+            <div className="col-span-1 lg:col-span-2">
+              <div className="space-y-4">
                 {sections.map((section, index) => (
                   <div
                     key={index}
-                    className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition-all duration-300"
+                    className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 hover:shadow-md transition-all duration-300"
                   >
-                    <h3 className="text-xl font-medium text-gray-900 mb-4">
+                    <h3 className="text-md font-medium text-gray-800 ">
                       {section.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 text-[14px] mt-1">
                       {section.content}
                     </p>
                   </div>
@@ -174,111 +167,35 @@ const AboutPageVariation3 = () => {
           </div>
         </div>
 
-        {/* Image Gallery Section */}
-        <div className="mb-24">
-          <h2 className="text-3xl font-light text-gray-900 mb-12 text-center">
-            Experience Recipe Book
-          </h2>
-          <div className="space-y-16">
-            {imageSections.map((section, index) => (
-              <div
-                key={index}
-                className={`flex flex-col ${
-                  section.imagePosition === "right"
-                    ? "lg:flex-row-reverse"
-                    : "lg:flex-row"
-                } items-center gap-12`}
-              >
-                {/* Image */}
-                <div className="lg:w-1/2">
-                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div className="aspect-video bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex items-center justify-center">
-                      <div className="text-center">
-                        <span className="text-5xl mb-3 block">
-                          {index === 0 ? "🍳" : index === 1 ? "👨‍👩‍👧‍👦" : "🌍"}
-                        </span>
-                        <span className="text-gray-400 text-sm">
-                          {section.title} Preview
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="lg:w-1/2">
-                  <h3 className="text-2xl font-medium text-gray-900 mb-4">
-                    {section.title}
-                  </h3>
-                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                    {section.description}
-                  </p>
-                  <ul className="text-gray-500 space-y-2">
-                    {index === 0 && (
-                      <>
-                        <li>
-                          • Digital recipe cards with beautiful formatting
-                        </li>
-                        <li>• Categorize by cuisine, meal type, or occasion</li>
-                        <li>• Quick search and filtering capabilities</li>
-                      </>
-                    )}
-                    {index === 1 && (
-                      <>
-                        <li>• Share recipes with specific family members</li>
-                        <li>• Create family-only recipe collections</li>
-                        <li>
-                          • Preserve heirloom recipes for future generations
-                        </li>
-                      </>
-                    )}
-                    {index === 2 && (
-                      <>
-                        <li>• Discover recipes from home cooks worldwide</li>
-                        <li>• Learn new techniques and ingredients</li>
-                        <li>• Join cooking communities and groups</li>
-                      </>
-                    )}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Problem/Solution Section */}
-        <div className="mb-24">
-          <h2 className="text-3xl font-light text-gray-900 mb-12 text-center">
+        <div className="mt-4">
+          <h2 className="text-xl text-gray-900 text-start font-serif italic ">
             Solving Real Cooking Challenges
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <AnimatedBorder />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-              <h3 className="text-xl font-medium text-gray-900 mb-6 text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-4 text-center">
                 Common Problems We Solve
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {problemsSolutions.map((item, index) => (
-                  <div
-                    key={index}
-                    className="border-l-4 border-red-200 pl-4 py-2"
-                  >
-                    <p className="text-gray-600">{item.problem}</p>
+                  <div key={index} className="border-l-2 border-amber-600 pl-4">
+                    <p className="text-gray-700 text-sm">{item.problem}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-              <h3 className="text-xl font-medium text-gray-900 mb-6 text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-4 text-center">
                 Our Thoughtful Solutions
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {problemsSolutions.map((item, index) => (
-                  <div
-                    key={index}
-                    className="border-l-4 border-green-200 pl-4 py-2"
-                  >
-                    <p className="text-gray-600">{item.solution}</p>
+                  <div key={index} className="border-l-2 border-amber-600 pl-4">
+                    <p className="text-gray-700 text-sm">{item.solution}</p>
                   </div>
                 ))}
               </div>
@@ -287,25 +204,26 @@ const AboutPageVariation3 = () => {
         </div>
 
         {/* Features & Offerings */}
-        <div className="mb-24">
-          <h2 className="text-3xl font-light text-gray-900 mb-12 text-center">
+        <div className="mt-10">
+          <h2 className="text-xl text-gray-900 text-start font-serif italic ">
             What Recipe Book Provides
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <AnimatedBorder />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
             {offerings.map((offering, index) => (
               <div
                 key={index}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 hover:shadow-md transition-all duration-300"
               >
                 <div className="text-4xl mb-6 text-center">{offering.icon}</div>
-                <h3 className="text-xl font-medium text-gray-900 mb-6 text-center">
+                <h3 className="text-lg font-medium text-gray-900 mb-4 text-center">
                   {offering.title}
                 </h3>
-                <ul className="text-gray-600 space-y-3">
+                <ul className="text-gray-700 space-y-1">
                   {offering.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="flex items-start">
-                      <span className="text-green-500 mr-3 mt-1">•</span>
-                      {item}
+                      <span className="text-amber-700 text-md mr-3 ">•</span>
+                      <p className="text-[13px]">{item}</p>
                     </li>
                   ))}
                 </ul>
@@ -315,11 +233,12 @@ const AboutPageVariation3 = () => {
         </div>
 
         {/* Core Values */}
-        <div className="mb-24">
-          <h2 className="text-3xl font-light text-gray-900 mb-12 text-center">
+        <div className="mt-10">
+          <h2 className="text-xl text-gray-900 text-start font-serif italic ">
             Our Guiding Principles
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <AnimatedBorder />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
             {values.map((value, index) => (
               <div
                 key={index}
@@ -348,7 +267,7 @@ const AboutPageVariation3 = () => {
         </div>
 
         {/* Final Mission & Image */}
-        <div className="mb-16">
+        <div className="mt-10">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Image Side */}
@@ -364,15 +283,15 @@ const AboutPageVariation3 = () => {
               {/* Content Side */}
               <div className="p-12 flex items-center">
                 <div>
-                  <h2 className="text-3xl font-light text-gray-900 mb-6">
+                  <h2 className="text-xl font-light text-gray-900 mb-4">
                     Our Promise to You
                   </h2>
-                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                  <p className="text-gray-700 text-md leading-relaxed mb-4">
                     We provide a simple, respectful platform where your recipes
                     are safe, organized, and ready to be shared—exactly how and
                     when you want.
                   </p>
-                  <p className="text-gray-500">
+                  <p className="text-gray-700 text-[13px]">
                     Because in every recipe, there's a piece of history, a
                     memory, and love worth passing on.
                   </p>
