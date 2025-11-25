@@ -6,6 +6,7 @@ import { useAuth } from "@/components/AuthContext";
 import { useState, useRef, useEffect } from "react";
 import getImageUrl from "@/settings/utils";
 import { ChevronRight } from "lucide-react"; // 👈 add your icon here
+import Image from "next/image";
 
 const NavBar = () => {
   const router = useRouter();
@@ -53,15 +54,21 @@ const NavBar = () => {
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity duration-200"
             onClick={() => handleNavigate(Routes.shop)}
           >
-            <div className="w-8 h-8 bg-amber-700 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Y</span>
+            <div>
+              <Image
+                src="/book.png"
+                alt="Logo"
+                width={52}
+                height={52}
+                className="object-cover rounded mr-3"
+              />
             </div>
           </div>
 
           {/* Center Section */}
           <div className="text-center flex-1">
             <div className="text-4xl font-light text-gray-800 mb-2 font-serif italic">
-              Yummy
+              Cookly
             </div>
             <div className="text-xs font-semibold text-amber-600 tracking-[0.2em]">
               COOKING FOR THE SOUL

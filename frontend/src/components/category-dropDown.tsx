@@ -4,6 +4,7 @@ import useCategories from "../hook/useCategories";
 import getImageUrl from "@/settings/utils";
 import { IoIosArrowDown } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const CategoryDropdown = ({
   selectedCategory,
@@ -25,10 +26,7 @@ const CategoryDropdown = ({
   // Outside click handler
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        buttonRef.current &&
-        !buttonRef.current.contains(e.target)
-      ) {
+      if (buttonRef.current && !buttonRef.current.contains(e.target)) {
         setIsOpen(false);
       }
     };
@@ -108,10 +106,12 @@ const CategoryDropdown = ({
                       onClick={() => handleSelect(category)}
                       className="flex items-center px-3 py-2 hover:bg-blue-100 cursor-pointer"
                     >
-                      <img
+                      <Image
                         src={getImageUrl(category.imageUrl)}
                         alt={category.name}
-                        className="w-8 h-8 object-cover rounded mr-3"
+                        width={32}
+                        height={32}
+                        className="object-cover rounded mr-3"
                       />
                       <span className="text-gray-800">{category.name}</span>
                     </li>
