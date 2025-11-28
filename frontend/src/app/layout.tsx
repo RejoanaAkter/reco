@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthContext";
 import ClientLayout from "@/components/clientLayout";
+import { ToastContainer } from "react-toastify";
 
 
 const geistSans = Geist({
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <ClientLayout>{children}</ClientLayout>
+          <ToastContainer position="top-center" autoClose={2000} theme="light" />
         </AuthProvider>
       </body>
     </html>

@@ -23,12 +23,13 @@ import useRecipeDetail from "@/hook/useRecipeDetail";
 import { RecipeTimer } from "./recipeTimer";
 import { RiAccountBoxFill } from "react-icons/ri";
 import SmallTitle from "@/utils/smallTitle";
+import { GlobalLoader } from "@/components/globalLoader";
 
 export default function RecipeDetail() {
   const { id: recipeId } = useParams();
   const { recipe, setRecipe, loading, error } = useRecipeDetail(recipeId);
-  debugger;
-  if (loading) return <RecipeDetailSkeleton />;
+  ;
+  if (loading) return <GlobalLoader />;
   if (error) return <ErrorMessage error={error} />;
   if (!recipe) return <NotFoundMessage />;
 
@@ -408,29 +409,6 @@ export default function RecipeDetail() {
   );
 }
 
-// Skeleton Loader
-function RecipeDetailSkeleton() {
-  return (
-    <div className="max-w-4xl mx-auto p-4 space-y-6">
-      <div className="h-80 md:h-96 bg-gray-200 rounded-xl animate-pulse" />
-      <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
-        <div className="space-y-4 text-center">
-          <div className="h-8 bg-gray-200 rounded animate-pulse mx-auto w-3/4" />
-          <div className="h-4 bg-gray-200 rounded animate-pulse mx-auto w-1/2" />
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="h-16 bg-gray-200 rounded-lg animate-pulse"
-            />
-          ))}
-        </div>
-        <div className="h-16 bg-gray-200 rounded-lg animate-pulse w-80 mx-auto" />
-      </div>
-    </div>
-  );
-}
 
 // Error Message Component
 function ErrorMessage({ error }: { error: string }) {

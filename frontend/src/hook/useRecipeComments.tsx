@@ -8,7 +8,7 @@ export const useRecipeComments = (recipe: any, user: any, token: string | null) 
   const addComment = async () => {
     if (!user) return alert("Please login to comment");
     if (!comment.trim()) return;
-debugger
+
     setLoading(true);
     try {
       const res = await fetch(`http://localhost:8000/recipes/recipe/${recipe._id}/comment`, {
@@ -22,7 +22,7 @@ debugger
 
       if (!res.ok) throw new Error("Failed to add comment");
       const data = await res.json();
-      debugger
+      
       setComment("");
       return data.comments;
     } finally {

@@ -16,7 +16,7 @@ const colorClasses = [
 
 
 const ItemCard = ({item}) => {
-  debugger
+  
 
   return (
     <div className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300  w-52 h-62">

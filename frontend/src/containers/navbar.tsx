@@ -47,7 +47,7 @@ const NavBar = () => {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
       {/* Top Bar with Cart (left), Logo (middle), User (right) */}
-      <div className="border-b border-gray-200 py-4">
+      <div className="border-b border-gray-200 ">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Left Section */}
           <div
@@ -56,10 +56,10 @@ const NavBar = () => {
           >
             <div>
               <Image
-                src="/book.png"
+                src="/logo.png"
                 alt="Logo"
-                width={52}
-                height={52}
+                width={90}
+                height={90}
                 className="object-cover rounded mr-3"
               />
             </div>

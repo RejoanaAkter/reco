@@ -71,7 +71,7 @@ const useCuisines = () => {
     if (!cuisine) return;
     setLoading(true);
     setError(null);
-    debugger
+    
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(`${API_BASE}/recipes/cuisine/${cuisine}`, {
@@ -80,7 +80,7 @@ const useCuisines = () => {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
       });
-      debugger
+      
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to fetch recipes");
       setRecipesByCuisine(Array.isArray(data) ? data : []);

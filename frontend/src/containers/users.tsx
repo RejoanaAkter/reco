@@ -13,9 +13,9 @@ function USersList() {
     // Call the backend API using fetch
     const fetchUsers = async () => {
       try {
-        debugger
+        
         const response = await fetch('http://localhost:8000/users/users/');
-        debugger
+        
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || 'Failed to fetch users');

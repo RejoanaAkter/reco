@@ -10,6 +10,7 @@ import { GlobalDropdown } from "./globalDropDown";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IoMdRestaurant } from "react-icons/io";
 import AnimatedBorder from "@/components/animatedTitle";
+import AnimatedGrid from "@/components/animatedGrid";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -111,10 +112,6 @@ export default function RecipesScreen() {
     sortOrder,
   ]);
 
-  const handleNavigate = (recipe: Recipe) => {
-    router.push(`/recipeDetail/${recipe._id}`);
-  };
-
   const clearAllFilters = () => {
     setSelectedCategory(null);
     setSelectedCategoryId("");
@@ -133,7 +130,7 @@ export default function RecipesScreen() {
     cookTime !== 180;
 
   return (
-    <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8 text-gray-800">
+    <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto mb-8">
         <div className="bg-white shadow rounded p-6 border border-gray-100 backdrop-blur-sm bg-opacity-95 space-y-6">
           <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
@@ -338,19 +335,23 @@ export default function RecipesScreen() {
         </div>
       </div>
 
-      {/* Recipes Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        
         {loading ? (
-          <GlobalLoader />
+          // Wrap loader in a full-width flex container
+          <div className="col-span-full flex justify-center items-center py-16">
+            <GlobalLoader />
+          </div>
         ) : error ? (
-          <div className="text-red-600 py-16">{error}</div>
+          <div className="text-red-600 py-16 col-span-full">{error}</div>
         ) : recipes.length === 0 ? (
-          <div className="text-gray-500 py-16">No recipes found</div>
+          <div className="text-gray-500 py-16 col-span-full">
+            No recipes found
+          </div>
         ) : (
           recipes.map((r) => (
             <div
               key={r._id}
-              onClick={() => handleNavigate(r)}
               className="cursor-pointer"
             >
               <FeaturedRecipeCard item={r} />

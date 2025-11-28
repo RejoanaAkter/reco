@@ -12,6 +12,7 @@ import getImageUrl from "@/settings/utils";
 import { useState } from "react";
 import { useRecipeFavorite } from "@/hook/useRecipeFavorite";
 import { useAuth } from "./AuthContext";
+import { useRouter } from "next/navigation";
 
 interface FeaturedRecipeCardProps {
   item: any;
@@ -26,7 +27,8 @@ export const FeaturedRecipeCard = ({
   onEdit,
   onDelete,
 }: FeaturedRecipeCardProps) => {
-  const { user } = useAuth();
+  const { user } = useAuth(); 
+   const router = useRouter();
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const [localFavorites, setLocalFavorites] = useState(item.favorites || []);
@@ -54,10 +56,9 @@ export const FeaturedRecipeCard = ({
     onDelete?.(item);
   };
 
-  const handleDetails = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    // Add your details navigation logic here
-    console.log("View details for:", item.title);
+  const handleDetails = () => {
+    
+    router.push(`/recipeDetail/${item._id}`);
   };
 
   const avgRating = item.ratings?.length
@@ -68,12 +69,12 @@ export const FeaturedRecipeCard = ({
   return (
     <div
       className="relative w-70 h-86 rounded bg-white shadow-lg 
-      border border-gray-200 overflow-hidden cursor-pointer group"
+      border border-gray-200 overflow-hidden group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container - Takes upper portion */}
-      <div className="relative w-full h-4/6">
+      <div className="relative w-full h-4/6 cursor-pointer" onClick={handleDetails}>
         <Image
           src={getImageUrl(item.imageUrl)}
           alt={item.title}
@@ -110,7 +111,7 @@ export const FeaturedRecipeCard = ({
               </button>
 
               {/* Favorite Button in Overlay */}
-              <button
+             {!showActions && <button
                 onClick={handleFavorite}
                 disabled={loading}
                 className="bg-white/95 p-2 rounded-full shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
@@ -120,7 +121,7 @@ export const FeaturedRecipeCard = ({
                 ) : (
                   <FaRegHeart className="text-gray-700 w-4 h-4 hover:text-red-500 transition-colors" />
                 )}
-              </button>
+              </button>}
             </div>
 
             {/* Edit/Delete Buttons (only if showActions is true) */}

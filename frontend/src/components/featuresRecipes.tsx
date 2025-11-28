@@ -5,23 +5,24 @@ import useRecipes from "../hook/useRecipes";
 import { FeaturedRecipeCard } from "./feature-card";
 import AnimatedBorder from "./animatedTitle";
 import { IoMdRestaurant } from "react-icons/io";
-
+import AnimatedGrid from "./animatedGrid";
 
 const FeaturesRecipes = () => {
   const { recipes } = useRecipes();
   const router = useRouter();
 
-  const handleNavigate = (recipe) => {
+  const handleNavigate = (recipe: any) => {
     router.push(`/recipeDetail/${recipe._id}`);
   };
 
-  // 3️⃣ Hybrid Score = 60% favorites + 40% average rating
-  const getHybridScore = (recipe) => {
+  const getHybridScore = (recipe: any) => {
     const favoritesCount = recipe.favorites?.length || 0;
     const avgRating =
       recipe.ratings?.length
-        ? recipe.ratings.reduce((acc, r) => acc + r.value, 0) / recipe.ratings.length
+        ? recipe.ratings.reduce((acc, r) => acc + r.value, 0) /
+          recipe.ratings.length
         : 0;
+
     return favoritesCount * 0.6 + avgRating * 0.4;
   };
 
@@ -29,27 +30,35 @@ const FeaturesRecipes = () => {
     ?.sort((a, b) => getHybridScore(b) - getHybridScore(a))
     .slice(0, 4);
 
+  if (!topFeatured?.length) return null;
+
   return (
-    <div className="max-w-screen-2xl mx-auto  py-4 ">
-            <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
-              <IoMdRestaurant className="text-amber-700" /> Featured Recipes
-            </h2>
-            <AnimatedBorder />
-      <div
-        className="mt-6 grid gap-6
+    <div className="max-w-screen-2xl mx-auto py-4">
+      <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
+        <IoMdRestaurant className="text-amber-700" /> Featured Recipes
+      </h2>
+
+      <AnimatedBorder />
+
+      <AnimatedGrid
+        className="
+          mt-6 grid gap-6
           grid-cols-1 
           sm:grid-cols-2 
           md:grid-cols-3 
           lg:grid-cols-4
-          xl:grid-cols-4
-          2xl:grid-cols-4"
+        "
       >
-        {topFeatured?.map((recipe) => (
-          <div key={recipe._id} onClick={() => handleNavigate(recipe)}>
+        {topFeatured.map((recipe) => (
+          <div
+            key={recipe._id}
+            onClick={() => handleNavigate(recipe)}
+            className="cursor-pointer"
+          >
             <FeaturedRecipeCard item={recipe} />
           </div>
         ))}
-      </div>
+      </AnimatedGrid>
     </div>
   );
 };

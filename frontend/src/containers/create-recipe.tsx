@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -12,6 +14,8 @@ import useCategories from "@/hook/useCategories";
 import { IoMdRestaurant } from "react-icons/io";
 import AnimatedTitle from "@/components/animatedTitle";
 import AnimatedBorder from "@/components/animatedTitle";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -19,14 +23,10 @@ const CreateOrEditRecipe = () => {
   const { id: recipeId } = useParams();
   const router = useRouter();
   const { user } = useAuth();
-  const {
-    recipe,
-    loading: recipeLoading,
-    error: recipeError,
-  } = useRecipeDetail(recipeId || null);
+  const { recipe, loading: recipeLoading, error: recipeError } = useRecipeDetail(recipeId || null);
   const { cuisines, loading: cuisinesLoading, addCuisine } = useCuisines();
   const { categories, loading: categoriesLoading } = useCategories();
-  // Recipe state
+
   const [category, setCategory] = useState<any>(null);
   const [categoryId, setCategoryId] = useState("");
   const [title, setTitle] = useState("");
@@ -41,11 +41,8 @@ const CreateOrEditRecipe = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [message, setMessage] = useState("");
 
-  // Category modal state
   const [showCategoryCreate, setShowCategoryCreate] = useState(false);
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Populate recipe data if editing
@@ -61,7 +58,7 @@ const CreateOrEditRecipe = () => {
       setIngredients(recipe.ingredients?.length ? recipe.ingredients : [""]);
       setInstructions(recipe.instructions?.length ? recipe.instructions : [""]);
       setTags(recipe.tags?.length ? recipe.tags : [""]);
-      setSelectedCuisine(recipe.cuisine?._id || null); // ✅ fix here
+      setSelectedCuisine(recipe.cuisine?._id || null);
       if (recipe.imageUrl) {
         const fullUrl = recipe.imageUrl.startsWith("http")
           ? recipe.imageUrl
@@ -76,7 +73,7 @@ const CreateOrEditRecipe = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith("image/")) {
-      setMessage("Only image files are allowed.");
+      toast.error("Only image files are allowed."); // <- toaster
       return;
     }
     setImageFile(file);
@@ -98,16 +95,14 @@ const CreateOrEditRecipe = () => {
 
   // Save or update recipe
   const handleSave = async () => {
-    setMessage("");
     if (!user?.id || !categoryId || !title) {
-      setMessage("User ID, Category, and Title are required.");
+      toast.error("User ID, Category, and Title are required."); // <- toaster
       return;
     }
 
     try {
       let cuisineIdToUse: string | null = selectedCuisine || null;
 
-      // Create new cuisine if "other" selected
       if (selectedCuisine === "other" && customCuisine.trim()) {
         const newCuisine = await addCuisine(customCuisine.trim());
         if (newCuisine?._id) {
@@ -151,27 +146,26 @@ const CreateOrEditRecipe = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to save recipe");
 
-      setMessage(
+      toast.success(
         recipeId
-          ? "✅ Recipe updated successfully!"
-          : "✅ Recipe created successfully!"
-      );
-      // Optional: redirect after save
+          ? "Recipe updated successfully!"
+          : "Recipe created successfully!"
+      ); // <- toaster
       router.push("/recipes");
     } catch (err: any) {
-      setMessage(err.message || "Error saving recipe.");
+      toast.error(err.message || "Error saving recipe."); // <- toaster
     }
   };
 
   if (recipeError)
     return <p className="text-center py-10 text-red-600">{recipeError}</p>;
-  // --- Compute validation state ---
+
   const isFormValid =
     title.trim() &&
     categoryId.trim() &&
     description.trim() &&
-    prepTime.trim() &&
-    cookingTime.trim() &&
+    prepTime &&
+    cookingTime &&
     ingredients.some((i) => i.trim()) &&
     instructions.some((i) => i.trim());
 
@@ -183,16 +177,19 @@ const CreateOrEditRecipe = () => {
           "url('https://plus.unsplash.com/premium_photo-1705056547423-de4ef0f85bf7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0')",
       }}
     >
+      <ToastContainer position="top-right" autoClose={3000} /> {/* <- Toast container */}
       <div className="absolute inset-0 bg-white/40"></div>
       <div>
         <div className="relative z-10 w-full max-w-3xl bg-white/95 backdrop-blur-sm rounded-xl shadow-lg text-gray-700 border border-gray-200 p-8 mt-4">
+          {/* ... All your existing JSX stays exactly the same ... */}
+
           <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
             <IoMdRestaurant className="text-amber-700" />{" "}
             {recipeId ? "Edit Recipe" : " Create a Recipe"}
           </h2>
           <AnimatedBorder />
 
-          {/* Category + Add */}
+   {/* Category + Add */}
           <div className="mt-4">
             <label className="text-gray-800 font-semibold text-[13px]">
               Title
@@ -470,16 +467,6 @@ const CreateOrEditRecipe = () => {
               {recipeId ? "Update Recipe" : "Save Recipe"}
             </button>
           </div>
-
-          {message && (
-            <p
-              className={`mt-4 text-center font-medium ${
-                message.includes("✅") ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {message}
-            </p>
-          )}
 
           {/* Category Create Modal */}
           {showCategoryCreate && (

@@ -3,7 +3,7 @@ import getImageUrl from '@/settings/utils';
 import React, { useEffect, useState } from 'react';
 
 export default function RecipeDetailsModal({ recipeId, onClose }) {
-    debugger
+    
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
 
