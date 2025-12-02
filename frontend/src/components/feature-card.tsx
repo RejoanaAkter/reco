@@ -11,7 +11,7 @@ import {
 import getImageUrl from "@/settings/utils";
 import { useState } from "react";
 import { useRecipeFavorite } from "@/hook/useRecipeFavorite";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../settings/AuthContext";
 import { useRouter } from "next/navigation";
 
 interface FeaturedRecipeCardProps {

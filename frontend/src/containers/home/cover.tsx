@@ -2,10 +2,9 @@
 
 import FeaturesRecipes from "@/components/featuresRecipes";
 import HeroBanner from "@/components/hero-banner";
-import UserList from "./user-section-list";
-import ExploreCategoriesSection from "./explore-category-section";
-import { Footer } from "./footer";
-import { CookingTips } from "./cookingTips";
+import UserList from "../../components/user-section-list";
+import ExploreCategoriesSection from "../../components/explore-category-section";
+import { CookingTips } from "../../components/cookingTips";
 
 const HomeCoverScreen = () => {
   return (

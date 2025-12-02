@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "@/components/AuthContext";
+import { useAuth } from "@/settings/AuthContext";
 
 const useFavorites = () => {
   const { user, isAuthLoading } = useAuth();

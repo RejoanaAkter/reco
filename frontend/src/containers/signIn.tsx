@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/components/AuthContext";
+import { useAuth } from "@/settings/AuthContext";
 import { toast } from "react-toastify";
 
 export default function SignInPage() {

@@ -2,7 +2,7 @@
 
 import { Routes } from "@/config/routes";
 import { useRouter, usePathname } from "next/navigation";
-import { useAuth } from "@/components/AuthContext";
+import { useAuth } from "@/settings/AuthContext";
 import { useState, useRef, useEffect } from "react";
 import getImageUrl from "@/settings/utils";
 import { ChevronRight } from "lucide-react"; // 👈 add your icon here

@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/components/AuthContext";
+import { useAuth } from "@/settings/AuthContext";
 import Image from "next/image";
 import { toast } from "react-toastify";
 

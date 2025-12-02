@@ -6,7 +6,7 @@ import useFavorites from "@/hook/useFavourites";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdRestaurant } from "react-icons/io";
-import { GlobalLoader } from "@/components/globalLoader";
+import { GlobalLoader } from "@/loader/globalLoader";
 import { motion } from "framer-motion";
 import AnimatedGrid from "@/components/animatedGrid";
 

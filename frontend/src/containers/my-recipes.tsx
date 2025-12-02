@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/components/AuthContext";
+import { useAuth } from "@/settings/AuthContext";
 import { FeaturedRecipeCard } from "@/components/feature-card";
 import { useDeleteRecipe } from "@/hook/useDeleteRecipe";
 import { IoMdRestaurant } from "react-icons/io";
 import AnimatedBorder from "@/components/animatedTitle";
-import { GlobalLoader } from "@/components/globalLoader";
+import { GlobalLoader } from "@/loader/globalLoader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";

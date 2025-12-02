@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 
 
-
 function USersList() {
 
   const [users, setUsers] = useState([]);

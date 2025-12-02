@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/components/AuthContext";
+import { useAuth } from "@/settings/AuthContext";
 import { useRecipeRating } from "@/hook/useRecipeRating";
 import { useRecipeFavorite } from "@/hook/useRecipeFavorite";
 import { useRecipeComments } from "@/hook/useRecipeComments";

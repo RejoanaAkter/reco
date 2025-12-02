@@ -2,9 +2,9 @@
 
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/components/AuthContext";
-import NavBar from "@/containers/navbar";
-import { Footer } from "@/containers/footer";
+import { useAuth } from "@/settings/AuthContext";
+import NavBar from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import LoadingCover from "@/loader/laodingCover";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {

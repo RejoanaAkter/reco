@@ -1,7 +1,7 @@
 "use client";
 
 import AnimatedBorder from "@/components/animatedTitle";
-import { useUsers } from "@/components/userUsers";
+import { useUsers } from "@/hook/userUsers";
 import getImageUrl from "@/settings/utils";
 import { motion } from "framer-motion";
 import { FaEnvelope } from "react-icons/fa";

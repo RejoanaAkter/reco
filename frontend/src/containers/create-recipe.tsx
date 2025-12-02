@@ -4,12 +4,12 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useAuth } from "@/components/AuthContext";
+import { useAuth } from "@/settings/AuthContext";
 import CategoryDropdown from "@/components/category-dropDown";
 import useCuisines from "@/hook/useCuisines";
 import useRecipeDetail from "@/hook/useRecipeDetail";
 import CategoryCreateModal from "@/components/create-category";
-import { GlobalDropdown } from "./globalDropDown";
+import { GlobalDropdown } from "../components/globalDropDown";
 import useCategories from "@/hook/useCategories";
 import { IoMdRestaurant } from "react-icons/io";
 import AnimatedTitle from "@/components/animatedTitle";
