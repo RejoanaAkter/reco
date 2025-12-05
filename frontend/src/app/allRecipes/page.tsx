@@ -1,6 +1,6 @@
 
 
-import RecipesPage from "@/containers/recipes"
+import RecipesPage from "@/containers/all-recipes"
 
 const RecipesRoute = () => {
 

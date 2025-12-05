@@ -5,10 +5,9 @@ import { FeaturedRecipeCard } from "@/components/feature-card";
 import useFavorites from "@/hook/useFavourites";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { IoMdRestaurant } from "react-icons/io";
 import { GlobalLoader } from "@/loader/globalLoader";
-import { motion } from "framer-motion";
 import AnimatedGrid from "@/components/animatedGrid";
+import { MdFavorite } from "react-icons/md";
 
 const FavoriteRecipes: React.FC = () => {
   const { favorites, loading, error } = useFavorites();
@@ -35,7 +34,7 @@ const FavoriteRecipes: React.FC = () => {
   return (
     <div className="p-4 min-h-screen">
       <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
-        <IoMdRestaurant className="text-amber-700" /> Favorite Recipes
+        <MdFavorite className="text-amber-700" /> Favorite Recipes
       </h2>
       <AnimatedBorder />
 

@@ -1,18 +1,14 @@
-
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/settings/AuthContext";
-import CategoryDropdown from "@/components/category-dropDown";
 import useCuisines from "@/hook/useCuisines";
 import useRecipeDetail from "@/hook/useRecipeDetail";
 import CategoryCreateModal from "@/components/create-category";
 import { GlobalDropdown } from "../components/globalDropDown";
 import useCategories from "@/hook/useCategories";
 import { IoMdRestaurant } from "react-icons/io";
-import AnimatedTitle from "@/components/animatedTitle";
 import AnimatedBorder from "@/components/animatedTitle";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,10 +19,14 @@ const CreateOrEditRecipe = () => {
   const { id: recipeId } = useParams();
   const router = useRouter();
   const { user } = useAuth();
-  const { recipe, loading: recipeLoading, error: recipeError } = useRecipeDetail(recipeId || null);
+  const {
+    recipe,
+    loading: recipeLoading,
+    error: recipeError,
+  } = useRecipeDetail(recipeId || null);
   const { cuisines, loading: cuisinesLoading, addCuisine } = useCuisines();
   const { categories, loading: categoriesLoading } = useCategories();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState<any>(null);
   const [categoryId, setCategoryId] = useState("");
   const [title, setTitle] = useState("");
@@ -95,10 +95,14 @@ const CreateOrEditRecipe = () => {
 
   // Save or update recipe
   const handleSave = async () => {
+    if (!isFormValid || isLoading) return;
+
     if (!user?.id || !categoryId || !title) {
       toast.error("User ID, Category, and Title are required."); // <- toaster
       return;
     }
+
+    setIsLoading(true);
 
     try {
       let cuisineIdToUse: string | null = selectedCuisine || null;
@@ -154,6 +158,8 @@ const CreateOrEditRecipe = () => {
       router.push("/recipes");
     } catch (err: any) {
       toast.error(err.message || "Error saving recipe."); // <- toaster
+    } finally {
+      setIsLoading(false); // END LOADING
     }
   };
 
@@ -164,10 +170,12 @@ const CreateOrEditRecipe = () => {
     title.trim() &&
     categoryId.trim() &&
     description.trim() &&
+    description.length <= 300 &&
     prepTime &&
     cookingTime &&
     ingredients.some((i) => i.trim()) &&
-    instructions.some((i) => i.trim());
+    instructions.some((i) => i.trim()) &&
+    (imageFile || recipe?.imageUrl);
 
   return (
     <section
@@ -177,7 +185,8 @@ const CreateOrEditRecipe = () => {
           "url('https://plus.unsplash.com/premium_photo-1705056547423-de4ef0f85bf7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0')",
       }}
     >
-      <ToastContainer position="top-right" autoClose={3000} /> {/* <- Toast container */}
+      <ToastContainer position="top-right" autoClose={3000} />{" "}
+      {/* <- Toast container */}
       <div className="absolute inset-0 bg-white/40"></div>
       <div>
         <div className="relative z-10 w-full max-w-3xl bg-white/95 backdrop-blur-sm rounded-xl shadow-lg text-gray-700 border border-gray-200 p-8 mt-4">
@@ -189,23 +198,23 @@ const CreateOrEditRecipe = () => {
           </h2>
           <AnimatedBorder />
 
-   {/* Category + Add */}
+          {/* Category + Add */}
           <div className="mt-4">
             <label className="text-gray-800 font-semibold text-[13px]">
-              Title
+              Title *
             </label>
             <input
+              required
               type="text"
-              className="w-full border rounded px-3 py-2"
+              className="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300 text-gray-700 pr-10"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Recipe title"
+              onChange={(e) => setTitle(e.target.value)}            
             />
           </div>
 
           <div className="mt-2">
             <label className="text-gray-800 font-semibold text-[13px]">
-              Category
+              Category *
             </label>
             <div className="flex gap-2 items-center w-full mt-1">
               <div className="w-5/6">
@@ -236,15 +245,18 @@ const CreateOrEditRecipe = () => {
           {/* Recipe Fields */}
           <div className="mt-2">
             <label className="text-gray-800 font-semibold text-[13px]">
-              Description
+              Description *
             </label>
             <textarea
               rows={3}
-              className="w-full mt-1 border rounded px-3 py-2 focus:ring-2 focus:ring-orange-400"
+              className="w-full mt-1 border rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Short description"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              {description?.length}/300 characters
+            </p>
           </div>
 
           {/* Cuisine & PrepTime */}
@@ -279,26 +291,26 @@ const CreateOrEditRecipe = () => {
             </div>
             <div className="w-1/3">
               <label className="text-gray-800 font-semibold text-[13px]">
-                Prep Time
+                Prep Time *
               </label>
               <input
                 type="number"
-                className="mt-1 h-9 border rounded px-3 focus:ring-2 focus:ring-orange-400"
+                className="mt-1 h-9 border rounded px-3 focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300"
                 value={prepTime}
                 onChange={(e) => setPrepTime(e.target.value)}
-                placeholder="Prep time (minutes)"
+                placeholder="Minutes"
               />
             </div>
             <div className="w-1/3">
               <label className="text-gray-800 font-semibold text-[13px]">
-                Cooking Time
+                Cooking Time *
               </label>
               <input
                 type="number"
-                className="mt-1 h-9 border rounded px-3 focus:ring-2 focus:ring-orange-400"
+                className="mt-1 h-9 border rounded px-3 focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300"
                 value={cookingTime}
                 onChange={(e) => setCookingTime(e.target.value)}
-                placeholder="Cooking time (minutes)"
+                placeholder="Minutes"
               />
             </div>
           </div>
@@ -306,13 +318,13 @@ const CreateOrEditRecipe = () => {
           {/* Ingredients */}
           <div className="mt-6">
             <h3 className="text-gray-800 font-semibold text-[13px]">
-              Ingredients
+              Ingredients *
             </h3>
             {ingredients.map((ing, idx) => (
               <div key={idx} className="flex gap-2 items-center mt-1">
                 <input
                   type="text"
-                  className="flex-1 border rounded px-3 py-2"
+                  className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300"
                   value={ing}
                   onChange={(e) =>
                     updateArrayValue(setIngredients, idx, e.target.value)
@@ -340,13 +352,13 @@ const CreateOrEditRecipe = () => {
           {/* Instructions */}
           <div className="mt-3">
             <h3 className="text-gray-800 font-semibold text-[13px]">
-              Instructions
+              Instructions *
             </h3>
             {instructions.map((ins, idx) => (
               <div key={idx} className="flex gap-2 items-center mt-1">
                 <textarea
                   rows={2}
-                  className="flex-1 border rounded px-3 py-2"
+                  className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300"
                   value={ins}
                   onChange={(e) =>
                     updateArrayValue(setInstructions, idx, e.target.value)
@@ -378,7 +390,7 @@ const CreateOrEditRecipe = () => {
               <div key={idx} className="flex gap-2 items-center mt-1">
                 <input
                   type="text"
-                  className="flex-1 border rounded px-3 py-2"
+                  className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300"
                   value={tag}
                   onChange={(e) =>
                     updateArrayValue(setTags, idx, e.target.value)
@@ -406,7 +418,7 @@ const CreateOrEditRecipe = () => {
           {/* Image Upload */}
           <div className="mt-3">
             <h3 className="text-gray-800 font-semibold text-[13px]">
-              Recipe Image
+              Recipe Image *
             </h3>
 
             {/* Image Preview */}
@@ -422,7 +434,7 @@ const CreateOrEditRecipe = () => {
             <div className="flex items-center gap-4 mt-1">
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer border border-gray-600 text-gray-800 p-1 rounded shadow transition text-sm"
+                className="cursor-pointer border border-gray-600 hover:bg-gray-100 text-gray-800 p-1 rounded shadow transition text-sm"
               >
                 {imageFile ? "Change Image" : "Upload Image"}
               </label>
@@ -456,19 +468,26 @@ const CreateOrEditRecipe = () => {
           <div className="w-full lg:w-auto mt-2 lg:mt-6 flex justify-end">
             <button
               onClick={handleSave}
-              disabled={!isFormValid}
+              disabled={!isFormValid || isLoading}
               className={`px-4 py-2 rounded transition-all duration-300 flex items-center gap-2 justify-center text-sm font-medium shadow-md
       ${
-        isFormValid
-          ? "bg-amber-600 hover:bg-amber-700 text-white cursor-pointer"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        !isFormValid || isLoading
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-amber-600 hover:bg-amber-700 text-white cursor-pointer"
       }`}
             >
-              {recipeId ? "Update Recipe" : "Save Recipe"}
+              {isLoading
+                ? recipeId
+                  ? "Updating..."
+                  : "Saving..."
+                : recipeId
+                ? "Update Recipe"
+                : "Save Recipe"}
             </button>
-          </div>
+          </div>     
+        </div>
+      </div>
 
-          {/* Category Create Modal */}
           {showCategoryCreate && (
             <CategoryCreateModal
               setShowModal={setShowCategoryCreate}
@@ -478,8 +497,6 @@ const CreateOrEditRecipe = () => {
               }}
             />
           )}
-        </div>
-      </div>
     </section>
   );
 };

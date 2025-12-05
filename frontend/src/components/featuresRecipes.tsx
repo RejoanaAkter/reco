@@ -49,7 +49,7 @@ const FeaturesRecipes = () => {
           lg:grid-cols-4
         "
       >
-        {topFeatured.map((recipe) => (
+        {topFeatured?.filter((m)=>m?.isPublic).map((recipe) => (
           <div
             key={recipe._id}
             onClick={() => handleNavigate(recipe)}

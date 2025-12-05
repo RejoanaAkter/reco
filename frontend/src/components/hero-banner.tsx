@@ -57,7 +57,7 @@ const HeroBanner = () => {
 
     <main className="relative w-full h-[80vh] overflow-hidden">
   {/* Background slides */}
-  {slides.map((recipe, index) => (
+  {slides?.filter((s)=>s?.isPublic)?.map((recipe, index) => (
     <div
       key={index}
       className="absolute top-0 left-0 w-full h-full bg-cover"
@@ -77,14 +77,14 @@ const HeroBanner = () => {
     <div className="bg-white rounded-lg p-8 w-full max-w-lg shadow-xl transition-all duration-700">
       <div className="mb-4">
         <span className="text-sm font-semibold tracking-widest uppercase text-amber-600">
-          {currentRecipe.category?.name || "General"}
+          {currentRecipe?.category?.name || "General"}
         </span>
       </div>
       <h1 className="text-xl font-semibold text-gray-800 leading-tight mb-4">
-        {currentRecipe.title}
+        {currentRecipe?.title}
       </h1>
       <p className="text-gray-600 text-xs leading-relaxed mb-4">
-        {currentRecipe.description}
+        {currentRecipe?.description}
       </p>
 
       <div className="flex items-center space-x-6">
@@ -92,7 +92,7 @@ const HeroBanner = () => {
           <FaRegClock className="w-4 h-4 text-gray-500" />
           <div className="flex items-center space-x-1">
             <span className="text-sm font-bold text-gray-800">
-              {currentRecipe.prepTime + currentRecipe.cookingTime}
+              {currentRecipe?.prepTime + currentRecipe?.cookingTime}
             </span>
             <span className="text-xs text-gray-600">Minutes</span>
           </div>
@@ -103,7 +103,7 @@ const HeroBanner = () => {
         <div className="flex items-center space-x-3">
           <SlLike className="w-4 h-4 text-gray-500" />
           <span className="text-xs text-gray-800">
-            {currentRecipe.difficulty || "Medium"}
+            {currentRecipe?.difficulty || "Medium"}
           </span>
         </div>
       </div>

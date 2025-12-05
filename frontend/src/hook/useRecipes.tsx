@@ -13,7 +13,7 @@ const useRecipes = () => {
         setLoading(false);
         return;
       }
-      debugger;
+      ;
       try {
         const token = localStorage.getItem("token");
 
@@ -24,7 +24,7 @@ const useRecipes = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-debugger
+
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.message || "Failed to fetch recipes");

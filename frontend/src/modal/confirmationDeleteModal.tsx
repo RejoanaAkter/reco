@@ -16,7 +16,7 @@ export default function ConfirmDeleteModal({
   return (
     <div
       className="fixed inset-0 flex items-center justify-center z-[999] 
-                 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+                 bg-black/40 transition-opacity duration-300"
       onClick={onClose} // close on backdrop click
     >
       {/* Modal Box */}

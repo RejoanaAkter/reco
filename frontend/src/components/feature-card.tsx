@@ -29,6 +29,8 @@ export const FeaturedRecipeCard = ({
 }: FeaturedRecipeCardProps) => {
   const { user } = useAuth(); 
    const router = useRouter();
+
+   
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const [localFavorites, setLocalFavorites] = useState(item.favorites || []);
@@ -66,6 +68,7 @@ export const FeaturedRecipeCard = ({
       item.ratings.length
     : 0;
 
+
   return (
     <div
       className="relative w-70 h-86 rounded bg-white shadow-lg 
@@ -100,7 +103,7 @@ export const FeaturedRecipeCard = ({
 
         {/* Hover Actions - Appear from bottom */}
         {isHovered && (
-          <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
+          <div className="absolute bottom-0 left-0 right-0 p-4 z-20 cursor-pointer">
             <div className="flex justify-center gap-3">
               <button
                 onClick={handleDetails}
@@ -111,7 +114,7 @@ export const FeaturedRecipeCard = ({
               </button>
 
               {/* Favorite Button in Overlay */}
-             {!showActions && <button
+             {(user && (user?.id !== item?.user?._id)) && <button
                 onClick={handleFavorite}
                 disabled={loading}
                 className="bg-white/95 p-2 rounded-full shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
@@ -127,15 +130,15 @@ export const FeaturedRecipeCard = ({
             {/* Edit/Delete Buttons (only if showActions is true) */}
             {showActions && (
               <div className="flex gap-2 justify-center mt-2">
-                <button
+                <button title="Update"
                   onClick={handleEdit}
-                  className="bg-blue-600/90 hover:bg-blue-700 text-white p-2 rounded-full hover:scale-110 transition-all duration-300 shadow-lg"
+                  className="bg-gray-600/90 hover:bg-gray-700 text-white p-2 rounded-full hover:scale-110 transition-all duration-300 shadow-lg cursor-pointer"
                 >
                   <FaEdit className="w-3 h-3" />
                 </button>
-                <button
+                <button title='Delete'
                   onClick={handleDelete}
-                  className="bg-red-600/90 hover:bg-red-700 text-white p-2 rounded-full hover:scale-110 transition-all duration-300 shadow-lg"
+                  className="bg-red-600/90 hover:bg-red-700 text-white p-2 rounded-full hover:scale-110 transition-all duration-300 shadow-lg cursor-pointer"
                 >
                   <FaTrash className="w-3 h-3" />
                 </button>

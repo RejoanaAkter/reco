@@ -55,7 +55,7 @@ import { useEffect, useRef, useState } from "react";
     }, [isOpen]);
 
     return (
-      <div className="relative ">
+      <div className="relative">
         <div
           ref={buttonRef}
           className="border border-gray-300 px-3 py-1.5 text-sm cursor-pointer bg-white flex items-center justify-between rounded"

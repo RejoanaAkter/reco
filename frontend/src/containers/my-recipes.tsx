@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import ConfirmDeleteModal from "@/modal/confirmationDeleteModal";
+import { FaUserEdit } from "react-icons/fa";
 
 interface Recipe {
   _id: string;
@@ -110,7 +111,7 @@ const MyRecipes = () => {
     <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8">
       <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
-        <IoMdRestaurant className="text-amber-700" /> My Recipes
+        <FaUserEdit className="text-amber-700" /> My Recipes
       </h2>
       <AnimatedBorder />
 

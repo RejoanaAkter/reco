@@ -2,7 +2,7 @@
 export const Routes = {
     home: '/',
     about: '/about',
-    recipes: '/recipes',
+    allRecipes: '/allRecipes',
     createRecipe:'/createRecipe',
      categories:'/categories',
      myRecipes:'/myRecipes',

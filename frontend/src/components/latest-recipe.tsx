@@ -89,7 +89,7 @@ const LatestRecipesSidebar = () => {
 
       {/* Recipes List - Taller with more items */}
       <div className="space-y-4">
-        {latestRecipes.map((recipe, index) => (
+        {latestRecipes?.filter((r)=>r?.isPublic)?.map((recipe, index) => (
           <motion.div
             key={recipe._id || recipe.id || index}
             variants={itemVariants}
@@ -143,7 +143,7 @@ const LatestRecipesSidebar = () => {
       {latestRecipes.length > 0 && (
         <div className="mt-6 pt-4 border-t border-gray-100">
           <a 
-            href="/recipes" 
+            href="/allRecipes" 
             className="text-xs text-amber-800 hover:text-amber-900 transition-colors duration-300 font-medium flex items-center gap-1 justify-center"
           >
             View All Recipes
