@@ -1,5 +1,5 @@
 "use client";
-import { FaArrowUp, FaInstagram, FaTwitter, FaUtensils } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaUtensils } from "react-icons/fa";
 export const Footer = () => {
   return (
     <>

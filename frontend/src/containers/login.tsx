@@ -75,7 +75,7 @@ export default function LoginPage() {
       className="min-h-screen flex items-center justify-center bg-cover bg-center p-4 sm:p-6 relative"
       style={{
         backgroundImage:
-          "url('https://plus.unsplash.com/premium_photo-1705056547423-de4ef0f85bf7?fm=jpg&q=60&w=3000')",
+          "url('/recipeCover.png')",
       }}
     >
       {/* Overlay */}
@@ -93,7 +93,8 @@ export default function LoginPage() {
       </div>
 
       {/* Login Card */}
-      <div className="relative w-full max-w-md bg-white/95 rounded-md shadow-lg p-6 sm:p-8 border border-[rgba(0,0,0,0.05)] z-10 flex flex-col gap-4">
+      <div className="relative w-full max-w-md bg-white/95 rounded-md shadow-lg p-4 border border-[rgba(0,0,0,0.05)] z-10 flex flex-col gap-4">
+       <div className="rounded border border-amber-600 p-6 text-gray-700">
         <div className="text-center sm:mb-8">
           <div className="text-6xl animate-bounce mb-2">🍜</div>
           <h2 className="text-lg sm:text-2xl font-baloo font-semibold font-serif italic text-gray-800">
@@ -166,6 +167,6 @@ export default function LoginPage() {
           </a>
         </p>
       </div>
-    </div>
+    </div></div>
   );
 }

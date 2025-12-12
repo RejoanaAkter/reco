@@ -182,7 +182,7 @@ const CreateOrEditRecipe = () => {
       className="relative bg-fixed bg-center bg-cover min-h-[80vh] flex items-center justify-center px-6"
       style={{
         backgroundImage:
-          "url('https://plus.unsplash.com/premium_photo-1705056547423-de4ef0f85bf7?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0')",
+          "url('/recipeCover.png')",
       }}
     >
       <ToastContainer position="top-right" autoClose={3000} />{" "}

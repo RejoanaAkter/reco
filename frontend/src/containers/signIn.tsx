@@ -86,14 +86,14 @@ export default function SignInPage() {
       className="min-h-screen flex items-center justify-center bg-cover bg-center p-4 sm:p-6 relative"
       style={{
         backgroundImage:
-          "url('https://plus.unsplash.com/premium_photo-1705056547423-de4ef0f85bf7?fm=jpg&q=60&w=3000')",
+          "url('/recipeCover.png')",
       }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-white/40"></div>
 
       {/* Sign-Up Card */}
-      <div className="relative w-full max-w-md bg-white/95 rounded-md shadow-lg p-6 sm:p-8 border border-[rgba(0,0,0,0.05)] z-10">
+      <div className="relative w-full max-w-md bg-white/95 rounded-md shadow-lg p-4 border border-[rgba(0,0,0,0.05)] z-10">
         <div className="rounded border border-amber-600 p-6 text-gray-700">
           <div className="text-center mb-4">
             <h2 className="text-lg sm:text-2xl font-serif italic font-semibold text-gray-800">Sign Up</h2>
