@@ -1,6 +1,5 @@
 "use client";
 
-import AnimatedCard from "@/components/animated";
 import AnimatedBorder from "@/components/animatedTitle";
 import { offerings, problemsSolutions, sections, values } from "@/constants/recipes";
 import Image from "next/image";

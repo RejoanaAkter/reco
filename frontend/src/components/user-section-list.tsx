@@ -5,7 +5,6 @@ import { useUsers } from "@/hook/userUsers";
 import getImageUrl from "@/settings/utils";
 import { motion } from "framer-motion";
 import { FaEnvelope } from "react-icons/fa";
-import { IoMdRestaurant } from "react-icons/io";
 import { LuChefHat } from "react-icons/lu";
 
 export default function UserList() {
