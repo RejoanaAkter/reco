@@ -13,7 +13,7 @@ import AnimatedBorder from "@/components/animatedTitle";
 
 interface Tip {
   id: number;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   title: string;
   description: string;
 }
