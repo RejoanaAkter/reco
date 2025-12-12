@@ -14,16 +14,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { API_BASE } from "@/config";
 
-
 const CreateOrEditRecipe = () => {
-  const { id: recipeId } = useParams();
   const router = useRouter();
   const { user } = useAuth();
+  const { id } = useParams();
+  const recipeId = Array.isArray(id) ? id[0] : id || "";
   const {
     recipe,
     loading: recipeLoading,
     error: recipeError,
-  } = useRecipeDetail(recipeId || null);
+  } = useRecipeDetail(recipeId);
   const { cuisines, loading: cuisinesLoading, addCuisine } = useCuisines();
   const { categories, loading: categoriesLoading } = useCategories();
   const [isLoading, setIsLoading] = useState(false);
@@ -181,8 +181,7 @@ const CreateOrEditRecipe = () => {
     <section
       className="relative bg-fixed bg-center bg-cover min-h-[80vh] flex items-center justify-center px-6"
       style={{
-        backgroundImage:
-          "url('/recipeCover.png')",
+        backgroundImage: "url('/recipeCover.png')",
       }}
     >
       <ToastContainer position="top-right" autoClose={3000} />{" "}
@@ -208,7 +207,7 @@ const CreateOrEditRecipe = () => {
               type="text"
               className="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-amber-200 focus:border-amber-300 text-gray-700 pr-10"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}            
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
@@ -484,19 +483,18 @@ const CreateOrEditRecipe = () => {
                 ? "Update Recipe"
                 : "Save Recipe"}
             </button>
-          </div>     
+          </div>
         </div>
       </div>
-
-          {showCategoryCreate && (
-            <CategoryCreateModal
-              setShowModal={setShowCategoryCreate}
-              onCategoryCreated={(newCategory: any) => {
-                setCategory(newCategory);
-                setCategoryId(newCategory._id);
-              }}
-            />
-          )}
+      {showCategoryCreate && (
+        <CategoryCreateModal
+          setShowModal={setShowCategoryCreate}
+          onCategoryCreated={(newCategory: any) => {
+            setCategory(newCategory);
+            setCategoryId(newCategory._id);
+          }}
+        />
+      )}
     </section>
   );
 };
