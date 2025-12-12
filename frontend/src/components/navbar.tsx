@@ -57,7 +57,7 @@ const NavBar = () => {
           {/* Left Section */}
           <div
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity duration-200"
-            onClick={() => handleNavigate(Routes.shop)}
+            onClick={() => handleNavigate(Routes.home)}
           >
             <Image
               src="/logo.png"
