@@ -3,25 +3,30 @@
 import { API_BASE } from "@/config";
 import { useState } from "react";
 
-const CategoryCreateModal = ({ setShowModal, onCategoryCreated }) => {
-  const [formData, setFormData] = useState({
+interface Props {
+  setShowModal: (show: boolean) => void;
+  onCategoryCreated: (category: any) => void; 
+}
+
+const CategoryCreateModal: React.FC<Props> = ({ setShowModal, onCategoryCreated }) => {
+  const [formData, setFormData] = useState<{ name: string; image: File | null }>({
     name: "",
     image: null,
   });
 
-  const [formError, setFormError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
-    if (name === "image") {
+    if (name === "image" && files) {
       setFormData((prev) => ({ ...prev, image: files[0] }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const isFormValid = formData.name.trim() && formData.image; // both fields required
+  const isFormValid = formData.name.trim() && formData.image;
 
   const handleSubmit = async () => {
     if (!isFormValid) {
@@ -42,14 +47,11 @@ const CategoryCreateModal = ({ setShowModal, onCategoryCreated }) => {
 
       const res = await fetch(`${API_BASE}/cat/category`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         body: data,
       });
 
       const result = await res.json();
-
       if (!res.ok) throw new Error(result.message || "Failed to create category");
 
       onCategoryCreated(result);
@@ -62,7 +64,7 @@ const CategoryCreateModal = ({ setShowModal, onCategoryCreated }) => {
   };
 
   return (
-    <div className="fixed inset-0  bg-black/40  flex items-center justify-center z-50 text-gray-800">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 text-gray-800">
       <div
         className="bg-white p-6 rounded-lg shadow-md w-full max-w-md animate-[fadeIn_0.25s_ease-out,scaleIn_0.25s_ease-out]"
         onClick={(e) => e.stopPropagation()}
