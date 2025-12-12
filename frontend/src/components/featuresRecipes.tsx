@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRouter } from "next/navigation";
 import useRecipes from "../hook/useRecipes";
@@ -7,19 +7,34 @@ import AnimatedBorder from "./animatedTitle";
 import { IoMdRestaurant } from "react-icons/io";
 import AnimatedGrid from "./animatedGrid";
 
-const FeaturesRecipes = () => {
+// Type definitions
+interface Rating {
+  value: number;
+  // add other fields if needed
+}
+
+interface Recipe {
+  _id: string;
+  ratings?: Rating[];
+  favorites?: any[]; // you can type this more strictly if you know the structure
+  isPublic?: boolean;
+  // add other fields used in FeaturedRecipeCard
+}
+
+const FeaturesRecipes: React.FC = () => {
   const { recipes } = useRecipes();
   const router = useRouter();
 
-  const handleNavigate = (recipe: any) => {
+  const handleNavigate = (recipe: Recipe) => {
     router.push(`/recipeDetail/${recipe._id}`);
   };
 
-  const getHybridScore = (recipe: any) => {
+  const getHybridScore = (recipe: Recipe) => {
     const favoritesCount = recipe.favorites?.length || 0;
+
     const avgRating =
       recipe.ratings?.length
-        ? recipe.ratings.reduce((acc, r) => acc + r.value, 0) /
+        ? recipe.ratings.reduce((acc: number, r: Rating) => acc + r.value, 0) /
           recipe.ratings.length
         : 0;
 
@@ -49,15 +64,17 @@ const FeaturesRecipes = () => {
           lg:grid-cols-4
         "
       >
-        {topFeatured?.filter((m)=>m?.isPublic).map((recipe) => (
-          <div
-            key={recipe._id}
-            onClick={() => handleNavigate(recipe)}
-            className="cursor-pointer"
-          >
-            <FeaturedRecipeCard item={recipe} />
-          </div>
-        ))}
+        {topFeatured
+          ?.filter((m) => m?.isPublic)
+          .map((recipe) => (
+            <div
+              key={recipe._id}
+              onClick={() => handleNavigate(recipe)}
+              className="cursor-pointer"
+            >
+              <FeaturedRecipeCard item={recipe} />
+            </div>
+          ))}
       </AnimatedGrid>
     </div>
   );
