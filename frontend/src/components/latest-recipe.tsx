@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock } from 'lucide-react';
 
 const LatestRecipesSidebar = () => {
-  const { recipes, loading } = useRecipes(1, 8); // Increased to 8 recipes
+  const { recipes, loading } = useRecipes(); // Increased to 8 recipes
 
   // Sort recipes by date
   const latestRecipes = React.useMemo(() => {
@@ -36,7 +36,7 @@ const LatestRecipesSidebar = () => {
     }
   };
 
-  const itemVariants = {
+const itemVariants = {
     hidden: { 
       opacity: 0, 
       x: 20 
