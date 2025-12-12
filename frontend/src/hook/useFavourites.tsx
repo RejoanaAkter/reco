@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/settings/AuthContext";
+import { API_BASE } from "@/config";
 
 const useFavorites = () => {
   const { user, isAuthLoading } = useAuth();
@@ -22,7 +23,7 @@ const useFavorites = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:8000/recipes/favorites/${user.id}`,
+          `${API_BASE}/recipes/favorites/${user.id}`,
           {
             method: "GET",
             headers: {

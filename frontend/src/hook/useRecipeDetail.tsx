@@ -1,5 +1,6 @@
 'use client';
 
+import { API_BASE } from '@/config';
 import { useState, useEffect } from 'react';
 
 const useRecipeDetail = (recipeId: string | null) => {
@@ -22,7 +23,7 @@ const useRecipeDetail = (recipeId: string | null) => {
           throw new Error('Authentication token not found');
         }
 
-        const res = await fetch(`http://localhost:8000/recipes/recipe/${recipeId}`, {
+        const res = await fetch(`${API_BASE}/recipes/recipe/${recipeId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

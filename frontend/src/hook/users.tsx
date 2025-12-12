@@ -1,5 +1,6 @@
 'use client'
 
+import { API_BASE } from '@/config';
 import React, { useEffect, useState } from 'react';
 
 
@@ -13,7 +14,7 @@ function USersList() {
     const fetchUsers = async () => {
       try {
         
-        const response = await fetch('http://localhost:8000/users/users/');
+        const response = await fetch(`${API_BASE}/users/users/`);
         
         if (!response.ok) {
           const errorData = await response.json();

@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import ConfirmDeleteModal from "@/modal/confirmationDeleteModal";
 import { FaUserEdit } from "react-icons/fa";
+import { API_BASE } from "@/config";
 
 interface Recipe {
   _id: string;
@@ -51,7 +52,7 @@ const MyRecipes = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:8000/recipes/user/${user.id}`,
+          `${API_BASE}/recipes/user/${user.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

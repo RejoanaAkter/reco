@@ -6,6 +6,7 @@ import { useAuth } from "@/settings/AuthContext";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { API_BASE } from "@/config";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/users/login", {
+      const res = await fetch(`${API_BASE}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -57,11 +58,8 @@ export default function LoginPage() {
       if (!data.user || !data.token) {
         throw new Error("Incomplete login response");
       }
-
       login(data.user, data.token);
-
       toast.success("Login successful!");
-
       setTimeout(() => router.replace("/"), 1000);
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");

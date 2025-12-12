@@ -1,4 +1,5 @@
 // hooks/useRecipeFavorite.ts
+import { API_BASE } from "@/config";
 import { useState } from "react";
 
 export const useRecipeFavorite = (recipe: any, user: any, token: string | null) => {
@@ -8,7 +9,7 @@ export const useRecipeFavorite = (recipe: any, user: any, token: string | null) 
     if (!user) return alert("Please login to favorite");
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:8000/recipes/recipe/${recipe._id}/favorite`, {
+      const res = await fetch(`${API_BASE}/recipes/recipe/${recipe._id}/favorite`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });

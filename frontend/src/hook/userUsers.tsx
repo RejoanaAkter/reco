@@ -1,3 +1,4 @@
+import { API_BASE } from "@/config";
 import { useEffect, useState } from "react";
 
 interface User {
@@ -26,7 +27,7 @@ export const useUsers = () => {
           return;
         }
 
-        const res = await fetch("http://localhost:8000/users/users", {
+        const res = await fetch(`${API_BASE}/users/users`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

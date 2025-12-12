@@ -7,12 +7,11 @@ import useCuisines from "@/hook/useCuisines";
 import useCategories from "@/hook/useCategories";
 import { GlobalLoader } from "@/loader/globalLoader";
 import { GlobalDropdown } from "../components/globalDropDown";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IoMdRestaurant } from "react-icons/io";
 import AnimatedBorder from "@/components/animatedTitle";
-import AnimatedGrid from "@/components/animatedGrid";
+import { API_BASE } from "@/config";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 
 interface Recipe {
   _id: string;

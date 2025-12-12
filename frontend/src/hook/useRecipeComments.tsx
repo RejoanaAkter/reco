@@ -1,4 +1,5 @@
 // hooks/useRecipeComments.ts
+import { API_BASE } from "@/config";
 import { useState } from "react";
 
 export const useRecipeComments = (recipe: any, user: any, token: string | null) => {
@@ -11,7 +12,7 @@ export const useRecipeComments = (recipe: any, user: any, token: string | null) 
 
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:8000/recipes/recipe/${recipe._id}/comment`, {
+      const res = await fetch(`${API_BASE}/recipes/recipe/${recipe._id}/comment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

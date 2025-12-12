@@ -1,5 +1,6 @@
 "use client";
 
+import { API_BASE } from "@/config";
 import { useState } from "react";
 
 const CategoryCreateModal = ({ setShowModal, onCategoryCreated }) => {
@@ -39,7 +40,7 @@ const CategoryCreateModal = ({ setShowModal, onCategoryCreated }) => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Authentication token not found");
 
-      const res = await fetch("http://localhost:8000/cat/category", {
+      const res = await fetch(`${API_BASE}/cat/category`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

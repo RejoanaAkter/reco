@@ -6,6 +6,7 @@ import { useAuth } from "@/settings/AuthContext";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Image from "next/image";
+import { API_BASE } from "@/config";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function SignInPage() {
         if (value) data.append(key, value as any);
       });
 
-      const res = await fetch("http://localhost:8000/users/user", {
+      const res = await fetch(`${API_BASE}/users/user`, {
         method: "POST",
         body: data,
       });

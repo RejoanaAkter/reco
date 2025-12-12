@@ -1,4 +1,5 @@
 // hooks/useRecipeRating.ts
+import { API_BASE } from "@/config";
 import { useState, useEffect } from "react";
 
 export const useRecipeRating = (recipe: any, user: any, token: string | null) => {
@@ -14,7 +15,7 @@ export const useRecipeRating = (recipe: any, user: any, token: string | null) =>
     if (!user) return alert("Please login to rate");
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:8000/recipes/recipe/${recipe._id}/rate`, {
+      const res = await fetch(`${API_BASE}/recipes/recipe/${recipe._id}/rate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

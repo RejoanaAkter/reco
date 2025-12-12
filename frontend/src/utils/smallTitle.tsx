@@ -9,7 +9,7 @@ interface SectionHeaderProps {
   titleSize?: string; // customizable title text size
 }
 
-export default function SmallTitle({ icon, title, width = "w-full", titleColor = "text-gray-900",
+export function SmallTitle({ icon, title, width = "w-full", titleColor = "text-gray-900",
      titleSize = "text-lg" }: SectionHeaderProps) {
   return (
     <div className={`flex items-center gap-3  ${width}`}>
@@ -20,3 +20,4 @@ export default function SmallTitle({ icon, title, width = "w-full", titleColor =
     </div>
   );
 }
+

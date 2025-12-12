@@ -1,4 +1,5 @@
 'use client';
+import { API_BASE } from "@/config";
 import { useState } from "react";
 
 export const useDeleteRecipe = () => {
@@ -15,7 +16,7 @@ export const useDeleteRecipe = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("You must be logged in to delete a recipe.");
 
-      const res = await fetch(`http://localhost:8000/recipes/delete/recipe/${recipeId}`, {
+      const res = await fetch(`${API_BASE}/recipes/delete/recipe/${recipeId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -12,8 +12,8 @@ import { IoMdRestaurant } from "react-icons/io";
 import AnimatedBorder from "@/components/animatedTitle";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_BASE } from "@/config";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 const CreateOrEditRecipe = () => {
   const { id: recipeId } = useParams();

@@ -1,3 +1,4 @@
+import { API_BASE } from '@/config';
 import { useEffect, useState } from 'react';
 
 interface Recipe {
@@ -29,7 +30,7 @@ const useRecipesByCategory = (selectedCategoryId: string | null) => {
       try {
         const token = localStorage.getItem("token"); // 🔑 for protected route
         const res = await fetch(
-          `http://localhost:8000/recipes/category/${selectedCategoryId}`,
+          `${API_BASE}/recipes/category/${selectedCategoryId}`,
           {
             method: "GET",
             headers: {

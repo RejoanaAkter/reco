@@ -1,3 +1,4 @@
+import { API_BASE } from "@/config";
 import { useState, useEffect } from "react";
 
 const useRecipes = () => {
@@ -17,7 +18,7 @@ const useRecipes = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch("http://localhost:8000/recipes/recipes", {
+        const response = await fetch(`${API_BASE}/recipes/recipes`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

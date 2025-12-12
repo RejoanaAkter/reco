@@ -1,4 +1,5 @@
 // src/hook/useCategories.ts
+import { API_BASE } from "@/config";
 import { useState, useEffect } from "react";
 
 export interface Category {
@@ -18,14 +19,15 @@ const useCategories = () => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:8000/cat/categories", {
+        const res = await fetch(`${API_BASE}/cat/categories`, {
           headers: {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data?.message || "Failed to fetch categories");
+        if (!res.ok)
+          throw new Error(data?.message || "Failed to fetch categories");
         if (isMounted) setCategories(Array.isArray(data) ? data : []);
       } catch (err: any) {
         if (isMounted) setError(err.message || "Something went wrong");
