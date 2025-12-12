@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/settings/AuthContext";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Image from "next/image";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -85,20 +86,33 @@ export default function SignInPage() {
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center p-4 sm:p-6 relative"
       style={{
-        backgroundImage:
-          "url('/recipeCover.png')",
+        backgroundImage: "url('/recipeCover.png')",
       }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-white/40"></div>
+      <div className="absolute top-4 left-4 z-20 flex items-center">
+        <Image
+          src="/logo.png"
+          alt="Logo"
+          width={80}
+          height={80}
+          className="object-cover rounded"
+        />
+        <span className="text-lg font-bold text-gray-900 font-serif italic">
+          Kitchen Cloud
+        </span>
+      </div>
 
       {/* Sign-Up Card */}
       <div className="relative w-full max-w-md bg-white/95 rounded-md shadow-lg p-4 border border-[rgba(0,0,0,0.05)] z-10">
         <div className="rounded border border-amber-600 p-6 text-gray-700">
           <div className="text-center mb-4">
-            <h2 className="text-lg sm:text-2xl font-serif italic font-semibold text-gray-800">Sign Up</h2>
+            <h2 className="text-lg sm:text-2xl font-serif italic font-semibold text-gray-800">
+              Sign Up
+            </h2>
             <p className="text-sm sm:text-base text-amber-600 tracking-[0.1em] mb-2">
-              Join our yummy foodie community 🍴
+              Join our kitchen cloud community
             </p>
           </div>
 
@@ -184,7 +198,9 @@ export default function SignInPage() {
               disabled={!isFormValid || isSubmitting}
               onClick={handleSubmit}
               className={`bg-gradient-to-r from-[#ED7158] to-[#CC3314] text-white px-5 rounded-sm shadow hover:from-[#FFB382] hover:to-[#FF8C7A] transition h-8 ${
-                !isFormValid || isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                !isFormValid || isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
             >
               {isSubmitting ? "Creating..." : "Sign Up"}
