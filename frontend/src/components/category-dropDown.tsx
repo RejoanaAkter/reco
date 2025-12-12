@@ -83,10 +83,12 @@ const CategoryDropdown: React.FC<Props> = ({
         {selectedCategory ? (
           <div className="flex items-center">
             {selectedCategory.imageUrl && (
-              <img
+              <Image
                 src={getImageUrl(selectedCategory.imageUrl)}
                 alt={selectedCategory.name}
-                className="w-6 h-6 object-cover rounded mr-2"
+                width={24}
+                height={24}
+                className="object-cover rounded mr-2"
               />
             )}
             <span>{selectedCategory.name}</span>
