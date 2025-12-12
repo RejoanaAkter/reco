@@ -70,8 +70,8 @@ const NavBar = () => {
 
           {/* Center Section */}
           <div className="hidden md:flex flex-col items-center">
-            <div className="text-2xl md:text-4xl font-light text-gray-800 mb-1 font-serif italic">
-              Cookly
+            <div className="text-3xl  font-light text-gray-800 mb-1 font-serif italic">
+              Kitchen Cloud
             </div>
             <div className="text-xs md:text-sm font-semibold text-amber-600 tracking-[0.1em]">
               COOKING FOR THE SOUL

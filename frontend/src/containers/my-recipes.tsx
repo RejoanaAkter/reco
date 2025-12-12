@@ -108,7 +108,7 @@ const MyRecipes = () => {
   }
 
   return (
-    <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
         <FaUserEdit className="text-amber-700" /> My Recipes

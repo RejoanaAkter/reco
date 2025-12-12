@@ -13,7 +13,7 @@ const HomeCoverScreen = () => {
         <HeroBanner />
       </div>
 
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center mt-4">
         <FeaturesRecipes />
       </div>
 

@@ -1,80 +1,83 @@
-import React from 'react';
-import { 
-  FaUtensils,
-  FaHeart,
-  FaInstagram,
-  FaTwitter,
-  FaArrowUp
-} from 'react-icons/fa';
-
+"use client";
+import { FaArrowUp, FaInstagram, FaTwitter, FaUtensils } from "react-icons/fa";
 export const Footer = () => {
   return (
-    <footer className="bg-white text-gray-600 p-8 border-t border-gray-100">
-      <div className="container mx-auto px-4">
-        {/* Main Content */}
-        <div className="flex flex-col items-center space-y-8 mb-4">
-          
-          {/* Brand */}
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-amber-400 to-orange-500 p-2 rounded-lg">
-              <FaUtensils className="text-xl text-white" />
+    <>
+      <footer className="bg-gray-900 text-gray-300 py-12">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Top Row */}
+          <div className="flex flex-col md:flex-row justify-between items-start gap-10">
+            {/* Brand */}
+            <div>
+              <div className="flex items-center space-x-2 mb-3">
+                <FaUtensils className="text-2xl text-amber-500" />
+                <h1 className="text-2xl font-serif italic font-bold text-white">
+                  Kitchen Cloud
+                </h1>
+              </div>
+              <p className="text-gray-400 max-w-sm">
+                Making cooking simpler, easier, and tastier every day.
+              </p>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 font-serif italic">Cookly</h2>
-          </div>
-          
-          {/* Tagline */}
-          <p className="text-center text-gray-500 max-w-md">
-            Simple recipes for everyday cooking. No complicated ingredients, no fuss.
-          </p>
-          
-          {/* Social & Links */}
-          <div className="flex items-center space-x-8">
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-pink-500 transition-colors">
-                <FaInstagram className="text-xl" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-sky-500 transition-colors">
-                <FaTwitter className="text-xl" />
-              </a>
-            </div>
-            
-            <div className="h-6 w-px bg-gray-200"></div>
-            
-            <div className="flex space-x-6 text-sm">
-              <a href="#" className="hover:text-teal-600 transition-colors">Recipes</a>
-              <a href="#" className="hover:text-teal-600 transition-colors">Meal Prep</a>
-              <a href="#" className="hover:text-teal-600 transition-colors">About</a>
-            </div>
-          </div>
-        </div>
 
-        {/* Bottom */}
-        <div className="pt-5 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          
-          <div className="text-sm text-gray-400">
-            <span>&copy; {new Date().getFullYear()} RecipeBox</span>
-            <span className="mx-2">•</span>
-            <span>All recipes tested in real kitchens</span>
+            {/* Menu */}
+            <div className="grid grid-cols-2 gap-10 text-sm">
+              <div>
+                <h3 className="font-semibold text-white mb-3">Explore</h3>
+                <ul className="space-y-2">
+                  <li>
+                    <a href="#" className="hover:text-amber-500">
+                      Recipes
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-amber-500">
+                      Meal Prep
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-amber-500">
+                      Blog
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-white mb-3">Company</h3>
+                <ul className="space-y-2">
+                  <li>
+                    <a href="#" className="hover:text-amber-500">
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-amber-500">
+                      Privacy
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-amber-500">
+                      Contact
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Social */}
+            <div className="flex space-x-6">
+              <FaInstagram className="text-2xl hover:text-pink-500 cursor-pointer" />
+              <FaTwitter className="text-2xl hover:text-sky-400 cursor-pointer" />
+            </div>
           </div>
-          
-          <div className="flex items-center space-x-4 text-sm">
-            <a href="#" className="text-gray-400 hover:text-teal-600 transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="text-gray-400 hover:text-teal-600 transition-colors">
-              Contact
-            </a>
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center space-x-1 text-gray-400 hover:text-teal-600 transition-colors"
-            >
-              <span>Top</span>
-              <FaArrowUp className="text-xs" />
-            </button>
+
+          {/* Bottom */}
+          <div className="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-500">
+            © {new Date().getFullYear()} Kitchen Cloud — Cook with love ❤️
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
-

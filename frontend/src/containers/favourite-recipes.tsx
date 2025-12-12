@@ -32,7 +32,7 @@ const FavoriteRecipes: React.FC = () => {
 
 
   return (
-    <div className="p-4 min-h-screen">
+    <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
         <MdFavorite className="text-amber-700" /> Favorite Recipes
       </h2>

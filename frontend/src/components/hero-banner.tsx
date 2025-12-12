@@ -6,6 +6,7 @@ import { FaRegClock } from "react-icons/fa6";
 import { SlLike } from "react-icons/sl";
 import useRecipes from "@/hook/useRecipes"; // adjust the path if needed
 import getImageUrl from "@/settings/utils"; // helper to get image URLs
+import { BiDish } from "react-icons/bi";
 
 const HeroBanner = () => {
   const { recipes, loading, error } = useRecipes();
@@ -101,9 +102,9 @@ const HeroBanner = () => {
         <div className="w-px h-8 bg-gray-300" />
 
         <div className="flex items-center space-x-3">
-          <SlLike className="w-4 h-4 text-gray-500" />
+          <BiDish className="w-4 h-4 text-gray-500" />
           <span className="text-xs text-gray-800">
-            {currentRecipe?.difficulty || "Medium"}
+            {currentRecipe?.category?.name}
           </span>
         </div>
       </div>

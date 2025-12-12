@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+"use client";
+
+import { useState, useRef, useEffect, CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import useCategories from "../hook/useCategories";
 import getImageUrl from "@/settings/utils";
@@ -6,33 +8,47 @@ import { IoIosArrowDown } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const CategoryDropdown = ({
+interface Category {
+  _id: string;
+  name: string;
+  imageUrl?: string; // made optional to fix TS error
+}
+
+interface Props {
+  selectedCategory: Category | null;
+  setSelectedCategory: (cat: Category | null) => void;
+  setSelectedCategoryId: (id: string | null) => void;
+}
+
+const CategoryDropdown: React.FC<Props> = ({
   selectedCategory,
   setSelectedCategory,
   setSelectedCategoryId,
 }) => {
-  const { categories, loading, error } = useCategories();
-  const [isOpen, setIsOpen] = useState(false);
-  const [dropdownStyle, setDropdownStyle] = useState({});
-  const buttonRef = useRef(null);
+  const { categories = [], loading, error } = useCategories();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [dropdownStyle, setDropdownStyle] = useState<CSSProperties>({});
+  const buttonRef = useRef<HTMLDivElement | null>(null);
 
   // Select handler
-  const handleSelect = (category) => {
+  const handleSelect = (category: Category) => {
     setSelectedCategory(category);
-    setSelectedCategoryId(category?._id);
+    setSelectedCategoryId(category?._id ?? null);
     setIsOpen(false);
   };
 
   // Outside click handler
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (buttonRef.current && !buttonRef.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
+
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
+
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
@@ -50,8 +66,8 @@ const CategoryDropdown = ({
     }
   }, [isOpen]);
 
-  // Return early if DOM not ready for portal
-  const portalRoot = typeof window !== "undefined" ? document.body : null;
+  const portalRoot =
+    typeof window !== "undefined" ? (document.body as HTMLElement) : null;
 
   return (
     <div className="mb-4 relative">
@@ -66,16 +82,19 @@ const CategoryDropdown = ({
       >
         {selectedCategory ? (
           <div className="flex items-center">
-            <img
-              src={getImageUrl(selectedCategory.imageUrl)}
-              alt={selectedCategory.name}
-              className="w-6 h-6 object-cover rounded mr-2"
-            />
+            {selectedCategory.imageUrl && (
+              <img
+                src={getImageUrl(selectedCategory.imageUrl)}
+                alt={selectedCategory.name}
+                className="w-6 h-6 object-cover rounded mr-2"
+              />
+            )}
             <span>{selectedCategory.name}</span>
           </div>
         ) : (
           <span className="text-gray-500">Select Category</span>
         )}
+
         <IoIosArrowDown
           className={`ml-2 transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
@@ -97,7 +116,9 @@ const CategoryDropdown = ({
                 className="max-h-60 overflow-auto border border-gray-300 bg-white shadow-lg rounded-md origin-top"
               >
                 {loading && <li className="px-3 py-2">Loading...</li>}
+
                 {error && <li className="px-3 py-2 text-red-500">{error}</li>}
+
                 {!loading &&
                   !error &&
                   categories.map((category) => (
@@ -107,7 +128,11 @@ const CategoryDropdown = ({
                       className="flex items-center px-3 py-2 hover:bg-blue-100 cursor-pointer"
                     >
                       <Image
-                        src={getImageUrl(category.imageUrl)}
+                        src={
+                          category.imageUrl
+                            ? getImageUrl(category.imageUrl)
+                            : "/placeholder.png"
+                        }
                         alt={category.name}
                         width={32}
                         height={32}
