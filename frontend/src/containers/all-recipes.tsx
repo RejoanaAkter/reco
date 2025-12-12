@@ -23,6 +23,7 @@ interface Recipe {
   prepTime?: number;
   cookTime?: number;
   createdAt?: string;
+   isPublic?: boolean; 
 }
 
 export default function RecipesScreen() {
