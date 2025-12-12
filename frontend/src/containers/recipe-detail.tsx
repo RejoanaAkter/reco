@@ -22,7 +22,7 @@ import RecipeActions from "@/components/recipeActions";
 import useRecipeDetail from "@/hook/useRecipeDetail";
 import { RecipeTimer } from "../components/recipeTimer";
 import { RiAccountBoxFill } from "react-icons/ri";
-import SmallTitle from "@/utils/smallTitle";
+import {SmallTitle} from "@/utils/smallTitle";
 import { GlobalLoader } from "@/loader/globalLoader";
 
 export default function RecipeDetail() {

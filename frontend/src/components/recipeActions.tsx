@@ -5,10 +5,9 @@ import { useAuth } from "@/settings/AuthContext";
 import { useRecipeRating } from "@/hook/useRecipeRating";
 import { useRecipeFavorite } from "@/hook/useRecipeFavorite";
 import { useRecipeComments } from "@/hook/useRecipeComments";
-import SmallTitle from "@/utils/smallTitle";
+import {SmallTitle} from "@/utils/smallTitle";
 import { FaRegCommentDots } from "react-icons/fa";
 import { GoHeartFill, GoStarFill } from "react-icons/go";
-import { TiHeartFullOutline } from "react-icons/ti";
 
 interface Recipe {
   _id: string;
