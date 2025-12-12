@@ -26,7 +26,8 @@ import {SmallTitle} from "@/utils/smallTitle";
 import { GlobalLoader } from "@/loader/globalLoader";
 
 export default function RecipeDetail() {
-  const { id: recipeId } = useParams();
+const { id } = useParams();
+const recipeId = Array.isArray(id) ? id[0] : id || "";
   const { recipe, setRecipe, loading, error } = useRecipeDetail(recipeId);
   ;
   if (loading) return <GlobalLoader />;
