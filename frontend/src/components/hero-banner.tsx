@@ -56,7 +56,7 @@ const HeroBanner = () => {
         />
       </Head>
 
-    <main className="relative w-full h-[80vh] overflow-hidden">
+    <main className="relative w-full h-[70vh] overflow-hidden">
   {/* Background slides */}
   {slides?.filter((s)=>s?.isPublic)?.map((recipe, index) => (
     <div
@@ -104,7 +104,7 @@ const HeroBanner = () => {
         <div className="flex items-center space-x-3">
           <BiDish className="w-4 h-4 text-gray-500" />
           <span className="text-xs text-gray-800">
-            {currentRecipe?.category?.name}
+            {currentRecipe?.cuisine?.name}
           </span>
         </div>
       </div>

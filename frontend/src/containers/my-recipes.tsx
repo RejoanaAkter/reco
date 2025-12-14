@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import ConfirmDeleteModal from "@/modal/confirmationDeleteModal";
 import { FaUserEdit } from "react-icons/fa";
 import { API_BASE } from "@/config";
+import AnimatedGrid from "@/components/animatedGrid";
 
 interface Recipe {
   _id: string;
@@ -41,7 +42,6 @@ const cardVariants = {
   },
 };
 
-
 const MyRecipes = () => {
   const { user, isAuthLoading } = useAuth();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -57,13 +57,10 @@ const MyRecipes = () => {
     const fetchRecipes = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(
-          `${API_BASE}/recipes/user/${user.id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
+        const res = await fetch(`${API_BASE}/recipes/user/${user.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        debugger;
         if (!res.ok) throw new Error("Failed to fetch recipes");
         const data = await res.json();
         setRecipes(data);
@@ -114,6 +111,8 @@ const MyRecipes = () => {
     return <p className="text-center py-16 text-gray-500">No recipes found.</p>;
   }
 
+  console.log("recipes", recipes);
+
   return (
     <div className="min-h-screen py-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <ToastContainer position="top-right" autoClose={3000} />
@@ -122,24 +121,26 @@ const MyRecipes = () => {
       </h2>
       <AnimatedBorder />
 
-      <motion.div
-        className="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4"
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
+      <AnimatedGrid
+        className="
+          mt-6 grid gap-6
+          grid-cols-1 
+          sm:grid-cols-2 
+          md:grid-cols-3 
+          lg:grid-cols-4
+        "
       >
         {recipes.map((recipe) => (
-          <motion.div key={recipe._id} variants={cardVariants}>
+          <div key={recipe._id} className="cursor-pointer">
             <FeaturedRecipeCard
               showActions={true}
               item={recipe}
               onEdit={() => onEdit(recipe)}
               onDelete={() => handleDeleteClick(recipe._id)}
             />
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
-
+      </AnimatedGrid>
       {deleteLoading && (
         <div className="flex justify-center mt-4">
           <GlobalLoader />

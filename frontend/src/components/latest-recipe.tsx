@@ -78,7 +78,7 @@ const itemVariants = {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
-      className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 h-full"
+      className="bg-white rounded-xl p-6 border border-gray-300 h-full"
     >
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">

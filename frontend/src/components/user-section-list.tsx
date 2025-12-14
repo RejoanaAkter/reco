@@ -30,9 +30,11 @@ const cardVariants = {
   },
 };
 
+
+
   if (loading)
     return (
-      <div className="py-16 flex items-center justify-center bg-white">
+      <div className="py-16 flex items-center justify-center ">
         <div className="text-center">
           <div className="w-10 h-10 border-2 border-amber-200 border-t-amber-600 rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-gray-600 text-sm">Loading users...</p>
@@ -46,7 +48,7 @@ const cardVariants = {
   return (
     <section className="py-6 bg-white w-full">
       <div className="px-18">  <h2 className="text-xl font-semibold mb-1 text-gray-900 text-start font-serif italic flex gap-2">
-        <LuChefHat className="text-amber-700" /> Our Users
+        <LuChefHat size={24} className="text-amber-700" /> Our Contributors
       </h2>
       <AnimatedBorder /></div>
     
@@ -89,10 +91,10 @@ const cardVariants = {
                     <FaEnvelope className="text-amber-500" size={14} />
                     <span className="text-sm truncate">{user.email}</span>
                   </div>
-                  <div className="flex items-center justify-center gap-2 text-gray-600">
+                  {/* <div className="flex items-center justify-center gap-2 text-gray-600">
                     <FaEnvelope className="text-amber-500" size={14} />
                     <span className="text-sm truncate">{user.about}</span>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Simple Hover Effect */}
