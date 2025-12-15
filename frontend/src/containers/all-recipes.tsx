@@ -26,7 +26,8 @@ interface Recipe {
 
 export default function RecipesScreen() {
   const router = useRouter();
-  const { catId } = useParams();
+  const  {id}  = useParams();
+  const catId = Array.isArray(id) ? id[0] : id || "";
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -45,6 +46,7 @@ export default function RecipesScreen() {
   // Sync URL catId with selected category
   useEffect(() => {
     if (catId && categories.length > 0) {
+      debugger
       const matchedCat = categories.find((c) => c._id === catId);
       if (matchedCat) {
         setSelectedCategory(matchedCat);

@@ -1,159 +1,133 @@
 "use client";
 
+
 import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { PiForkKnifeFill } from "react-icons/pi";
+import { FaArrowRight } from "react-icons/fa";
 import useRecipes from "@/hook/useRecipes";
 import useCategories from "@/hook/useCategories";
-import Image from "next/image";
 import getImageUrl from "@/settings/utils";
-import { PiForkKnifeFill } from "react-icons/pi";
-import { motion } from "framer-motion";
-import LatestRecipesSidebar from "@/components/latest-recipe";
 import AnimatedBorder from "@/components/animatedTitle";
-import { FaArrowRight } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { CategoryCardSkeleton, LatestRecipesSkeleton } from "@/loader/latestSkeleton";
+import LatestRecipesSidebar from "./latest-recipe";
 
 interface Recipe {
   _id: string;
-  title: string;
-  imageUrl?: string;
-  category?: {
-    _id: string;
-    name: string;
-  };
+  category?: { _id: string };
 }
 
-const ExploreCategoriesSection = () => {
-  const { recipes = [] } = useRecipes() as { recipes: Recipe[] };
-  const { categories = [], loading: catLoading } = useCategories();
-  const router = useRouter();
-
-  // Group recipes by category id
-  const groupedByCategory = recipes.reduce<Record<string, Recipe[]>>(
-    (acc, recipe) => {
-      const categoryId = recipe.category?._id || "uncategorized";
-      if (!acc[categoryId]) acc[categoryId] = [];
-      acc[categoryId].push(recipe);
-      return acc;
-    },
-    {}
-  );
-
-  // Animation variants
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.98 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } },
-  };
-
-  const titleVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
+export const ExploreCategoriesSection = () => {
   return (
     <section className="w-full py-12 md:py-20">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-          {/* Left Side */}
-          <div className="w-full lg:w-3/5">
-            {/* Title */}
-            <motion.div
-              variants={titleVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="mb-5"
-            >
-              <h2 className="text-lg font-semibold text-gray-900 font-serif italic flex gap-2">
-                <PiForkKnifeFill size={24} className="text-amber-700" />
-                Explore Categories
-              </h2>
-              <AnimatedBorder />
-            </motion.div>
-
-            {/* Category Cards */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
-            >
-              {catLoading ? (
-                <div className="col-span-full text-center py-10 text-gray-500">
-                  Loading categories...
-                </div>
-              ) : (
-                categories.slice(0, 9).map((cat) => {
-                  // Use category's own image, fallback if missing
-                  const image = cat.imageUrl || "/category-placeholder.png";
-                  const recipesForCat = groupedByCategory[cat._id] || [];
-
-                  return (
-                    <motion.div
-                      key={cat._id}
-                      variants={cardVariants}
-                      onClick={() =>
-                        router.push(`/allRecipes?catId=${cat._id}`)
-                      }
-                      className="flex flex-col items-center bg-white border border-gray-300 rounded-lg p-3 cursor-pointer hover:shadow-sm transition"
-                    >
-                      {/* Circular Image */}
-                      <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gray-100 mb-1.5">
-                        <Image
-                          src={getImageUrl(image)}
-                          alt={cat.name}
-                          fill
-                          sizes="60px"
-                          className="object-cover"
-                        />
-                      </div>
-
-                      {/* Category Name */}
-                      <span className="text-[12px] font-semibold text-gray-900 text-center truncate w-full">
-                        {cat.name}
-                      </span>
-
-                      {/* Recipe Count */}
-                      <span className="text-[11px] text-gray-600 mt-0.5">
-                        {recipesForCat.length} recipes
-                      </span>
-                    </motion.div>
-                  );
-                })
-              )}
-            </motion.div>
-
-            {/* Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex justify-center mt-5"
-            >
-              <button
-                onClick={() => router.push("/allRecipes")}
-                className="w-40 border border-amber-500 text-amber-600 hover:bg-amber-700 hover:text-white py-1.5 rounded text-xs transition flex items-center justify-center gap-2"
-              >
-                Explore More <FaArrowRight size={12} />
-              </button>
-            </motion.div>
-          </div>
-
-          {/* Right Sidebar */}
-          <div className="w-full lg:w-2/5 lg:mt-16">
-            <LatestRecipesSidebar />
-          </div>
+          <ExploreCategoriesLeft />
+          <ExploreCategoriesRight />
         </div>
       </div>
     </section>
   );
 };
 
-export default ExploreCategoriesSection;
+export const ExploreCategoriesLeft = () => {
+  const { recipes = [] } = useRecipes() as { recipes: Recipe[] };
+  const { categories = [], loading } = useCategories();
+  const router = useRouter();
+
+  const groupedByCategory = recipes.reduce<Record<string, number>>(
+    (acc, recipe) => {
+      const id = recipe.category?._id;
+      if (!id) return acc;
+      acc[id] = (acc[id] || 0) + 1;
+      return acc;
+    },
+    {}
+  );
+
+  const hasItems = categories.length > 0;
+
+  return (
+    <div className="w-full lg:w-3/5">
+      {/* Title */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-5"
+      >
+        <h2 className="text-lg font-semibold text-gray-900 font-serif italic flex gap-2">
+          <PiForkKnifeFill size={24} className="text-amber-700" />
+          Explore Categories
+        </h2>
+        <AnimatedBorder />
+      </motion.div>
+
+      {/* Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        {loading
+          ? Array.from({ length: 8 }).map((_, i) => (
+              <CategoryCardSkeleton key={i} />
+            ))
+          : categories.slice(0, 9).map((cat) => (
+              <motion.div
+                key={cat._id}
+                whileHover={{ scale: 1.03 }}
+                onClick={() => router.push(`/allRecipes/${cat._id}`)}
+                className="flex flex-col items-center bg-white border border-gray-300 rounded-lg p-3 cursor-pointer hover:shadow-sm transition"
+              >
+                <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gray-100 mb-1.5">
+                  <Image
+                    src={getImageUrl(cat.imageUrl || "/category-placeholder.png")}
+                    alt={cat.name}
+                    fill
+                    sizes="60px"
+                    className="object-cover"
+                  />
+                </div>
+
+                <span className="text-[12px] font-semibold text-gray-900 truncate w-full text-center">
+                  {cat.name}
+                </span>
+
+                <span className="text-[11px] text-gray-600 mt-0.5">
+                  {groupedByCategory[cat._id] || 0} recipes
+                </span>
+              </motion.div>
+            ))}
+      </div>
+
+      {/* Button (ONLY if items exist) */}
+      {hasItems && !loading && (
+
+        <div className="flex justify-center mt-5">
+            <div className="mt-6 pt-4 border-t border-gray-100">
+          <a 
+            href="/allRecipes" 
+            className="text-xs text-amber-800 hover:text-amber-900 transition-colors duration-300 font-medium flex items-center gap-1 justify-center"
+          >
+            View All Recipes
+            <span>→</span>
+          </a>
+        </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const ExploreCategoriesRight = () => {
+  const { loading } = useRecipes() as { loading: boolean };
+
+  return (
+    <div className="w-full lg:w-2/5 lg:mt-14">
+      {loading ? <LatestRecipesSkeleton /> : <LatestRecipesSidebar />}
+    </div>
+  );
+};
+
+
+
+

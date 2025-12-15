@@ -3,8 +3,8 @@
 import FeaturesRecipes from "@/components/featuresRecipes";
 import HeroBanner from "@/components/hero-banner";
 import UserList from "../../components/user-section-list";
-import ExploreCategoriesSection from "../../components/explore-category-section";
 import { CookingTips } from "../../components/cookingTips";
+import { ExploreCategoriesSection } from "@/components/explore-category-section";
 
 const HomeCoverScreen = () => {
   return (

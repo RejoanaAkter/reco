@@ -16,7 +16,7 @@ const LatestRecipesSidebar = () => {
     
     return [...recipes]
       .sort((a, b) => new Date(b.createdAt || b.date || 0).getTime() - new Date(a.createdAt || a.date || 0).getTime())
-      .slice(0, 3); // Show 6 recipes to make it taller
+      .slice(0, 4); // Show 6 recipes to make it taller
   }, [recipes]);
 
   const formatDate = (dateString: string) => {
@@ -81,9 +81,9 @@ const itemVariants = {
       className="bg-white rounded-xl p-6 border border-gray-300 h-full"
     >
       {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mb-2">
         <Clock size={20} className="text-amber-800" />
-        <h3 className="text-md font-light text-gray-900 tracking-wide">Latest Recipes</h3>
+        <h3 className="text-md font-light text-gray-800 font-semibold tracking-wide">Latest Recipes</h3>
       </div>
 
       {/* Recipes List - Taller with more items */}
@@ -92,7 +92,7 @@ const itemVariants = {
           <motion.div
             key={recipe._id || recipe.id || index}
             variants={itemVariants}
-            className="group flex items-center gap-8 p-1 rounded-lg hover:bg-amber-50/50 transition-all duration-300 cursor-pointer border border-transparent hover:border-amber-800/10"
+            className="group border-b border-gray-300 flex items-center gap-8 p-2 hover:bg-amber-100 transition-all duration-300 cursor-pointer hover:border-amber-800/10 cursor-pointer"
           >
             {/* Recipe Image */}
             <div className="w-1/3 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
@@ -107,12 +107,12 @@ const itemVariants = {
 
             {/* Recipe Info */}
             <div className="w-2/3 flex-1 min-w-0">
-              <h4 className="font-normal text-sm text-gray-900 truncate mb-1 group-hover:text-amber-800 transition-colors duration-300">
+              <h4 className="font-semibold text-xs text-gray-900 truncate mb-1 group-hover:text-amber-800 transition-colors duration-300">
                 {recipe.title}
               </h4>
               
               {/* Date */}
-              <div className="flex items-center gap-1 text-xs text-gray-500">
+              <div className="flex items-center gap-1 text-xs text-gray-600">
                 <Calendar size={12} />
                 <span>{formatDate(recipe.createdAt || recipe.date || new Date().toISOString())}</span>
               </div>
