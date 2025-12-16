@@ -7,6 +7,7 @@ import {
   FaEdit,
   FaTrash,
   FaArrowRight,
+  FaRegClock,
 } from "react-icons/fa";
 import getImageUrl from "@/settings/utils";
 import { useState } from "react";
@@ -189,9 +190,9 @@ export const FeaturedRecipeCard = ({
               ({avgRating.toFixed(1)})
             </span>
           </div>
-          {item.time && (
-            <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
-              <span>⏱</span> {item.time}
+          {(item?.prepTime && item?.cookingTime) && (
+            <p className="text-xs text-gray-700 flex items-center gap-1 mt-1">
+              <span><FaRegClock className=" text-gray-700" /></span>  {item?.prepTime + item?.cookingTime} Min
             </p>
           )}
         </div>

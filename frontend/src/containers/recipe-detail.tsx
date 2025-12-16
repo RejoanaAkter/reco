@@ -31,7 +31,7 @@ const recipeId = Array.isArray(id) ? id[0] : id || "";
   const { recipe, setRecipe, loading, error } = useRecipeDetail(recipeId);
   ;
   if (loading) return <GlobalLoader />;
-  if (error) return <ErrorMessage error={error} />;
+  if (recipeId && error) return <ErrorMessage error={error} />;
   if (!recipe) return <NotFoundMessage />;
 
   // Calculate average rating
@@ -112,7 +112,7 @@ const recipeId = Array.isArray(id) ? id[0] : id || "";
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-4 mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
               {/* Author */}
 
               <div className="h-16 p-2 rounded shadow border-l-2 border-amber-600 group hover:border-gray-300 transition-colors">
@@ -341,7 +341,7 @@ const recipeId = Array.isArray(id) ? id[0] : id || "";
         <div className="p-6 border-b border-gray-200">
           <RecipeActions
             recipe={recipe}
-            onUpdate={(updated) => setRecipe(updated)}
+            onUpdate={(updated) =>{debugger; setRecipe(updated)}}
           />
         </div>
 
